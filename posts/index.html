@@ -7,21 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
 
-    <title>Tags | My New Hugo Site</title>
-    <meta property="og:title" content="Tags - My New Hugo Site">
+    <title>Posts | My New Hugo Site</title>
+    <meta property="og:title" content="Posts - My New Hugo Site">
     <meta property="og:type" content="article">
         
         
     <meta name="Keywords" content="">
-    <meta name="description" content="Tags">
+    <meta name="description" content="Posts">
         
     <meta name="author" content="">
-    <meta property="og:url" content="https://godl9211.github.io/tags/">
+    <meta property="og:url" content="https://godl9211.github.io/posts/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
-    <link rel="alternate" type="application/rss+xml" href="https://godl9211.github.io/tags/index.xml" title="My New Hugo Site" />
+    <link rel="alternate" type="application/rss+xml" href="https://godl9211.github.io/posts/index.xml" title="My New Hugo Site" />
     <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
@@ -46,7 +46,7 @@
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
-                    <a class="" href="https://godl9211.github.io/">Home</a>
+                    <a class="current" href="https://godl9211.github.io/">Home</a>
                     
                 </nav>
             </div>
@@ -60,13 +60,38 @@
 
                 <div class="col-8" id="main">
                     
-<header>
+<div class="res-cons">
     
-    <h1>共有0个标签</h1>
     
-</header>
-<div class="post-archive">
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://godl9211.github.io/posts/my-first-post/" title="My First Post" target="_blank">My First Post</a>
+            </h1>
+        </header>
+        
+  <time datetime="2023-01-10T11:22:13Z" class="post-meta meta-date dt-published">
+    2023-01-10
+  </time>
+
+
+
+        <div class="post-content">
+            自定义异常 目前我们返回的一些异常信息，长这个样子
+{ &#34;detail&#34;: &#34;Authentication credentials were not provided.&#34; } 这样结构，对于移动端程序员是极其不友好的，所以我们一般给对方返回这样的数据结构
+{ &#34;code&#34;: 401, &#34;message&#34;: &#34;Authentication credentials were not provided.&#34;, &#34;data&#34;: [] } 那我们就需要自己异常来捕获DRF里面的异常信息
+创建custom_exception.py文件
+from rest_framework.views import exception_handler def custom_exception_handler(exc, context): response = exception_handler(exc, context) if response is not None: response.data.clear() response.data[&#39;code&#39;] = response.status_code response.data[&#39;data&#39;] = [] if response.status_code == 404: try: response.data[&#39;message&#39;] = response.data.pop(&#39;detail&#39;) response.data[&#39;message&#39;] = &#34;未找到&#34; except KeyError: response.data[&#39;message&#39;] = &#34;未找到&#34; if response.status_code == 400: response.data[&#39;message&#39;] = &#39;输入错误&#39; elif response.……
+        </div>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/my-first-post/" target="_blank">Continue reading</a></p>
+    </article>
     
+    
+    
+
+
+
+
 
 </div>
 
