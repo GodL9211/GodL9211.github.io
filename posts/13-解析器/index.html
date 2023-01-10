@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <title> | My New Hugo Site</title>
+    <meta property="og:title" content=" - My New Hugo Site">
+    <meta property="og:type" content="article">
+        
+        
+    <meta name="Keywords" content="">
+    <meta name="description" content="">
+        
+    <meta name="author" content="">
+    <meta property="og:url" content="https://godl9211.github.io/posts/13-%E8%A7%A3%E6%9E%90%E5%99%A8/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+</head>
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://godl9211.github.io/">
+                        My New Hugo Site
+                    </a>
+                
+                
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://godl9211.github.io/">Home</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title"></h1>
+        </header>
+        
+
+
+        
+        
+        <div class="post-content">
+            <h3 id="解析器">解析器</h3>
+<p>对请求的数据进行解析：是针对请求体进行解析的。表示服务器可以解析的数据格式的种类</p>
+<blockquote>
+<pre tabindex="0"><code>#如果是这样的格式发送的数据，在POST里面有值
+Content-Type: application/url-encoding.....
+    request.body
+    request.POST
+    
+#如果是发送的json的格式，在POST里面是没有值的，在body里面有值，可通过decode,然后loads取值        
+Content-Type: application/json.....
+    request.body
+    request.POST
+</code></pre></blockquote>
+<h3 id="form-data"><strong>form-data</strong></h3>
+<p>就是http请求中的<strong>multipart/form-data</strong>,它会将表单的数据处理为一条消息，以标签为单元，用分隔符分开。既可以上传键值对，也可以上传文件。当上传的字段是文件时，会有Content-Type来说明文件类型；content-disposition，用来说明字段的一些信息；</p>
+<p>由于有boundary隔离，所以multipart/form-data既可以上传文件，也可以上传键值对，它采用了键值对的方式，所以可以上传多个文件，在springmvc中可以使用MultipartHttpServletRequest接收通过api根据&quot;name&quot;获取不同的键值，也可以通过MulTipartFile数组接收多个文件。</p>
+<p><strong>x-www-form-urlencoded</strong></p>
+<p>就是<strong>application/x-www-from-urlencoded</strong>,会将表单内的数据转换为键值对，&amp;分隔。
+当form的action为get时，浏览器用x-www-form-urlencoded的编码方式，将表单数据编码为
+(name1=value1&amp;name2=value2…)，然后把这个字符串append到url后面，用?分隔，跳转
+到这个新的url。
+当form的action为post时，浏览器将form数据封装到http body中，然后发送到server。
+这个格式不能提交文件。</p>
+<p><strong>raw</strong></p>
+<p>可以上传任意格式的文本，可以上传text、json、xml、html等</p>
+<p><strong>binary</strong></p>
+<p>相当于<strong>Content-Type:application/octet-stream</strong>,从字面意思得知，只可以上传二进制数据，通常用来上传文件，由于没有键值，所以，一次只能上传一个文件。</p>
+<p><strong>multipart/form-data与x-www-form-urlencoded区别</strong></p>
+<p>​        multipart/form-data：既可以上传文件等二进制数据，也可以上传表单键值对，只是最后会转化为一条信息；</p>
+<p>​        x-www-form-urlencoded：只能上传键值对，并且键值对都是间隔分开的。</p>
+<h3 id="视图">视图</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework.parsers <span style="color:#f92672">import</span> FormParser, JSONParser, FileUploadParser, MultiPartParser
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ParserView</span>(APIView):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">post</span>(self, request, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># print(&#34;body:&#34;, request.body.decode())</span>
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;content_type:&#34;</span>, request<span style="color:#f92672">.</span>content_type)
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 获取请求的值，并使用对应的JSONParser进行处理</span>
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;data:&#34;</span>, request<span style="color:#f92672">.</span>data)
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># application/x-www-form-urlencoded 或 multipart/form-data时，request.POST中才有值</span>
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;POST:&#34;</span>, request<span style="color:#f92672">.</span>POST)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#34;FILES:&#34;</span>, request<span style="color:#f92672">.</span>FILES)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> HttpResponse(<span style="color:#e6db74">&#39;响应&#39;</span>)
+</span></span></code></pre></div><h3 id="路由">路由</h3>
+<pre tabindex="0"><code> path(&#39;parse/&#39;, views.ParserView.as_view(), name=&#39;parse-view&#39;),
+</code></pre>
+        </div>
+
+        
+
+
+        
+
+
+        <div class="post-meta meta-tags">
+            
+            No tags
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    
+    
+
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2023 <a href="https://godl9211.github.io/">My New Hugo Site By </a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+<style type="text/css">
+div.highlight {
+    position: relative;
+    margin: 1em 0px;
+}
+
+.copy-code {
+    display: none;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(78, 78, 78, 0.8);
+    border-radius: var(--radius);
+    padding: 0 5px;
+    font: inherit;
+    user-select: none;
+    cursor: pointer;
+    border: 0;
+    --radius: 8px;
+}
+
+div.highlight:hover .copy-code,pre:hover .copy-code {
+    display: block;
+}
+
+</style>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='//www.google.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://godl9211.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">Latest articles</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/my-first-post/" title="My First Post" target="_blank">My First Post</a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/01-restful-api/" title="RESTful API" target="_blank">RESTful API</a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/00-%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/" title="前后端分离" target="_blank">前后端分离</a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/02-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/04-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AB%98%E7%BA%A7/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/05-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AA%8C%E8%AF%81/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/06-%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/07-%E7%B1%BB%E8%A7%86%E5%9B%BE/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/08-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%9D%83%E9%99%90/" title="" target="_blank"></a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>Categories</a></h3>
+<ul class="widget-list">
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>Tags</a></h3>
+<div class="tagcloud">
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">Meta</h3>
+        <ul class="widget-list">
+            <li><a href="https://godl9211.github.io/index.xml">RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

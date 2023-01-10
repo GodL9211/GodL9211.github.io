@@ -7,20 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
 
-    <title>404 Page not found | My New Hugo Site</title>
-    <meta property="og:title" content="404 Page not found - My New Hugo Site">
+    <title>Posts | My New Hugo Site</title>
+    <meta property="og:title" content="Posts - My New Hugo Site">
     <meta property="og:type" content="article">
         
         
     <meta name="Keywords" content="">
-    <meta name="description" content="404 Page not found">
+    <meta name="description" content="Posts">
         
     <meta name="author" content="">
-    <meta property="og:url" content="https://godl9211.github.io/404.html">
+    <meta property="og:url" content="https://godl9211.github.io/posts/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
+    <link rel="alternate" type="application/rss+xml" href="https://godl9211.github.io/posts/index.xml" title="My New Hugo Site" />
     <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
@@ -45,7 +46,7 @@
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
-                    <a class="" href="https://godl9211.github.io/">Home</a>
+                    <a class="current" href="https://godl9211.github.io/">Home</a>
                     
                 </nav>
             </div>
@@ -59,20 +60,76 @@
 
                 <div class="col-8" id="main">
                     
-<div class="body404">
-    <div class="info404">
-        <header id="header404" class="clearfix">
-            <div class="site-name404"><i>404</i></div>
+<div class="res-cons">
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://godl9211.github.io/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/" title="" target="_blank"></a>
+            </h1>
         </header>
-        <section>
-            <div class="title404">
-                <p>每一个平凡的日常<br />都是连续发生中的奇迹</p>
-            </div>
-            
+        
 
-            <a rel="nofollow" href="https://godl9211.github.io/" class="index404">回首页看看</a>
-        </section>
-    </div>
+
+        <div class="post-content">
+            模型类 创建模型类
+from django.db import models # Create your models here. class Article(models.Model): title = models.CharField(verbose_name=&#39;标题&#39;, max_length=100) vum = models.IntegerField(verbose_name=&#39;浏览量&#39;) content = models.TextField(verbose_name=&#39;内容&#39;) 序列化 创建序列化文件
+from rest_framework import serializers from .models import Article class ArticleSerializer(serializers.Serializer): id = serializers.IntegerField(read_only=True) vnum = serializers.IntegerField() content = serializers.CharField(max_length=1000) title = serializers.CharField(required=True, max_length=100) def create(self, validated_data): return Article.objects.create(**validated_data) def update(self, instance, validated_data): instance.title = validated_data.get(&#39;title&#39;, instance.title) instance.vnum = validated_data.get(&#39;vnum&#39;, instance.vnum) instance.content = validated_data.get(&#39;content&#39;, instance.content) instance.save() return instance 参数约束 read_only：True表示不允许用户自己上传，只能用于api的输出。 write_only: 与read_only对应 required: 顾名思义，就是这个字段是否必填。 allow_null/allow_blank：是否允许为NULL/空 。 error_messages：出错时，信息提示。 name = serializers.……
+        </div>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/" target="_blank">Continue reading</a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://godl9211.github.io/posts/02-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" title="" target="_blank"></a>
+            </h1>
+        </header>
+        
+
+
+        <div class="post-content">
+            Django REST framework Django REST framework框架是一个用于构建Web API的强大而又灵活的工具. 通常简称为DRF框架 或 REST framework框架.
+特点 提供了定义序列化器serializer的方法,可以快速根据Django ORM或者其他库自动序列化/反序列化; 提供了丰富的类视图、Mixin扩展类、简化视图的编写; 丰富的定制层级: 函数视图、类视图、视图集合到自动生成API,满足各种需求; 多中身份认证和权限认证方式的支持; 内置了限流系统; 直观的API web界面; 可扩展性, 插件丰富 官方文档 https://www.django-rest-framework.org/ 源码地址 https://github.com/encode/django-rest-framework/tree/master 安装 pip install -i https://pypi.douban.com/simple djangorestframework==3.8.2 配置 INSTALLED_APPS = [ &#39;&#39;&#39;&#39;&#39;&#39; &#39;rest_framework&#39; ] 模型类 class Group(models.Model): name = models.CharField(verbose_name=&#39;名字&#39;, max_length=100) class Student(models.Model): name = models.CharField(verbose_name=&#39;名字&#39;, max_length=100) age = models.IntegerField(verbose_name=&#39;年龄&#39;) group = models.ForeignKey(to=Group, on_delete=models.CASCADE) 序列化 在应用下新建一个serializers.py文件，目的是序列化我们的模型类。
+from .models import Student,Group from rest_framework import serializers class StudentSerializer(serializers.……
+        </div>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/02-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" target="_blank">Continue reading</a></p>
+    </article>
+    
+    
+    
+
+
+
+<ol class="page-navigator">
+    
+    <li class="prev">
+        <a href="https://godl9211.github.io/posts/page/2/">Previous</a>
+    </li>
+    
+
+    
+    <li >
+        <a href="https://godl9211.github.io/posts/">1</a>
+    </li>
+    
+    <li >
+        <a href="https://godl9211.github.io/posts/page/2/">2</a>
+    </li>
+    
+    <li  class="current">
+        <a href="https://godl9211.github.io/posts/page/3/">3</a>
+    </li>
+    
+
+    
+</ol>
+
+
+
 </div>
 
                     <footer id="footer">

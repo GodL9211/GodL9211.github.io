@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <title> | My New Hugo Site</title>
+    <meta property="og:title" content=" - My New Hugo Site">
+    <meta property="og:type" content="article">
+        
+        
+    <meta name="Keywords" content="">
+    <meta name="description" content="">
+        
+    <meta name="author" content="">
+    <meta property="og:url" content="https://godl9211.github.io/posts/04-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AB%98%E7%BA%A7/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+</head>
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://godl9211.github.io/">
+                        My New Hugo Site
+                    </a>
+                
+                
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://godl9211.github.io/">Home</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title"></h1>
+        </header>
+        
+
+
+        
+        
+        <div class="post-content">
+            <h3 id="模型类">模型类</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.db <span style="color:#f92672">import</span> models
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create your models here.</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Category</span>(models<span style="color:#f92672">.</span>Model):
+</span></span><span style="display:flex;"><span>    name <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>CharField(verbose_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;名字&#39;</span>, max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __str__(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>name
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Article</span>(models<span style="color:#f92672">.</span>Model):
+</span></span><span style="display:flex;"><span>    title <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>CharField(verbose_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;标题&#39;</span>, max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>)
+</span></span><span style="display:flex;"><span>    vnum <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>IntegerField(verbose_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;浏览量&#39;</span>)
+</span></span><span style="display:flex;"><span>    content <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>TextField(verbose_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;内容&#39;</span>)
+</span></span><span style="display:flex;"><span>    category <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>ForeignKey(to<span style="color:#f92672">=</span>Category, on_delete<span style="color:#f92672">=</span>models<span style="color:#f92672">.</span>CASCADE, related_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;articles&#39;</span>) <span style="color:#75715e"># related_name 反向查找</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __str__(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>title
+</span></span></code></pre></div><h3 id="路由">路由</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.contrib <span style="color:#f92672">import</span> admin
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.urls <span style="color:#f92672">import</span> path, include
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> . <span style="color:#f92672">import</span> views
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>urlpatterns <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    path(<span style="color:#e6db74">&#39;articles/&#39;</span>, views<span style="color:#f92672">.</span>article_list),  <span style="color:#75715e"># 获取或创建</span>
+</span></span><span style="display:flex;"><span>    path(<span style="color:#e6db74">&#39;articles/&lt;int:id&gt;/&#39;</span>, views<span style="color:#f92672">.</span>article_detail),  <span style="color:#75715e"># 查找、更新、删除</span>
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><h3 id="视图">视图</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.http <span style="color:#f92672">import</span> HttpResponse
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.views.decorators.csrf <span style="color:#f92672">import</span> csrf_exempt
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework.renderers <span style="color:#f92672">import</span> JSONRenderer
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework.parsers <span style="color:#f92672">import</span> JSONParser
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> .models <span style="color:#f92672">import</span> Article
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> .serializers <span style="color:#f92672">import</span> ArticleSerializer
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">JSONResponse</span>(HttpResponse):
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    An HttpResponse that renders its content into JSON.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, data, <span style="color:#f92672">**</span>kwargs):
+</span></span><span style="display:flex;"><span>        content <span style="color:#f92672">=</span> JSONRenderer()<span style="color:#f92672">.</span>render(data)
+</span></span><span style="display:flex;"><span>        kwargs[<span style="color:#e6db74">&#39;content_type&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;application/json&#39;</span>
+</span></span><span style="display:flex;"><span>        super(JSONResponse, self)<span style="color:#f92672">.</span>__init__(content, <span style="color:#f92672">**</span>kwargs)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@csrf_exempt</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">article_list</span>(request):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;GET&#39;</span>:
+</span></span><span style="display:flex;"><span>        articles <span style="color:#f92672">=</span> Article<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>all()
+</span></span><span style="display:flex;"><span>        serializer <span style="color:#f92672">=</span> ArticleSerializer(articles, many<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> JSONResponse(serializer<span style="color:#f92672">.</span>data)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;POST&#39;</span>:
+</span></span><span style="display:flex;"><span>        data <span style="color:#f92672">=</span> JSONParser()<span style="color:#f92672">.</span>parse(request)
+</span></span><span style="display:flex;"><span>        serializer <span style="color:#f92672">=</span> ArticleSerializer(data<span style="color:#f92672">=</span>data)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> serializer<span style="color:#f92672">.</span>is_valid():
+</span></span><span style="display:flex;"><span>            serializer<span style="color:#f92672">.</span>save()
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> JSONResponse(serializer<span style="color:#f92672">.</span>data, status<span style="color:#f92672">=</span><span style="color:#ae81ff">201</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> JSONResponse(serializer<span style="color:#f92672">.</span>errors, status<span style="color:#f92672">=</span><span style="color:#ae81ff">400</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@csrf_exempt</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">article_detail</span>(request, id):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        article <span style="color:#f92672">=</span> Article<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>get(id<span style="color:#f92672">=</span>id)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> Article<span style="color:#f92672">.</span>DoesNotExist:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> HttpResponse(status<span style="color:#f92672">=</span><span style="color:#ae81ff">404</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;GET&#39;</span>:
+</span></span><span style="display:flex;"><span>        serializer <span style="color:#f92672">=</span> ArticleSerializer(article)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> JSONResponse(serializer<span style="color:#f92672">.</span>data)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;PUT&#39;</span>:
+</span></span><span style="display:flex;"><span>        data <span style="color:#f92672">=</span> JSONParser()<span style="color:#f92672">.</span>parse(request)
+</span></span><span style="display:flex;"><span>        serializer <span style="color:#f92672">=</span> ArticleSerializer(article, data<span style="color:#f92672">=</span>data)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> serializer<span style="color:#f92672">.</span>is_valid():
+</span></span><span style="display:flex;"><span>            serializer<span style="color:#f92672">.</span>save()
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> JSONResponse(serializer<span style="color:#f92672">.</span>data)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> JSONResponse(serializer<span style="color:#f92672">.</span>errors, status<span style="color:#f92672">=</span><span style="color:#ae81ff">400</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;DELETE&#39;</span>:
+</span></span><span style="display:flex;"><span>        article<span style="color:#f92672">.</span>delete()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> HttpResponse(status<span style="color:#f92672">=</span><span style="color:#ae81ff">204</span>)
+</span></span></code></pre></div><h3 id="stringrelatedfield">StringRelatedField</h3>
+<p>StringRelatedField 将返回一个对应关系 model 的 <strong>unicode</strong>() 方法的字符串。</p>
+<h4 id="文章---分类">文章&mdash;&gt;分类</h4>
+<pre tabindex="0"><code>from rest_framework import serializers
+from .models import Article
+
+
+class ArticleSerializer(serializers.ModelSerializer):
+    category = serializers.StringRelatedField()
+
+    class Meta:
+        model = Article
+        # fields = (&#39;id&#39;, &#39;title&#39;, &#39;vnum&#39;, &#39;content&#39;, &#39;category&#39;)
+        fields = &#39;__all__&#39;
+</code></pre><p>
+        <img class="mx-auto" alt="" src="https://tva1.sinaimg.cn/large/006tNbRwly1gai871ja88j31z20is41d.jpg" />   
+    </p>
+<h4 id="分类----文章">分类&mdash;-&gt;文章</h4>
+<h5 id="路由-1">路由</h5>
+<pre tabindex="0"><code>urlpatterns = [
+    path(&#39;categorys/&#39;, views.category_list),  # 查找、更新、删除
+    path(&#39;categorys/&lt;int:id&gt;/&#39;, views.category_detail),  # 查找、更新、删除
+]
+</code></pre><h4 id="视图-1">视图</h4>
+<pre tabindex="0"><code>
+@csrf_exempt
+def category_list(request):
+    if request.method == &#39;GET&#39;:
+        categorys = Category.objects.all()
+        serializer = CategorySerializer(categorys, many=True)
+        return JSONResponse(serializer.data)
+
+    elif request.method == &#39;POST&#39;:
+        data = JSONParser().parse(request)
+        serializer = CategorySerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JSONResponse(serializer.data, status=201)
+        return JSONResponse(serializer.errors, status=400)
+
+
+@csrf_exempt
+def category_detail(request, id):
+    try:
+        category = Category.objects.get(id=id)
+    except Category.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == &#39;GET&#39;:
+        serializer = CategorySerializer(category)
+        return JSONResponse(serializer.data)
+
+    elif request.method == &#39;PUT&#39;:
+        data = JSONParser().parse(request)
+        serializer = CategorySerializer(category, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JSONResponse(serializer.data)
+        return JSONResponse(serializer.errors, status=400)
+
+    elif request.method == &#39;DELETE&#39;:
+        category.delete()
+        return HttpResponse(status=204)
+</code></pre><h4 id="序列化">序列化</h4>
+<pre tabindex="0"><code>
+class CategorySerializer(serializers.ModelSerializer):
+    articles = serializers.StringRelatedField(many=True)
+
+    class Meta:
+        model = Category
+        fields = &#39;__all__&#39;
+</code></pre><p>
+        <img class="mx-auto" alt="" src="https://tva1.sinaimg.cn/large/006tNbRwly1gai8me1vesj31yg0k0mzd.jpg" />   
+    </p>
+<h3 id="primarykeyrelatedfield">PrimaryKeyRelatedField</h3>
+<p>使用 PrimaryKeyRelatedField 将返回一个对应关系 model 的主键。</p>
+<p>参数：</p>
+<ul>
+<li>queryset 用于在验证字段输入时模型实例查找。 关系必须明确设置 queryset，或设置 read_only = True</li>
+<li>many 如果是对应多个的关系，就设置为 True</li>
+<li>allow_null 如果设置为 True，则该字段将接受 None 的值或为空的关系的空字符串。默认为 False</li>
+<li>pk_field 设置为一个字段以控制主键值的序列化/反序列化。例如，pk_field = UUIDField（format =&lsquo;hex&rsquo;） 将UUID主键序列化为紧凑的十六进制表示。</li>
+</ul>
+<h4 id="序列化-1">序列化</h4>
+<pre tabindex="0"><code>class CategorySerializer(serializers.ModelSerializer):
+    articles = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+
+    class Meta:
+        model = Category
+        fields = &#39;__all__&#39;
+</code></pre><p>
+        <img class="mx-auto" alt="" src="https://tva1.sinaimg.cn/large/006tNbRwly1gai8oho9dbj31z20ik0uu.jpg" />   
+    </p>
+<h3 id="hyperlinkedrelatedfield">HyperlinkedRelatedField</h3>
+<p>使用 HyperlinkedRelatedField 将返回一个超链接，该链接指向对应关系 model 的详细数据，view-name 是必选参数，为对应的视图生成超链接。</p>
+<p>参数：</p>
+<ul>
+<li>view_name 用作关系目标的视图名称。如果使用的是标准路由器类，那么它的格式为 <!-- raw HTML omitted -->-detail 的字符串</li>
+<li>queryset 验证字段输入时用于模型实例查询的查询器。关系必须明确设置 queryset，或设置 read_only = True</li>
+<li>many 如果应用于多对多关系，则应将此参数设置为 True</li>
+<li>allow_null 如果设置为 True，则该字段将接受 None 的值或为空的关系的空字符串。默认为 False</li>
+<li>lookup_field 应该用于查找的目标上的字段。应该对应于引用视图上的 URL 关键字参数。默认值为 pk</li>
+<li>lookup_url_kwarg 与查找字段对应的 URL conf 中定义的关键字参数的名称。默认使用与 lookup_field 相同的值</li>
+<li>format 如果使用 format 后缀，超链接字段将对目标使用相同的 format 后缀，除非使用 format 参数进行覆盖。</li>
+</ul>
+<pre tabindex="0"><code>class CategorySerializer(serializers.ModelSerializer):
+    articles = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name=&#39;article_detail&#39;,  # 路由的别名
+        lookup_field=&#39;id&#39;,  # 数据库字段的名字
+        lookup_url_kwarg=&#34;id&#34;  # 路由中参数的名字
+    )
+
+    class Meta:
+        model = Category
+        fields = &#39;__all_
+</code></pre><h4 id="错误解决">错误解决</h4>
+<pre tabindex="0"><code>`HyperlinkedRelatedField` requires the request in the serializer context. Add `context={&#39;request&#39;: request}` when instantiating the serializer.
+</code></pre><p>在所有使用CategorySerializerde的地方加上context={&lsquo;request&rsquo;: request}</p>
+<pre tabindex="0"><code> serializer = CategorySerializer(categorys, many=True, context={&#39;request&#39;: request})
+</code></pre><p>
+        <img class="mx-auto" alt="" src="https://tva1.sinaimg.cn/large/006tNbRwly1gaiaex3knxj31z00lmdin.jpg" />   
+    </p>
+<h3 id="slugrelatedfield">SlugRelatedField</h3>
+<p>使用 SlugRelatedField 将返回一个指定对应关系 model 中的字段，需要参数 slug_field 中指定字段名称。</p>
+<p>参数：</p>
+<ul>
+<li>slug_field 应该用于表示目标的字段。这应该是唯一标识任何给定实例的字段。例如 username 。这是必选参数</li>
+<li>queryset 验证字段输入时用于模型实例查询的查询器。 关系必须明确设置 queryset，或设置 read_only = True</li>
+<li>many 如果应用于多对多关系，则应将此参数设置为 True</li>
+<li>allow_null 如果设置为 True，则该字段将接受 None 的值或为空的关系的空字符串。默认为 False</li>
+</ul>
+<pre tabindex="0"><code>class CategorySerializer(serializers.ModelSerializer):
+    articles = serializers.SlugRelatedField(
+        many=True,
+        read_only=True,
+        slug_field=&#39;title&#39;
+    )
+
+    class Meta:
+        model = Category
+        fields = &#39;__all__&#39;
+</code></pre><p>
+        <img class="mx-auto" alt="" src="https://tva1.sinaimg.cn/large/006tNbRwly1gaiaitv2j3j31ys0i0q53.jpg" />   
+    </p>
+<h3 id="hyperlinkedidentityfield">HyperlinkedIdentityField</h3>
+<p>使用 HyperlinkedIdentityField 将返回指定 view-name 的超链接的字段。</p>
+<p>参数：</p>
+<ul>
+<li>view_name 应该用作关系目标的视图名称。如果您使用的是标准路由器类，则它将是格式为 &lt;model_name&gt;-detail的字符串。必选参数</li>
+<li>lookup_field 应该用于查找的目标上的字段。应该对应于引用视图上的 URL 关键字参数。默认值为 pk</li>
+<li>lookup_url_kwarg 与查找字段对应的 URL conf 中定义的关键字参数的名称。默认使用与 lookup_field 相同的值</li>
+<li>format 如果使用 format 后缀，超链接字段将对目标使用相同的 format 后缀，除非使用 format 参数进行覆盖</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ArticleSerializer</span>(serializers<span style="color:#f92672">.</span>ModelSerializer):
+</span></span><span style="display:flex;"><span>    category <span style="color:#f92672">=</span> serializers<span style="color:#f92672">.</span>HyperlinkedIdentityField(view_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;app03:category-detail&#34;</span>, lookup_field<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;id&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Meta</span>:
+</span></span><span style="display:flex;"><span>        model <span style="color:#f92672">=</span> Article
+</span></span><span style="display:flex;"><span>        fields <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;__all__&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CategorySerializer</span>(serializers<span style="color:#f92672">.</span>ModelSerializer):
+</span></span><span style="display:flex;"><span>    articles <span style="color:#f92672">=</span> serializers<span style="color:#f92672">.</span>HyperlinkedIdentityField(view_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;app03:article-detail&#34;</span>, lookup_field<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;id&#39;</span>, many<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Meta</span>:
+</span></span><span style="display:flex;"><span>        model <span style="color:#f92672">=</span> Category
+</span></span><span style="display:flex;"><span>        fields <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;__all__&#39;</span>
+</span></span></code></pre></div><h3 id="hyperlinkedmodelserializer">HyperlinkedModelSerializer</h3>
+<p><code>HyperlinkedModelSerializer</code> 类与 <code>ModelSerializer</code> 类相似，只不过它使用超链接来表示关系而不是主键。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ArticleSerializer</span>(serializers<span style="color:#f92672">.</span>HyperlinkedModelSerializer):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Meta</span>:
+</span></span><span style="display:flex;"><span>        model <span style="color:#f92672">=</span> Article
+</span></span><span style="display:flex;"><span>        fields <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;__all__&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        extra_kwargs <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;url&#39;</span>: {<span style="color:#e6db74">&#39;view_name&#39;</span>: <span style="color:#e6db74">&#39;app04:article-detail&#39;</span>, <span style="color:#e6db74">&#39;lookup_field&#39;</span>: <span style="color:#e6db74">&#39;id&#39;</span>},
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;category&#39;</span>: {<span style="color:#e6db74">&#39;view_name&#39;</span>: <span style="color:#e6db74">&#39;app04:category-detail&#39;</span>, <span style="color:#e6db74">&#39;lookup_field&#39;</span>: <span style="color:#e6db74">&#39;id&#39;</span>},
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CategorySerializer</span>(serializers<span style="color:#f92672">.</span>HyperlinkedModelSerializer):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Meta</span>:
+</span></span><span style="display:flex;"><span>        model <span style="color:#f92672">=</span> Category
+</span></span><span style="display:flex;"><span>        fields <span style="color:#f92672">=</span> (<span style="color:#e6db74">&#39;id&#39;</span>, <span style="color:#e6db74">&#39;name&#39;</span>, <span style="color:#e6db74">&#39;articles&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        extra_kwargs <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;url&#39;</span>: {<span style="color:#e6db74">&#39;view_name&#39;</span>: <span style="color:#e6db74">&#39;app04:category-detail&#39;</span>, <span style="color:#e6db74">&#39;lookup_field&#39;</span>: <span style="color:#e6db74">&#39;id&#39;</span>},
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;articles&#39;</span>: {<span style="color:#e6db74">&#39;view_name&#39;</span>: <span style="color:#e6db74">&#39;app04:article-detail&#39;</span>, <span style="color:#e6db74">&#39;lookup_field&#39;</span>: <span style="color:#e6db74">&#39;id&#39;</span>},
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">使用extra_kwargs参数为ModelSerializer添加或修改原有的选项参数---字典格式
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">extra_kwargs = {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">			&#39;vnum&#39;: {&#39;min_value&#39;: 0, &#39;required&#39;: True},
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;&#39;&#39;</span>        
+</span></span></code></pre></div><p>
+        <img class="mx-auto" alt="" src="https://tva1.sinaimg.cn/large/006tNbRwly1gajof0destj31yw0esmzg.jpg" />   
+    </p>
+<h3 id="嵌套序列化关系模型">嵌套序列化关系模型</h3>
+<p>顾名思义就是序列化里面有另一个序列化类</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ArticleSerializer</span>(serializers<span style="color:#f92672">.</span>ModelSerializer):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Meta</span>:
+</span></span><span style="display:flex;"><span>        model <span style="color:#f92672">=</span> Article
+</span></span><span style="display:flex;"><span>        fields <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;__all__&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CategorySerializer</span>(serializers<span style="color:#f92672">.</span>ModelSerializer):
+</span></span><span style="display:flex;"><span>    articles <span style="color:#f92672">=</span> ArticleSerializer(many<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Meta</span>:
+</span></span><span style="display:flex;"><span>        model <span style="color:#f92672">=</span> Category
+</span></span><span style="display:flex;"><span>        fields <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;__all__&#39;</span>
+</span></span></code></pre></div><p>
+        <img class="mx-auto" alt=" " src="https://tva1.sinaimg.cn/large/0082zybply1gbv3epjretj31sz0u078e.jpg" />   
+    </p>
+<h3 id="depth">depth</h3>
+<p>这个字段可以用来深度遍历</p>
+<pre tabindex="0"><code>#注意是ModelSerializer
+class CategorySerializer(serializers.ModelSerializer):
+    articles = ArticleSerializer(many=True)
+
+    class Meta:
+        model = Category
+        fields = &#39;__all__&#39;
+        depth = 2
+</code></pre><p>
+        <img class="mx-auto" alt="" src="https://tva1.sinaimg.cn/large/006tNbRwly1gajp1a2je8j31xr0u0jwq.jpg" />   
+    </p>
+<h3 id="serializermethodfield">SerializerMethodField</h3>
+<p>通过这个属性我们可以自定义一些属性。</p>
+<pre tabindex="0"><code>
+class CategorySerializer(serializers.ModelSerializer):
+    articles = ArticleSerializer(many=True)
+    count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Category
+        fields = &#39;__all__&#39;
+        depth = 2
+
+    def get_count(self, obj):
+        return Category.objects.count()
+</code></pre><p>
+        <img class="mx-auto" alt="" src="https://tva1.sinaimg.cn/large/006tNbRwly1gajpc7x50xj31v60u0n2l.jpg" />   
+    </p>
+<h3 id="source">source</h3>
+<p>序列化的时候指定数据源</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ArticleSerializer</span>(serializers<span style="color:#f92672">.</span>ModelSerializer):
+</span></span><span style="display:flex;"><span>    category <span style="color:#f92672">=</span> serializers<span style="color:#f92672">.</span>CharField(source<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;category.name&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Meta</span>:
+</span></span><span style="display:flex;"><span>        model <span style="color:#f92672">=</span> Article
+</span></span><span style="display:flex;"><span>        fields <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;__all__&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyCharField</span>(serializers<span style="color:#f92672">.</span>CharField):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">to_representation</span>(self, value):
+</span></span><span style="display:flex;"><span>        data_list <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> row <span style="color:#f92672">in</span> value:
+</span></span><span style="display:flex;"><span>            data_list<span style="color:#f92672">.</span>append({<span style="color:#e6db74">&#39;title&#39;</span>: row<span style="color:#f92672">.</span>title, <span style="color:#e6db74">&#39;content&#39;</span>: row<span style="color:#f92672">.</span>content})
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> data_list
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CategorySerializer</span>(serializers<span style="color:#f92672">.</span>ModelSerializer):
+</span></span><span style="display:flex;"><span>    arts <span style="color:#f92672">=</span> MyCharField(source<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;articles.all&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># arts = serializers.CharField(source=&#39;articles.all&#39;)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Meta</span>:
+</span></span><span style="display:flex;"><span>        model <span style="color:#f92672">=</span> Category
+</span></span><span style="display:flex;"><span>        fields <span style="color:#f92672">=</span> (<span style="color:#e6db74">&#39;id&#39;</span>, <span style="color:#e6db74">&#39;name&#39;</span>, <span style="color:#e6db74">&#39;arts&#39;</span>)
+</span></span></code></pre></div><p>
+        <img class="mx-auto" alt="" src="https://tva1.sinaimg.cn/large/006tNbRwly1gajpo1w8w9j31z20oywi9.jpg" />   
+    </p>
+<p>利用source实现可读可写</p>
+<pre tabindex="0"><code>from collections import OrderedDict
+
+
+class ChoiceDisplayField(serializers.Field):
+    &#34;&#34;&#34;Custom ChoiceField serializer field.&#34;&#34;&#34;
+
+    def __init__(self, choices, **kwargs):
+        &#34;&#34;&#34;init.&#34;&#34;&#34;
+        self._choices = OrderedDict(choices)
+        super(ChoiceDisplayField, self).__init__(**kwargs)
+
+    # 返回可读性良好的字符串而不是 1，-1 这样的数字
+    def to_representation(self, obj):
+        &#34;&#34;&#34;Used while retrieving value for the field.&#34;&#34;&#34;
+        return self._choices[obj]
+
+    def to_internal_value(self, data):
+        &#34;&#34;&#34;Used while storing value for the field.&#34;&#34;&#34;
+        for i in self._choices:
+            # 这样无论用户POST上来但是CHOICES的 Key 还是Value 都能被接受
+            if i == data or self._choices[i] == data:
+                return i
+        raise serializers.ValidationError(&#34;Acceptable values are {0}.&#34;.format(list(self._choices.values())))
+</code></pre><h3 id="to_representation方法">to_representation方法</h3>
+<p>序列化器的每个字段实际都是由该字段类型的to_representation方法决定格式的，可以通过重写该方法来决定格式。</p>
+<pre tabindex="0"><code>class ArticleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Article
+        fields = &#39;__all__&#39;
+
+    def to_representation(self, instance):
+        representation = super(ArticleSerializer, self).to_representation(instance)
+        representation[&#39;category&#39;] = CategorySerializer(instance.category).data
+        representation[&#39;tags&#39;] = TagSerializer(instance.tags, many=True).data
+        return representation
+</code></pre>
+        </div>
+
+        
+
+
+        
+
+
+        <div class="post-meta meta-tags">
+            
+            No tags
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    
+    
+
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2023 <a href="https://godl9211.github.io/">My New Hugo Site By </a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+<style type="text/css">
+div.highlight {
+    position: relative;
+    margin: 1em 0px;
+}
+
+.copy-code {
+    display: none;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(78, 78, 78, 0.8);
+    border-radius: var(--radius);
+    padding: 0 5px;
+    font: inherit;
+    user-select: none;
+    cursor: pointer;
+    border: 0;
+    --radius: 8px;
+}
+
+div.highlight:hover .copy-code,pre:hover .copy-code {
+    display: block;
+}
+
+</style>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='//www.google.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://godl9211.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">Latest articles</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/my-first-post/" title="My First Post" target="_blank">My First Post</a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/01-restful-api/" title="RESTful API" target="_blank">RESTful API</a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/00-%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/" title="前后端分离" target="_blank">前后端分离</a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/02-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/04-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AB%98%E7%BA%A7/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/05-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AA%8C%E8%AF%81/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/06-%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/07-%E7%B1%BB%E8%A7%86%E5%9B%BE/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/08-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%9D%83%E9%99%90/" title="" target="_blank"></a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>Categories</a></h3>
+<ul class="widget-list">
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>Tags</a></h3>
+<div class="tagcloud">
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">Meta</h3>
+        <ul class="widget-list">
+            <li><a href="https://godl9211.github.io/index.xml">RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

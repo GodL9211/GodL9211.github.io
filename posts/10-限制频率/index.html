@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <title> | My New Hugo Site</title>
+    <meta property="og:title" content=" - My New Hugo Site">
+    <meta property="og:type" content="article">
+        
+        
+    <meta name="Keywords" content="">
+    <meta name="description" content="">
+        
+    <meta name="author" content="">
+    <meta property="og:url" content="https://godl9211.github.io/posts/10-%E9%99%90%E5%88%B6%E9%A2%91%E7%8E%87/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+</head>
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://godl9211.github.io/">
+                        My New Hugo Site
+                    </a>
+                
+                
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://godl9211.github.io/">Home</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title"></h1>
+        </header>
+        
+
+
+        
+        
+        <div class="post-content">
+            <h3 id="限制频率">限制频率</h3>
+<p>开放平台的API接口调用需要限制其频率，以节约服务器资源和避免恶意的频繁调用。</p>
+<h3 id="内置频率类">内置频率类</h3>
+<p>在应用下新建一个mythrottle类。如下代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework.throttling <span style="color:#f92672">import</span> SimpleRateThrottle
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">VisitThrottle</span>(SimpleRateThrottle):
+</span></span><span style="display:flex;"><span>    scope <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;未认证用户&#34;</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_cache_key</span>(self, request, view):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>  self<span style="color:#f92672">.</span>get_ident(request)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserThrottle</span>(SimpleRateThrottle):
+</span></span><span style="display:flex;"><span>    scope <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;已认证用户&#34;</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_cache_key</span>(self, request, view):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>  request<span style="color:#f92672">.</span>user  
+</span></span></code></pre></div><h3 id="配置">配置</h3>
+<p>对于未登录的用户根据IP来限制，对于已经登录的用户可以根据用户的唯一标识。</p>
+<pre tabindex="0"><code>
+    &#39;DEFAULT_THROTTLE_CLASSES&#39;: [&#39;app06.mythrottle.UserThrottle&#39;, ],
+    &#39;DEFAULT_THROTTLE_RATES&#39;: {
+        &#39;未认证用户&#39;: &#39;3/m&#39;,
+        &#39;已认证用户&#39;: &#39;10/m&#39;,
+    },
+</code></pre>
+        </div>
+
+        
+
+
+        
+
+
+        <div class="post-meta meta-tags">
+            
+            No tags
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    
+    
+
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2023 <a href="https://godl9211.github.io/">My New Hugo Site By </a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+<style type="text/css">
+div.highlight {
+    position: relative;
+    margin: 1em 0px;
+}
+
+.copy-code {
+    display: none;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(78, 78, 78, 0.8);
+    border-radius: var(--radius);
+    padding: 0 5px;
+    font: inherit;
+    user-select: none;
+    cursor: pointer;
+    border: 0;
+    --radius: 8px;
+}
+
+div.highlight:hover .copy-code,pre:hover .copy-code {
+    display: block;
+}
+
+</style>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='//www.google.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://godl9211.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">Latest articles</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/my-first-post/" title="My First Post" target="_blank">My First Post</a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/01-restful-api/" title="RESTful API" target="_blank">RESTful API</a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/00-%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/" title="前后端分离" target="_blank">前后端分离</a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/02-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/04-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AB%98%E7%BA%A7/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/05-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AA%8C%E8%AF%81/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/06-%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/07-%E7%B1%BB%E8%A7%86%E5%9B%BE/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/08-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%9D%83%E9%99%90/" title="" target="_blank"></a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>Categories</a></h3>
+<ul class="widget-list">
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>Tags</a></h3>
+<div class="tagcloud">
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">Meta</h3>
+        <ul class="widget-list">
+            <li><a href="https://godl9211.github.io/index.xml">RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

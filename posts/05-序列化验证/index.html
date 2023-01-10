@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <title> | My New Hugo Site</title>
+    <meta property="og:title" content=" - My New Hugo Site">
+    <meta property="og:type" content="article">
+        
+        
+    <meta name="Keywords" content="">
+    <meta name="description" content="">
+        
+    <meta name="author" content="">
+    <meta property="og:url" content="https://godl9211.github.io/posts/05-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AA%8C%E8%AF%81/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+</head>
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://godl9211.github.io/">
+                        My New Hugo Site
+                    </a>
+                
+                
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://godl9211.github.io/">Home</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title"></h1>
+        </header>
+        
+
+
+        
+        
+        <div class="post-content">
+            <h3 id="序列化验证">序列化验证</h3>
+<p>一般前后端分离的时候，我们都会校验前端的参数时候合法。如果我们ModelSerializer话，因为它本身已经帮我们写好create方法，所以我们基本不需要再写验证。但是一些特殊的我们就需要重写或者自己写验证方法。</p>
+<h3 id="模型类">模型类</h3>
+<pre tabindex="0"><code>from django.db import models
+
+
+# Create your models here.
+class User(models.Model):
+    genders = (
+        (1, &#39;男&#39;), (2, &#34;女&#34;)
+    )
+    name = models.CharField(max_length=10, verbose_name=&#39;名字&#39;)
+    phone = models.CharField(max_length=11, verbose_name=&#39;手机号&#39;)
+    gender = models.IntegerField(choices=genders, verbose_name=&#39;性别&#39;)
+</code></pre><h3 id="视图">视图</h3>
+<pre tabindex="0"><code>@csrf_exempt
+def user_list(request):
+    if request.method == &#39;GET&#39;:
+        users = User.objects.all()
+        serializer = UserSerializer(users, many=True, context={&#39;request&#39;: request})
+        return JSONResponse(serializer.data)
+
+    elif request.method == &#39;POST&#39;:
+        data = JSONParser().parse(request)
+        serializer = UserSerializer(data=data, context={&#39;request&#39;: request})
+        if serializer.is_valid():
+            serializer.save()
+            return JSONResponse(serializer.data, status=201)
+        return JSONResponse(serializer.errors, status=400)
+
+
+@csrf_exempt
+def user_detail(request, id):
+    try:
+        user = User.objects.get(id=id)
+    except User.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == &#39;GET&#39;:
+        serializer = UserSerializer(user, context={&#39;request&#39;: request})
+        return JSONResponse(serializer.data)
+
+    elif request.method == &#39;PUT&#39;:
+        data = JSONParser().parse(request)
+        serializer = UserSerializer(user, data=data, context={&#39;request&#39;: request})
+        if serializer.is_valid():
+            serializer.save()
+            return JSONResponse(serializer.data)
+        return JSONResponse(serializer.errors, status=400)
+
+    elif request.method == &#39;DELETE&#39;:
+        user.delete()
+        return HttpResponse(status=204)
+</code></pre><h3 id="路由">路由</h3>
+<pre tabindex="0"><code>from django.contrib import admin
+from django.urls import path, include
+from . import views
+
+urlpatterns = [
+    path(&#39;users/&#39;, views.user_list, name=&#39;user_list&#39;),  # 获取或创建
+    path(&#39;users/&lt;int:id&gt;/&#39;, views.user_detail, name=&#39;user-detail&#39;),  # 查找、更新、删除
+]
+</code></pre><h3 id="序列化">序列化</h3>
+<pre tabindex="0"><code class="language-pytnon" data-lang="pytnon">class ChoiceDisplayField(serializers.Field):
+    &#34;&#34;&#34;Custom ChoiceField serializer field.&#34;&#34;&#34;
+
+    def __init__(self, choices, **kwargs):
+        &#34;&#34;&#34;init.&#34;&#34;&#34;
+        self._choices = OrderedDict(choices)
+        super(ChoiceDisplayField, self).__init__(**kwargs)
+
+    # 返回可读性良好的字符串而不是 1，-1 这样的数字
+    def to_representation(self, obj):
+        &#34;&#34;&#34;Used while retrieving value for the field.&#34;&#34;&#34;
+        return self._choices[obj]
+
+    def to_internal_value(self, data):
+        &#34;&#34;&#34;Used while storing value for the field.&#34;&#34;&#34;
+        for i in self._choices:
+            # 这样无论用户POST上来但是CHOICES的 Key 还是Value 都能被接受
+            if i == data or self._choices[i] == data:
+                return i
+        raise serializers.ValidationError(&#34;Acceptable values are {0}.&#34;.format(list(self._choices.values())))
+</code></pre><pre tabindex="0"><code>from rest_framework import serializers
+from .models import User
+import re
+
+
+
+class UserSerializer(serializers.ModelSerializer):
+    GENDERS = (
+        (1, &#39;男&#39;), (2, &#34;女&#34;)
+    )
+    phone = serializers.CharField(max_length=11, required=True)
+    pwd1 = serializers.CharField(write_only=True)
+
+    gender = ChoiceDisplayField(choices=GENDERS)
+
+
+    class Meta:
+        model = User
+        fields = &#39;__all__&#39;
+
+    # 这两个方法一定要有返回值
+
+    def validate_phone(self, phone):
+        if not re.match(r&#39;1[3456789]\d{9}&#39;, phone):
+            raise serializers.ValidationError(&#39;手机号不合法&#39;)
+
+        if User.objects.filter(phone=phone).all():
+            raise serializers.ValidationError(&#39;手机号已被注册&#39;)
+        return phone
+
+    # 两次密码是否一样
+    def validate(self, attrs):
+        print(attrs)
+        if attrs[&#39;pwd&#39;] != attrs[&#39;pwd1&#39;]:
+            raise serializers.ValidationError(&#39;两次密码不一样&#39;)
+        attrs.pop(&#34;pwd1&#34;)
+        return attrs
+</code></pre><p>可以看到，我们自己重写了phone属性，并且自己写了validate_phone验证方法。</p>
+<h3 id="validators">Validators</h3>
+<ul>
+<li>UniqueValidator：对象是唯一</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>username <span style="color:#f92672">=</span> serializers<span style="color:#f92672">.</span>CharField(required<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, allow_blank<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>, label<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;用户名&#34;</span>, max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">16</span>, min_length<span style="color:#f92672">=</span><span style="color:#ae81ff">6</span>,validators<span style="color:#f92672">=</span>[UniqueValidator(queryset<span style="color:#f92672">=</span>User<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>all(), message<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;用户已经存在&#34;</span>)],error_messages<span style="color:#f92672">=</span>{
+</span></span><span style="display:flex;"><span>                                         <span style="color:#e6db74">&#34;blank&#34;</span>: <span style="color:#e6db74">&#34;用户名不允许为空&#34;</span>,
+</span></span><span style="display:flex;"><span>                                         <span style="color:#e6db74">&#34;required&#34;</span>: <span style="color:#e6db74">&#34;请输入用户名&#34;</span>,
+</span></span><span style="display:flex;"><span>                                         <span style="color:#e6db74">&#34;max_length&#34;</span>: <span style="color:#e6db74">&#34;用户名长度最长为16位&#34;</span>,
+</span></span><span style="display:flex;"><span>                                         <span style="color:#e6db74">&#34;min_length&#34;</span>: <span style="color:#e6db74">&#34;用户名长度至少为6位&#34;</span>
+</span></span><span style="display:flex;"><span>                                     })
+</span></span></code></pre></div><ul>
+<li>UniqueTogetherValidator：联合唯一</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserFav</span>(models<span style="color:#f92672">.</span>Model):
+</span></span><span style="display:flex;"><span>    user <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>ForeignKey(User,verbose_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;用户&#34;</span>,on_delete<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>    goods <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>ForeignKey(Goods,verbose_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;商品&#34;</span>,on_delete<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>    add_time <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>DateTimeField(default<span style="color:#f92672">=</span>datetime<span style="color:#f92672">.</span>now,verbose_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;用户收藏&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Meta</span>:
+</span></span><span style="display:flex;"><span>        verbose_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;用户收藏&#34;</span>
+</span></span><span style="display:flex;"><span>        verbose_name_plural<span style="color:#f92672">=</span>verbose_name
+</span></span><span style="display:flex;"><span>        unique_together <span style="color:#f92672">=</span> ((<span style="color:#e6db74">&#39;user&#39;</span>,<span style="color:#e6db74">&#39;goods&#39;</span>),)
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserFavSerializer</span>(serializers<span style="color:#f92672">.</span>ModelSerializer):
+</span></span><span style="display:flex;"><span>    user <span style="color:#f92672">=</span> serializers<span style="color:#f92672">.</span>HiddenField(default<span style="color:#f92672">=</span>serializers<span style="color:#f92672">.</span>CurrentUserDefault())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Meta</span>:
+</span></span><span style="display:flex;"><span>        model <span style="color:#f92672">=</span> UserFav
+</span></span><span style="display:flex;"><span>        fields <span style="color:#f92672">=</span> (<span style="color:#e6db74">&#39;id&#39;</span>,<span style="color:#e6db74">&#39;user&#39;</span>, <span style="color:#e6db74">&#39;goods&#39;</span>)
+</span></span><span style="display:flex;"><span>        validators <span style="color:#f92672">=</span> [UniqueTogetherValidator(queryset<span style="color:#f92672">=</span>UserFav<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>all(),fields<span style="color:#f92672">=</span>(<span style="color:#e6db74">&#39;user&#39;</span>,<span style="color:#e6db74">&#39;goods&#39;</span>),message<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;您已收藏&#39;</span>)]        
+</span></span><span style="display:flex;"><span>        
+</span></span></code></pre></div>
+        </div>
+
+        
+
+
+        
+
+
+        <div class="post-meta meta-tags">
+            
+            No tags
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    
+    
+
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2023 <a href="https://godl9211.github.io/">My New Hugo Site By </a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+<style type="text/css">
+div.highlight {
+    position: relative;
+    margin: 1em 0px;
+}
+
+.copy-code {
+    display: none;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(78, 78, 78, 0.8);
+    border-radius: var(--radius);
+    padding: 0 5px;
+    font: inherit;
+    user-select: none;
+    cursor: pointer;
+    border: 0;
+    --radius: 8px;
+}
+
+div.highlight:hover .copy-code,pre:hover .copy-code {
+    display: block;
+}
+
+</style>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='//www.google.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://godl9211.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">Latest articles</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/my-first-post/" title="My First Post" target="_blank">My First Post</a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/01-restful-api/" title="RESTful API" target="_blank">RESTful API</a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/00-%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/" title="前后端分离" target="_blank">前后端分离</a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/02-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/04-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AB%98%E7%BA%A7/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/05-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AA%8C%E8%AF%81/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/06-%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/07-%E7%B1%BB%E8%A7%86%E5%9B%BE/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/08-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%9D%83%E9%99%90/" title="" target="_blank"></a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>Categories</a></h3>
+<ul class="widget-list">
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>Tags</a></h3>
+<div class="tagcloud">
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">Meta</h3>
+        <ul class="widget-list">
+            <li><a href="https://godl9211.github.io/index.xml">RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,26 +1,24 @@
 <!doctype html>
 <html lang="en-us">
 <head>
+	<meta name="generator" content="Hugo 0.109.0">
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
 
-    <title>404 Page not found | My New Hugo Site</title>
-    <meta property="og:title" content="404 Page not found - My New Hugo Site">
-    <meta property="og:type" content="article">
-        
-        
+    <title>My New Hugo Site</title>
+    <meta property="og:title" content="My New Hugo Site">
+    <meta property="og:type" content="website">
     <meta name="Keywords" content="">
-    <meta name="description" content="404 Page not found">
-        
-    <meta name="author" content="">
-    <meta property="og:url" content="https://godl9211.github.io/404.html">
+    <meta name="description" content="">
+    <meta property="og:url" content="https://godl9211.github.io/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
+    <link rel="alternate" type="application/rss+xml" href="https://godl9211.github.io/index.xml" title="My New Hugo Site" />
     <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
@@ -37,15 +35,17 @@
         <div class="col-group">
             <div class="site-name ">
                 
-                    <a id="logo" href="https://godl9211.github.io/">
-                        My New Hugo Site
-                    </a>
+                    <h1>
+                        <a id="logo" href="https://godl9211.github.io/">
+                            My New Hugo Site
+                        </a>
+                    </h1>
                 
                 
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
-                    <a class="" href="https://godl9211.github.io/">Home</a>
+                    <a class="current" href="https://godl9211.github.io/">Home</a>
                     
                 </nav>
             </div>
@@ -59,20 +59,74 @@
 
                 <div class="col-8" id="main">
                     
-<div class="body404">
-    <div class="info404">
-        <header id="header404" class="clearfix">
-            <div class="site-name404"><i>404</i></div>
+<div class="res-cons">
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://godl9211.github.io/posts/19-%E6%90%9C%E7%B4%A2/" title="" target="_blank"></a>
+            </h1>
         </header>
-        <section>
-            <div class="title404">
-                <p>每一个平凡的日常<br />都是连续发生中的奇迹</p>
-            </div>
-            
+        
 
-            <a rel="nofollow" href="https://godl9211.github.io/" class="index404">回首页看看</a>
-        </section>
-    </div>
+
+        <div class="post-content">
+            搜索 SearchFilter可以搜索我们设置的参数
+配置 from .custom_model_view_set import CustomModelViewSet from django_filters.rest_framework import DjangoFilterBackend from .custom_filter import GameFilter from rest_framework import filters class GameView(CustomModelViewSet): queryset = Game.objects.all() serializer_class = GameSerializer filter_backends = (DjangoFilterBackend, filters.SearchFilter) # 过滤 filter_fields = (&#39;name&#39;, &#39;status&#39;) filterset_class = GameFilter # 搜索 search_fields = (&#34;name&#34;, &#34;status&#34;) http://127.0.0.1:8000/api/v1/games/?search=天 ……
+        </div>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/19-%E6%90%9C%E7%B4%A2/" target="_blank">Continue reading</a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://godl9211.github.io/posts/20-%E6%8E%92%E5%BA%8F/" title="" target="_blank"></a>
+            </h1>
+        </header>
+        
+
+
+        <div class="post-content">
+            排序 OrderingFilter类支持简单的查询参数控制结果排序
+配置 class GameView(CustomModelViewSet): queryset = Game.objects.all() serializer_class = GameSerializer filter_backends = (DjangoFilterBackend, filters.SearchFilter,filters.OrderingFilter) # 过滤 # filter_fields = (&#39;name&#39;, &#39;status&#39;) filterset_class = GameFilter # 搜索 search_fields = (&#34;name&#34;, &#34;status&#34;) #排序 #注意 filter_backends多了一个filters.OrderingFilter ordering_fields = [&#39;status&#39;, &#34;id&#34;, &#34;name&#34;] 降序 http://127.0.0.1:8000/api/v1/games/?ordering=-id # 根据id降序 升序 http://127.0.0.1:8000/api/v1/games/?ordering=status # 根据状态升序 ……
+        </div>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/20-%E6%8E%92%E5%BA%8F/" target="_blank">Continue reading</a></p>
+    </article>
+    
+    
+    
+
+
+
+<ol class="page-navigator">
+    
+    <li class="prev">
+        <a href="https://godl9211.github.io/page/2/">Previous</a>
+    </li>
+    
+
+    
+    <li >
+        <a href="https://godl9211.github.io/">1</a>
+    </li>
+    
+    <li >
+        <a href="https://godl9211.github.io/page/2/">2</a>
+    </li>
+    
+    <li  class="current">
+        <a href="https://godl9211.github.io/page/3/">3</a>
+    </li>
+    
+
+    
+</ol>
+
+
+
 </div>
 
                     <footer id="footer">

@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <title> | My New Hugo Site</title>
+    <meta property="og:title" content=" - My New Hugo Site">
+    <meta property="og:type" content="article">
+        
+        
+    <meta name="Keywords" content="">
+    <meta name="description" content="">
+        
+    <meta name="author" content="">
+    <meta property="og:url" content="https://godl9211.github.io/posts/06-%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+</head>
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://godl9211.github.io/">
+                        My New Hugo Site
+                    </a>
+                
+                
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://godl9211.github.io/">Home</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title"></h1>
+        </header>
+        
+
+
+        
+        
+        <div class="post-content">
+            <h3 id="请求">请求</h3>
+<p>REST里面有个HttpRequest特别相似的对象叫request，主要获取前端传递过来的数据，获取数据的方法就是request.data</p>
+<h3 id="响应">响应</h3>
+<p>REST里面有个HttpResponse特别相似的对象叫Response,主要用来给前端传递数据，传递数据的方法就是Response(data)</p>
+<h3 id="状态码">状态码</h3>
+<p>REST里面的状态码比较人性化。每个状态都用意思去表示。比如</p>
+<pre tabindex="0"><code>
+HTTP_200_OK = 200 #OK
+HTTP_201_CREATED = 201 #创建成功
+HTTP_403_FORBIDDEN = 403 # 权限拒绝
+&#39;&#39;&#39;
+&#39;&#39;&#39;
+</code></pre><h3 id="api视图">API视图</h3>
+<p>API视图主要为了咱们RESTFUL风格的API。主要用来包装request,response、现在api请求方法。</p>
+<ul>
+<li>基于函数视图的<code>@api_view</code>装饰器</li>
+<li>基于类视图的<code>APIView</code>类</li>
+</ul>
+<h3 id="综合用法">综合用法</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework.decorators <span style="color:#f92672">import</span> api_view
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework.response <span style="color:#f92672">import</span> Response
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework <span style="color:#f92672">import</span> status
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@api_view</span>([<span style="color:#e6db74">&#39;GET&#39;</span>, <span style="color:#e6db74">&#39;POST&#39;</span>])
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">user_list</span>(request):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;GET&#39;</span>:
+</span></span><span style="display:flex;"><span>        users <span style="color:#f92672">=</span> User<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>all()
+</span></span><span style="display:flex;"><span>        serializer <span style="color:#f92672">=</span> UserSerializer(users, many<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, context<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#39;request&#39;</span>: request})
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> Response(serializer<span style="color:#f92672">.</span>data)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;POST&#39;</span>:
+</span></span><span style="display:flex;"><span>        serializer <span style="color:#f92672">=</span> UserSerializer(data<span style="color:#f92672">=</span>request<span style="color:#f92672">.</span>data, context<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#39;request&#39;</span>: request})
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> serializer<span style="color:#f92672">.</span>is_valid():
+</span></span><span style="display:flex;"><span>            serializer<span style="color:#f92672">.</span>save()
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> Response(serializer<span style="color:#f92672">.</span>data, status<span style="color:#f92672">=</span>status<span style="color:#f92672">.</span>HTTP_201_CREATED)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> Response(serializer<span style="color:#f92672">.</span>errors, status<span style="color:#f92672">=</span>status<span style="color:#f92672">.</span>HTTP_400_BAD_REQUEST)
+</span></span></code></pre></div><h3 id="类视图">类视图</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework.views <span style="color:#f92672">import</span> APIView
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework.response <span style="color:#f92672">import</span> Response
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework <span style="color:#f92672">import</span> status
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.http <span style="color:#f92672">import</span> Http404
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserDetail</span>(APIView):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_user</span>(self, id):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>            user <span style="color:#f92672">=</span> User<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>get(id<span style="color:#f92672">=</span>id)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> user
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">except</span> User<span style="color:#f92672">.</span>DoesNotExist:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">raise</span> Http404
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get</span>(self, request, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
+</span></span><span style="display:flex;"><span>        user <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>get_user(kwargs<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;id&#39;</span>))
+</span></span><span style="display:flex;"><span>        serializer <span style="color:#f92672">=</span> UserSerializer(user, context<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#39;request&#39;</span>: request})
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> Response(serializer<span style="color:#f92672">.</span>data)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">put</span>(self, request, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
+</span></span><span style="display:flex;"><span>        user <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>get_user(kwargs<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;id&#39;</span>))
+</span></span><span style="display:flex;"><span>        serializer <span style="color:#f92672">=</span> UserSerializer(user, data<span style="color:#f92672">=</span>request<span style="color:#f92672">.</span>data, context<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#39;request&#39;</span>: request})
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> serializer<span style="color:#f92672">.</span>is_valid():
+</span></span><span style="display:flex;"><span>            serializer<span style="color:#f92672">.</span>save()
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> Response(serializer<span style="color:#f92672">.</span>data)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> Response(serializer<span style="color:#f92672">.</span>errors, status<span style="color:#f92672">=</span>status<span style="color:#f92672">.</span>HTTP_400_BAD_REQUEST)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">detete</span>(self, request, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
+</span></span><span style="display:flex;"><span>        user <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>get_user(kwargs<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;id&#39;</span>))
+</span></span><span style="display:flex;"><span>        user<span style="color:#f92672">.</span>delete()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> Response(status<span style="color:#f92672">=</span>status<span style="color:#f92672">.</span>HTTP_204_NO_CONTENT)
+</span></span></code></pre></div><h3 id="类视图取消csrf">类视图取消csrf</h3>
+<pre tabindex="0"><code>from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+@method_decorator(csrf_exempt,name=&#39;dispatch&#39;)
+class xxx(APIView)
+</code></pre><h3 id="给api加后缀">给api加后缀</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.contrib <span style="color:#f92672">import</span> admin
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.urls <span style="color:#f92672">import</span> path, include
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> . <span style="color:#f92672">import</span> views
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>urlpatterns <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    path(<span style="color:#e6db74">&#39;users/&#39;</span>, views<span style="color:#f92672">.</span>user_list, name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;user_list&#39;</span>),  <span style="color:#75715e"># 获取或创建</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># path(&#39;users/&lt;int:id&gt;/&#39;, views.user_detail, name=&#39;user-detail&#39;),  # 查找、更新、删除</span>
+</span></span><span style="display:flex;"><span>    path(<span style="color:#e6db74">&#39;users/&lt;int:id&gt;/&#39;</span>, views<span style="color:#f92672">.</span>UserDetail<span style="color:#f92672">.</span>as_view(), name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;user-detail&#39;</span>),  <span style="color:#75715e"># 查找、更新、删除</span>
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework.urlpatterns <span style="color:#f92672">import</span> format_suffix_patterns
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>urlpatterns <span style="color:#f92672">=</span> format_suffix_patterns(urlpatterns, allowed<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;json&#39;</span>, <span style="color:#e6db74">&#39;api&#39;</span>])
+</span></span></code></pre></div><p>在视图方法里面加个format参数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">put</span>(self, request, format<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
+</span></span><span style="display:flex;"><span>    user <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>get_user(kwargs<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;id&#39;</span>))
+</span></span><span style="display:flex;"><span>    serializer <span style="color:#f92672">=</span> UserSerializer(user, data<span style="color:#f92672">=</span>request<span style="color:#f92672">.</span>data, context<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#39;request&#39;</span>: request})
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> serializer<span style="color:#f92672">.</span>is_valid():
+</span></span><span style="display:flex;"><span>        serializer<span style="color:#f92672">.</span>save()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> Response(serializer<span style="color:#f92672">.</span>data)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Response(serializer<span style="color:#f92672">.</span>errors, status<span style="color:#f92672">=</span>status<span style="color:#f92672">.</span>HTTP_400_BAD_REQUEST)
+</span></span></code></pre></div>
+        </div>
+
+        
+
+
+        
+
+
+        <div class="post-meta meta-tags">
+            
+            No tags
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    
+    
+
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2023 <a href="https://godl9211.github.io/">My New Hugo Site By </a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+<style type="text/css">
+div.highlight {
+    position: relative;
+    margin: 1em 0px;
+}
+
+.copy-code {
+    display: none;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(78, 78, 78, 0.8);
+    border-radius: var(--radius);
+    padding: 0 5px;
+    font: inherit;
+    user-select: none;
+    cursor: pointer;
+    border: 0;
+    --radius: 8px;
+}
+
+div.highlight:hover .copy-code,pre:hover .copy-code {
+    display: block;
+}
+
+</style>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='//www.google.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://godl9211.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">Latest articles</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/my-first-post/" title="My First Post" target="_blank">My First Post</a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/01-restful-api/" title="RESTful API" target="_blank">RESTful API</a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/00-%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/" title="前后端分离" target="_blank">前后端分离</a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/02-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/04-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AB%98%E7%BA%A7/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/05-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AA%8C%E8%AF%81/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/06-%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/07-%E7%B1%BB%E8%A7%86%E5%9B%BE/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/08-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%9D%83%E9%99%90/" title="" target="_blank"></a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>Categories</a></h3>
+<ul class="widget-list">
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>Tags</a></h3>
+<div class="tagcloud">
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">Meta</h3>
+        <ul class="widget-list">
+            <li><a href="https://godl9211.github.io/index.xml">RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

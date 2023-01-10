@@ -7,16 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
 
-    <title>404 Page not found | My New Hugo Site</title>
-    <meta property="og:title" content="404 Page not found - My New Hugo Site">
+    <title> | My New Hugo Site</title>
+    <meta property="og:title" content=" - My New Hugo Site">
     <meta property="og:type" content="article">
         
         
     <meta name="Keywords" content="">
-    <meta name="description" content="404 Page not found">
+    <meta name="description" content="">
         
     <meta name="author" content="">
-    <meta property="og:url" content="https://godl9211.github.io/404.html">
+    <meta property="og:url" content="https://godl9211.github.io/posts/14-%E8%A7%86%E5%9B%BE%E9%9B%86%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
@@ -45,7 +45,7 @@
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
-                    <a class="" href="https://godl9211.github.io/">Home</a>
+                    <a class="current" href="https://godl9211.github.io/">Home</a>
                     
                 </nav>
             </div>
@@ -59,20 +59,79 @@
 
                 <div class="col-8" id="main">
                     
-<div class="body404">
-    <div class="info404">
-        <header id="header404" class="clearfix">
-            <div class="site-name404"><i>404</i></div>
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title"></h1>
         </header>
-        <section>
-            <div class="title404">
-                <p>每一个平凡的日常<br />都是连续发生中的奇迹</p>
-            </div>
-            
+        
 
-            <a rel="nofollow" href="https://godl9211.github.io/" class="index404">回首页看看</a>
-        </section>
-    </div>
+
+        
+        
+        <div class="post-content">
+            <h3 id="视图集">视图集</h3>
+<p>我们在前面已经用了类视图，DRF给我了提供了更加抽象的封装，叫做ModelViewSet。</p>
+<p>
+        <img class="mx-auto" alt="" src="https://tva1.sinaimg.cn/large/006tNbRwly1gb293570efj31f2070wfl.jpg" />   
+    </p>
+<h3 id="视图">视图</h3>
+<pre tabindex="0"><code>
+class GameView(ModelViewSet):
+    queryset = Game.objects.all()
+    serializer_class = GameSerializer
+</code></pre><h3 id="路由">路由</h3>
+<pre tabindex="0"><code>game_list = views.GameView.as_view({
+    &#39;get&#39;: &#39;list&#39;,
+    &#39;post&#39;: &#39;create&#39;
+})
+game_detail = views.GameView.as_view({
+    &#39;get&#39;: &#39;retrieve&#39;,
+    &#39;put&#39;: &#39;update&#39;,
+    &#39;patch&#39;: &#39;partial_update&#39;,
+    &#39;delete&#39;: &#39;destroy&#39;
+})
+
+ path(&#39;games/&#39;, game_list, name=&#39;game-list&#39;),  # 获取或创建
+ path(&#39;games/&lt;int:pk&gt;/&#39;, game_detail, name=&#39;game-detail&#39;),  # 查找、更新、删除
+</code></pre><h3 id="路由器">路由器</h3>
+<p>我们可以通过Router类自动帮我们生成路由。</p>
+<pre tabindex="0"><code>from rest_framework.routers import DefaultRouter
+
+# 创建路由器并注册我们的视图。
+router = DefaultRouter()
+router.register(&#39;games&#39;, views.GameView)
+</code></pre><pre tabindex="0"><code>path(&#39;&#39;, include(router.urls)),
+</code></pre><blockquote>
+<p>注意：去掉</p>
+<pre tabindex="0"><code>from rest_framework.urlpatterns import format_suffix_patterns
+
+urlpatterns = format_suffix_patterns(urlpatterns, allowed=[&#39;json&#39;, &#39;api&#39;])
+</code></pre></blockquote>
+
+        </div>
+
+        
+
+
+        
+
+
+        <div class="post-meta meta-tags">
+            
+            No tags
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    
+    
+
 </div>
 
                     <footer id="footer">
@@ -95,9 +154,94 @@
 </footer>
 
 
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 
 <a id="rocket" href="#top"></a>
 <script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+<style type="text/css">
+div.highlight {
+    position: relative;
+    margin: 1em 0px;
+}
+
+.copy-code {
+    display: none;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(78, 78, 78, 0.8);
+    border-radius: var(--radius);
+    padding: 0 5px;
+    font: inherit;
+    user-select: none;
+    cursor: pointer;
+    border: 0;
+    --radius: 8px;
+}
+
+div.highlight:hover .copy-code,pre:hover .copy-code {
+    display: block;
+}
+
+</style>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
 
 
 

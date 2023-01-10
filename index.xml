@@ -20,5 +20,257 @@
 from rest_framework.views import exception_handler def custom_exception_handler(exc, context): response = exception_handler(exc, context) if response is not None: response.data.clear() response.data[&amp;#39;code&amp;#39;] = response.status_code response.data[&amp;#39;data&amp;#39;] = [] if response.status_code == 404: try: response.data[&amp;#39;message&amp;#39;] = response.data.pop(&amp;#39;detail&amp;#39;) response.data[&amp;#39;message&amp;#39;] = &amp;#34;未找到&amp;#34; except KeyError: response.data[&amp;#39;message&amp;#39;] = &amp;#34;未找到&amp;#34; if response.status_code == 400: response.data[&amp;#39;message&amp;#39;] = &amp;#39;输入错误&amp;#39; elif response.</description>
     </item>
     
+    <item>
+      <title>RESTful API</title>
+      <link>https://godl9211.github.io/posts/01-restful-api/</link>
+      <pubDate>Tue, 10 Jan 2023 19:22:13 +0800</pubDate>
+      
+      <guid>https://godl9211.github.io/posts/01-restful-api/</guid>
+      <description>RESTful API设计规范 域名 应该尽量将API部署在专用域名之下
+https://api.example.com 如果确定API很简单，不会有进一步扩展，可以考虑放在主域名下。
+https://example.com/api/ 版本 应该将API的版本号放入URL
+http://www.example.com/app/1.0/apples http://www.example.com/app/1.1/apples http://www.example.com/app/2.0/apples 路径 对于一个简洁结构，你应该始终用名词。 此外，利用的HTTP方法可以分离网址中的资源名称的操作。
+GET /products ：将返回所有产品清单 POST /products ：将产品新建到集合 GET /products/4 ：将获取产品4 PATCH /products/4 将更新产品4（部分属性更新） PUT /products/4：将更新产品4 （全部属性更新） HTTP动词 请求方法 请求地址 后端操作 GET /students 获取所有学生 POST /students 增加学生 GET /students/1 获取编号为1的学生 PUT /students/1 更新编号为1的学生（全部属性） DELETE /students/1 删除编号为1的学生 PATCH /students/1 更新编号为1的学生（部分属性） 过滤信息 ?limit=10：指定返回记录的数量 ?offset=10：指定返回记录的开始位置。 ?page=2&amp;amp;per_page=100：指定第几页，以及每页的记录数。 ?sortby=name&amp;amp;order=asc：指定返回结果按照哪个属性排序，以及排序顺序。 ?animal_type_id=1：指定筛选条件 状态码 200 OK - [GET]：服务器成功返回用户请求的数据 201 CREATED - [POST/PUT/PATCH]：用户新建或修改数据成功。 202 Accepted - []：表示一个请求已经进入后台排队（异步任务） 204 NO CONTENT - [DELETE]：用户删除数据成功。 400 INVALID REQUEST - [POST/PUT/PATCH]：用户发出的请求有错误，服务器没有进行新建或修改数据的操作 401 Unauthorized - []：表示用户没有权限（令牌、用户名、密码错误）。 403 Forbidden - [] 表示用户得到授权（与401错误相对），但是访问是被禁止的。 404 NOT FOUND - []：用户发出的请求针对的是不存在的记录，服务器没有进行操作，该操作是幂等的。 406 Not Acceptable - [GET]：用户请求的格式不可得（比如用户请求JSON格式，但是只有XML格式）。 410 Gone -[GET]：用户请求的资源被永久删除，且不会再得到的。 422 Unprocesable entity - [POST/PUT/PATCH] 当创建一个对象时，发生一个验证错误。 500 INTERNAL SERVER ERROR - [*]：服务器发生错误，用户将无法判断发出的请求是否成功。 错误处理 { error:&amp;#34;Invalid API key&amp;#34; } 返回结果 GET /collection：返回资源对象的列表（数组） GET /collection/resource：返回单个资源对象 POST /collection：返回新生成的资源对象 PUT /collection/resource：返回完整的资源对象 PATCH /collection/resource：返回完整的资源对象 DELETE /collection/resource：返回一个空文档 </description>
+    </item>
+    
+    <item>
+      <title>前后端分离</title>
+      <link>https://godl9211.github.io/posts/00-%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/</link>
+      <pubDate>Tue, 10 Jan 2023 19:22:13 +0800</pubDate>
+      
+      <guid>https://godl9211.github.io/posts/00-%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/</guid>
+      <description>开发模式 在Web开发模式中，有两种开发模式
+前后端不分离 前后端分离 前后端分离优势 在前后端不分离模式中，前端页面看到的效果都是由后端控制，由后端渲染页面或重定向，也就是后端需要控制前端的展示，前端与后端的耦合度很高。
+这种应用模式比较适合纯网页应用，但是当后端对接App时，App可能并不需要后端返回一个HTML网页，而仅仅是数据本身，所以后端原本返回网页的接口不再适用于前端App应用，为了对接App后端还需再开发一套接口。
+在前后端分离的应用模式中，后端仅返回前端所需的数据，不再渲染HTML页面，不再控制前端的效果。至于前端用户看到什么效果，从后端请求的数据如何加载到前端中，都由前端自己决定，网页有网页的处理方式，App有App的处理方式，但无论哪种前端，所需的数据基本相同，后端仅需开发一套逻辑对外提供数据即可。
+在前后端分离的应用模式中 ，前端与后端的耦合度相对较低。
+在前后端分离的应用模式中，我们通常将后端开发的每个视图都称为一个接口，或者API，前端通过访问接口来对数据进行增删改查。
+为什么要有前后端分离 多端适应 前后端开发职责不清 模板到低是前端写还是后端写?如果前端写,前端就要懂后端模板语言 如果后端写,那么后端就要懂前段html,css,js甚至更多更多 开发效率问题,前后端相互等待 前端在写的时候,就希望后端全部写好自己再写 后端在写的时候,就希望前端全部写好自己再写 前端一直配合着后端,能力受限(搞来搞去写静态页面,天天给后台写模板) 后台开发语言和模板高度耦合,导致开发语言依赖(一旦用python开发,以后要换成java或者其他语言) 前后端分离缺点 前后端学习门槛增加(比如后台很多模板语法控制前端展示,但是分离以后,需要前端自己去实现,增加前端成本,对后台来说,后端要满足规范)
+数据依赖导致文档重要性增加
+文档是否详细 是否及时更新 修改要及时通知其他端 前端工作量加大
+SEO的难度增加(都是AJAX,像一些初级爬虫全部挡在外面,比如一些搜索引擎,这样你的排名就不靠前了)</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://godl9211.github.io/posts/02-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://godl9211.github.io/posts/02-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</guid>
+      <description>Django REST framework Django REST framework框架是一个用于构建Web API的强大而又灵活的工具. 通常简称为DRF框架 或 REST framework框架.
+特点 提供了定义序列化器serializer的方法,可以快速根据Django ORM或者其他库自动序列化/反序列化; 提供了丰富的类视图、Mixin扩展类、简化视图的编写; 丰富的定制层级: 函数视图、类视图、视图集合到自动生成API,满足各种需求; 多中身份认证和权限认证方式的支持; 内置了限流系统; 直观的API web界面; 可扩展性, 插件丰富 官方文档 https://www.django-rest-framework.org/ 源码地址 https://github.com/encode/django-rest-framework/tree/master 安装 pip install -i https://pypi.douban.com/simple djangorestframework==3.8.2 配置 INSTALLED_APPS = [ &amp;#39;&amp;#39;&amp;#39;&amp;#39;&amp;#39;&amp;#39; &amp;#39;rest_framework&amp;#39; ] 模型类 class Group(models.Model): name = models.CharField(verbose_name=&amp;#39;名字&amp;#39;, max_length=100) class Student(models.Model): name = models.CharField(verbose_name=&amp;#39;名字&amp;#39;, max_length=100) age = models.IntegerField(verbose_name=&amp;#39;年龄&amp;#39;) group = models.ForeignKey(to=Group, on_delete=models.CASCADE) 序列化 在应用下新建一个serializers.py文件，目的是序列化我们的模型类。
+from .models import Student,Group from rest_framework import serializers class StudentSerializer(serializers.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://godl9211.github.io/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://godl9211.github.io/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/</guid>
+      <description>模型类 创建模型类
+from django.db import models # Create your models here. class Article(models.Model): title = models.CharField(verbose_name=&amp;#39;标题&amp;#39;, max_length=100) vum = models.IntegerField(verbose_name=&amp;#39;浏览量&amp;#39;) content = models.TextField(verbose_name=&amp;#39;内容&amp;#39;) 序列化 创建序列化文件
+from rest_framework import serializers from .models import Article class ArticleSerializer(serializers.Serializer): id = serializers.IntegerField(read_only=True) vnum = serializers.IntegerField() content = serializers.CharField(max_length=1000) title = serializers.CharField(required=True, max_length=100) def create(self, validated_data): return Article.objects.create(**validated_data) def update(self, instance, validated_data): instance.title = validated_data.get(&amp;#39;title&amp;#39;, instance.title) instance.vnum = validated_data.get(&amp;#39;vnum&amp;#39;, instance.vnum) instance.content = validated_data.get(&amp;#39;content&amp;#39;, instance.content) instance.save() return instance 参数约束 read_only：True表示不允许用户自己上传，只能用于api的输出。 write_only: 与read_only对应 required: 顾名思义，就是这个字段是否必填。 allow_null/allow_blank：是否允许为NULL/空 。 error_messages：出错时，信息提示。 name = serializers.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://godl9211.github.io/posts/04-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AB%98%E7%BA%A7/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://godl9211.github.io/posts/04-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AB%98%E7%BA%A7/</guid>
+      <description>模型类 from django.db import models # Create your models here. class Category(models.Model): name = models.CharField(verbose_name=&amp;#39;名字&amp;#39;, max_length=100) def __str__(self): return self.name class Article(models.Model): title = models.CharField(verbose_name=&amp;#39;标题&amp;#39;, max_length=100) vnum = models.IntegerField(verbose_name=&amp;#39;浏览量&amp;#39;) content = models.TextField(verbose_name=&amp;#39;内容&amp;#39;) category = models.ForeignKey(to=Category, on_delete=models.CASCADE, related_name=&amp;#39;articles&amp;#39;) # related_name 反向查找 def __str__(self): return self.title 路由 from django.contrib import admin from django.urls import path, include from . import views urlpatterns = [ path(&amp;#39;articles/&amp;#39;, views.article_list), # 获取或创建 path(&amp;#39;articles/&amp;lt;int:id&amp;gt;/&amp;#39;, views.article_detail), # 查找、更新、删除 ] 视图 from django.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://godl9211.github.io/posts/05-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AA%8C%E8%AF%81/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://godl9211.github.io/posts/05-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AA%8C%E8%AF%81/</guid>
+      <description>序列化验证 一般前后端分离的时候，我们都会校验前端的参数时候合法。如果我们ModelSerializer话，因为它本身已经帮我们写好create方法，所以我们基本不需要再写验证。但是一些特殊的我们就需要重写或者自己写验证方法。
+模型类 from django.db import models # Create your models here. class User(models.Model): genders = ( (1, &amp;#39;男&amp;#39;), (2, &amp;#34;女&amp;#34;) ) name = models.CharField(max_length=10, verbose_name=&amp;#39;名字&amp;#39;) phone = models.CharField(max_length=11, verbose_name=&amp;#39;手机号&amp;#39;) gender = models.IntegerField(choices=genders, verbose_name=&amp;#39;性别&amp;#39;) 视图 @csrf_exempt def user_list(request): if request.method == &amp;#39;GET&amp;#39;: users = User.objects.all() serializer = UserSerializer(users, many=True, context={&amp;#39;request&amp;#39;: request}) return JSONResponse(serializer.data) elif request.method == &amp;#39;POST&amp;#39;: data = JSONParser().parse(request) serializer = UserSerializer(data=data, context={&amp;#39;request&amp;#39;: request}) if serializer.is_valid(): serializer.save() return JSONResponse(serializer.data, status=201) return JSONResponse(serializer.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://godl9211.github.io/posts/06-%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://godl9211.github.io/posts/06-%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94/</guid>
+      <description>请求 REST里面有个HttpRequest特别相似的对象叫request，主要获取前端传递过来的数据，获取数据的方法就是request.data
+响应 REST里面有个HttpResponse特别相似的对象叫Response,主要用来给前端传递数据，传递数据的方法就是Response(data)
+状态码 REST里面的状态码比较人性化。每个状态都用意思去表示。比如
+HTTP_200_OK = 200 #OK HTTP_201_CREATED = 201 #创建成功 HTTP_403_FORBIDDEN = 403 # 权限拒绝 &amp;#39;&amp;#39;&amp;#39; &amp;#39;&amp;#39;&amp;#39; API视图 API视图主要为了咱们RESTFUL风格的API。主要用来包装request,response、现在api请求方法。
+基于函数视图的@api_view装饰器 基于类视图的APIView类 综合用法 from rest_framework.decorators import api_view from rest_framework.response import Response from rest_framework import status @api_view([&amp;#39;GET&amp;#39;, &amp;#39;POST&amp;#39;]) def user_list(request): if request.method == &amp;#39;GET&amp;#39;: users = User.objects.all() serializer = UserSerializer(users, many=True, context={&amp;#39;request&amp;#39;: request}) return Response(serializer.data) elif request.method == &amp;#39;POST&amp;#39;: serializer = UserSerializer(data=request.data, context={&amp;#39;request&amp;#39;: request}) if serializer.is_valid(): serializer.save() return Response(serializer.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://godl9211.github.io/posts/07-%E7%B1%BB%E8%A7%86%E5%9B%BE/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://godl9211.github.io/posts/07-%E7%B1%BB%E8%A7%86%E5%9B%BE/</guid>
+      <description>类视图 使用类视图最大的好处就是可以创建复用的行为。我们在上一节，已经用了简单的类视图。
+mixins 我们常用的操作比如创建、更新、删除、查找。REST框架已经帮我们写好了，写的代码就在mixins这个类里面。
+所以只有我们自己的视图直接继承这个类，就完全可以拥有上面的所有功能。
+from rest_framework import mixins from rest_framework import generics class UserList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView): queryset = User.objects.all() serializer_class = UserSerializer def get(self, request, *args, **kwargs): return self.list(request, *args, **kwargs) def post(self, request, *args, **kwargs): return self.create(request, *args, **kwargs) class UserDetail(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView): queryset = User.objects.all() serializer_class = UserSerializer def get(self, request, *args, **kwargs): return self.retrieve(request, *args, **kwargs) def put(self, request, *args, **kwargs): return self.update(request, *args, **kwargs) def delete(self, request, *args, **kwargs): return self.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://godl9211.github.io/posts/08-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%9D%83%E9%99%90/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://godl9211.github.io/posts/08-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%9D%83%E9%99%90/</guid>
+      <description>认证和权限 现在我们写的接口，会发现一个问题，就是任何人都可以创建数据，都可以修改数据。这样肯定是不行的，我们希望只有数据的创建者才能有权限修改数据。如果不是，只能有读取权限。
+模型类 我们设计一个模型类，让这个模型类与用户关联。
+from django.db import models # Create your models here. class Game(models.Model): name = models.CharField(verbose_name=&amp;#39;游戏名字&amp;#39;, max_length=10) desc = models.CharField(verbose_name=&amp;#39;描述&amp;#39;, max_length=20) user = models.ForeignKey(&amp;#39;auth.User&amp;#39;, on_delete=models.CASCADE) 序列化 from rest_framework import serializers from .models import Game class GameSerializer(serializers.ModelSerializer): class Meta: model = Game fields = &amp;#39;__all__&amp;#39; 视图 from .models import Game from rest_framework import generics from .serializers import GameSerializer from rest_framework import permissions from .permissions import IsOwnerOrReadOnly from rest_framework.authentication import BasicAuthentication class GameList(generics.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://godl9211.github.io/posts/09-%E4%BD%BF%E7%94%A8jwt%E8%BF%9B%E8%A1%8C%E8%AE%A4%E8%AF%81/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://godl9211.github.io/posts/09-%E4%BD%BF%E7%94%A8jwt%E8%BF%9B%E8%A1%8C%E8%AE%A4%E8%AF%81/</guid>
+      <description>Django RESTFUL提供的认证 BasicAuthentication：此身份验证方案使用HTTP基本身份验证，根据用户的用户名和密码进行签名。基本身份验证通常仅适用于测试。 TokenAuthentication： 此身份验证方案使用基于令牌的简单HTTP身份验证方案。令牌认证适用于客户端 - 服务器设置，例如本机桌面和移动客户端。 SessionAuthentication：　此身份验证方案使用Django的默认会话后端进行身份验证。会话身份验证适用于与您的网站在同一会话上下文中运行的AJAX客户端。 RemoteUserAuthentication：此身份验证方案允许您将身份验证委派给Web服务器，该服务器设置REMOTE_USER 环境变量。 BasicAuthentication Http Basic 是一种比较简单的身份认证方式。 在 Http header 中添加键值对 Authorization: Basic xxx （xxx 是 username:passowrd base64 值）。而Base64 的解码是非常方便的，如果不使用 Https ，相当于是帐号密码直接暴露在请求中。
+GET /auth/basic/ HTTP/1.1 Host: xxxxx Authorization: Basic em1rOjEyMzQ1Ng== TokenAuthentication 配置 # settings.py INSTALLED_APPS = ( ... &amp;#39;rest_framework.authtoken&amp;#39; ) # 全局配置 REST_FRAMEWORK = { &amp;#39;DEFAULT_AUTHENTICATION_CLASSES&amp;#39;: ( &amp;#39;rest_framework.authentication.BasicAuthentication&amp;#39;, &amp;#39;rest_framework.authentication.SessionAuthentication&amp;#39;, &amp;#39;rest_framework.authentication.TokenAuthentication&amp;#39;， ), } # 局部配置 from rest_framework.authentication import SessionAuthentication from rest_framework.authentication import BasicAuthentication from rest_framework.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://godl9211.github.io/posts/10-%E9%99%90%E5%88%B6%E9%A2%91%E7%8E%87/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://godl9211.github.io/posts/10-%E9%99%90%E5%88%B6%E9%A2%91%E7%8E%87/</guid>
+      <description>限制频率 开放平台的API接口调用需要限制其频率，以节约服务器资源和避免恶意的频繁调用。
+内置频率类 在应用下新建一个mythrottle类。如下代码：
+from rest_framework.throttling import SimpleRateThrottle class VisitThrottle(SimpleRateThrottle): scope = &amp;#34;未认证用户&amp;#34; def get_cache_key(self, request, view): return self.get_ident(request) class UserThrottle(SimpleRateThrottle): scope = &amp;#34;已认证用户&amp;#34; def get_cache_key(self, request, view): return request.user 配置 对于未登录的用户根据IP来限制，对于已经登录的用户可以根据用户的唯一标识。
+&amp;#39;DEFAULT_THROTTLE_CLASSES&amp;#39;: [&amp;#39;app06.mythrottle.UserThrottle&amp;#39;, ], &amp;#39;DEFAULT_THROTTLE_RATES&amp;#39;: { &amp;#39;未认证用户&amp;#39;: &amp;#39;3/m&amp;#39;, &amp;#39;已认证用户&amp;#39;: &amp;#39;10/m&amp;#39;, }, </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://godl9211.github.io/posts/11-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://godl9211.github.io/posts/11-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/</guid>
+      <description>版本控制 API 版本控制允许我们在不同的客户端之间更改行为（同一个接口的不同版本会返回不同的数据）。 DRF提供了许多不同的版本控制方案。
+可能会有一些客户端因为某些原因不再维护了，但是我们后端的接口还要不断的更新迭代，这个时候通过版本控制返回不同的内容就是一种不错的解决方案。
+五种控制方案 编写视图 class VersionView(APIView): def get(self, request, *args, **kwargs): # 获取版本 print(request.version) # 获取版本管理的类 print(request.versioning_scheme) # 反向生成URL reverse_url = request.versioning_scheme.reverse(&amp;#39;app06:version-view&amp;#39;, request=request) print(reverse_url) return Response(&amp;#39;测试版本&amp;#39;) 编写路由 path(&amp;#39;&amp;lt;str:version&amp;gt;/version/&amp;#39;, views.VersionView.as_view(), name=&amp;#39;version-view&amp;#39;), 配置文件 # 版本 &amp;#39;DEFAULT_VERSIONING_CLASS&amp;#39;: &amp;#39;rest_framework.versioning.URLPathVersioning&amp;#39;, &amp;#39;DEFAULT_VERSION&amp;#39;: &amp;#39;v1&amp;#39;, # 默认的版本 &amp;#39;ALLOWED_VERSIONS&amp;#39;: [&amp;#39;v1&amp;#39;, &amp;#39;v2&amp;#39;], # 有效的版本 &amp;#39;VERSION_PARAM&amp;#39;: &amp;#39;version&amp;#39;, # 版本的参数名与URL conf中一致 #局部配置 versioning_class = &amp;#34;注意不是列表&amp;#34; </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://godl9211.github.io/posts/12-%E5%88%86%E9%A1%B5/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://godl9211.github.io/posts/12-%E5%88%86%E9%A1%B5/</guid>
+      <description>分页 当对于数据量大的时候，我们就需要采用分页操作。
+方式 普通分页，看第n页，每页显示m条数据； 切割分页，在n个位置，向后查看m条数据； 加密分页，这与普通分页方式相似，不过对url中的请求页码进行加密。 普通分页 新建一个自定义分页类mypagenumberpagination
+from rest_framework.pagination import PageNumberPagination class MyPageNumberPagination(PageNumberPagination): page_size = 2 max_page_size = 5 page_size_query_param = &amp;#39;size&amp;#39; page_query_param = &amp;#39;page&amp;#39; &amp;#39;&amp;#39;&amp;#39; age_query_param：表示url中的页码参数 page_size_query_param：表示url中每页数量参数 page_size：表示每页的默认显示数量 max_page_size：表示每页最大显示数量，做限制使用，避免突然大量的查询数据，数据库崩溃 &amp;#39;&amp;#39;&amp;#39; 切割分页 class MyPageNumberPagination(LimitOffsetPagination): default_limit = 2 limit_query_param = &amp;#39;limit&amp;#39; offset_query_param = &amp;#39;offset&amp;#39; max_limit = 5 &amp;#39;&amp;#39;&amp;#39; default_limit：表示默认每页显示几条数据 limit_query_param：表示url中本页需要显示数量参数 offset_query_param：表示从数据库中的第几条数据开始显示参数 max_limit：表示每页最大显示数量，做限制使用，避免突然大量的查询数据，数据库崩溃 &amp;#39;&amp;#39;&amp;#39; 加密分页 class MyPageNumberPagination(CursorPagination): cursor_query_param = &amp;#39;cursor&amp;#39; page_size = 1 ordering = &amp;#39;id&amp;#39; page_size_query_param = &amp;#39;size&amp;#39; max_page_size = 1 &amp;#39;&amp;#39;&amp;#39; cursor_query_param：表示url中页码的参数 page_size_query_param：表示每页显示数据量的参数 max_page_size：表示每页最大显示数量，做限制使用，避免突然大量的查询数据，数据库崩溃 ordering：表示返回数据的排序方式 &amp;#39;&amp;#39;&amp;#39; 配置文件 &amp;#39;DEFAULT_PAGINATION_CLASS&amp;#39;: &amp;#39;app06.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://godl9211.github.io/posts/13-%E8%A7%A3%E6%9E%90%E5%99%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://godl9211.github.io/posts/13-%E8%A7%A3%E6%9E%90%E5%99%A8/</guid>
+      <description>解析器 对请求的数据进行解析：是针对请求体进行解析的。表示服务器可以解析的数据格式的种类
+#如果是这样的格式发送的数据，在POST里面有值 Content-Type: application/url-encoding..... request.body request.POST #如果是发送的json的格式，在POST里面是没有值的，在body里面有值，可通过decode,然后loads取值 Content-Type: application/json..... request.body request.POST form-data 就是http请求中的multipart/form-data,它会将表单的数据处理为一条消息，以标签为单元，用分隔符分开。既可以上传键值对，也可以上传文件。当上传的字段是文件时，会有Content-Type来说明文件类型；content-disposition，用来说明字段的一些信息；
+由于有boundary隔离，所以multipart/form-data既可以上传文件，也可以上传键值对，它采用了键值对的方式，所以可以上传多个文件，在springmvc中可以使用MultipartHttpServletRequest接收通过api根据&amp;quot;name&amp;quot;获取不同的键值，也可以通过MulTipartFile数组接收多个文件。
+x-www-form-urlencoded
+就是application/x-www-from-urlencoded,会将表单内的数据转换为键值对，&amp;amp;分隔。 当form的action为get时，浏览器用x-www-form-urlencoded的编码方式，将表单数据编码为 (name1=value1&amp;amp;name2=value2…)，然后把这个字符串append到url后面，用?分隔，跳转 到这个新的url。 当form的action为post时，浏览器将form数据封装到http body中，然后发送到server。 这个格式不能提交文件。
+raw
+可以上传任意格式的文本，可以上传text、json、xml、html等
+binary
+相当于Content-Type:application/octet-stream,从字面意思得知，只可以上传二进制数据，通常用来上传文件，由于没有键值，所以，一次只能上传一个文件。
+multipart/form-data与x-www-form-urlencoded区别
+​ multipart/form-data：既可以上传文件等二进制数据，也可以上传表单键值对，只是最后会转化为一条信息；
+​ x-www-form-urlencoded：只能上传键值对，并且键值对都是间隔分开的。
+视图 from rest_framework.parsers import FormParser, JSONParser, FileUploadParser, MultiPartParser class ParserView(APIView): def post(self, request, *args, **kwargs): # print(&amp;#34;body:&amp;#34;, request.body.decode()) print(&amp;#34;content_type:&amp;#34;, request.content_type) # 获取请求的值，并使用对应的JSONParser进行处理 print(&amp;#34;data:&amp;#34;, request.data) # application/x-www-form-urlencoded 或 multipart/form-data时，request.POST中才有值 print(&amp;#34;POST:&amp;#34;, request.POST) print(&amp;#34;FILES:&amp;#34;, request.FILES) return HttpResponse(&amp;#39;响应&amp;#39;) 路由 path(&amp;#39;parse/&amp;#39;, views.ParserView.as_view(), name=&amp;#39;parse-view&amp;#39;), </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://godl9211.github.io/posts/14-%E8%A7%86%E5%9B%BE%E9%9B%86%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://godl9211.github.io/posts/14-%E8%A7%86%E5%9B%BE%E9%9B%86%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/</guid>
+      <description>视图集 我们在前面已经用了类视图，DRF给我了提供了更加抽象的封装，叫做ModelViewSet。
+视图 class GameView(ModelViewSet): queryset = Game.objects.all() serializer_class = GameSerializer 路由 game_list = views.GameView.as_view({ &amp;#39;get&amp;#39;: &amp;#39;list&amp;#39;, &amp;#39;post&amp;#39;: &amp;#39;create&amp;#39; }) game_detail = views.GameView.as_view({ &amp;#39;get&amp;#39;: &amp;#39;retrieve&amp;#39;, &amp;#39;put&amp;#39;: &amp;#39;update&amp;#39;, &amp;#39;patch&amp;#39;: &amp;#39;partial_update&amp;#39;, &amp;#39;delete&amp;#39;: &amp;#39;destroy&amp;#39; }) path(&amp;#39;games/&amp;#39;, game_list, name=&amp;#39;game-list&amp;#39;), # 获取或创建 path(&amp;#39;games/&amp;lt;int:pk&amp;gt;/&amp;#39;, game_detail, name=&amp;#39;game-detail&amp;#39;), # 查找、更新、删除 路由器 我们可以通过Router类自动帮我们生成路由。
+from rest_framework.routers import DefaultRouter # 创建路由器并注册我们的视图。 router = DefaultRouter() router.register(&amp;#39;games&amp;#39;, views.GameView) path(&amp;#39;&amp;#39;, include(router.urls)), 注意：去掉
+from rest_framework.urlpatterns import format_suffix_patterns urlpatterns = format_suffix_patterns(urlpatterns, allowed=[&amp;#39;json&amp;#39;, &amp;#39;api&amp;#39;]) </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://godl9211.github.io/posts/15-api%E6%96%87%E6%A1%A3/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://godl9211.github.io/posts/15-api%E6%96%87%E6%A1%A3/</guid>
+      <description>API文档 DRF给我提供了自动生成API文档的功能，大大省去了写开发文档的时间。
+pip install coreapi 路由 from rest_framework.documentation import include_docs_urls path(&amp;#39;docs/&amp;#39;, include_docs_urls(title=&amp;#39;测试平台接口文档&amp;#39;)) </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://godl9211.github.io/posts/16-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%82%E5%B8%B8/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://godl9211.github.io/posts/16-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%82%E5%B8%B8/</guid>
+      <description>自定义异常 目前我们返回的一些异常信息，长这个样子
+{ &amp;#34;detail&amp;#34;: &amp;#34;Authentication credentials were not provided.&amp;#34; } 这样结构，对于移动端程序员是极其不友好的，所以我们一般给对方返回这样的数据结构
+{ &amp;#34;code&amp;#34;: 401, &amp;#34;message&amp;#34;: &amp;#34;Authentication credentials were not provided.&amp;#34;, &amp;#34;data&amp;#34;: [] } 那我们就需要自己异常来捕获DRF里面的异常信息
+创建custom_exception.py文件
+from rest_framework.views import exception_handler def custom_exception_handler(exc, context): response = exception_handler(exc, context) if response is not None: response.data.clear() response.data[&amp;#39;code&amp;#39;] = response.status_code response.data[&amp;#39;data&amp;#39;] = [] if response.status_code == 404: try: response.data[&amp;#39;message&amp;#39;] = response.data.pop(&amp;#39;detail&amp;#39;) response.data[&amp;#39;message&amp;#39;] = &amp;#34;未找到&amp;#34; except KeyError: response.data[&amp;#39;message&amp;#39;] = &amp;#34;未找到&amp;#34; if response.status_code == 400: response.data[&amp;#39;message&amp;#39;] = &amp;#39;输入错误&amp;#39; elif response.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://godl9211.github.io/posts/17-%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%94%E5%9B%9E%E5%93%8D%E5%BA%94/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://godl9211.github.io/posts/17-%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%94%E5%9B%9E%E5%93%8D%E5%BA%94/</guid>
+      <description>自定义返回响应 目前我们返回的数据样式是这样
+{ &amp;#34;next&amp;#34;: &amp;#34;http://127.0.0.1:8000/api/v1/games/?cursor=cD0x&amp;#34;, &amp;#34;previous&amp;#34;: null, &amp;#34;results&amp;#34;: [ { &amp;#34;id&amp;#34;: 1, &amp;#34;name&amp;#34;: &amp;#34;老马&amp;#34;, &amp;#34;status&amp;#34;: 0 } ] } 或
+{ &amp;#34;id&amp;#34;: 1, &amp;#34;name&amp;#34;: &amp;#34;老马&amp;#34;, &amp;#34;status&amp;#34;: 0 } 还是那句话，返回这样格式的数据，对于移动端是不友好的，所以我们需要自定义返回消息，返回的结构如下
+{ &amp;#34;code&amp;#34;: 200, &amp;#34;message&amp;#34;: &amp;#34;success&amp;#34;, &amp;#34;data&amp;#34;: [ { &amp;#34;id&amp;#34;: 1, &amp;#34;name&amp;#34;: &amp;#34;老马&amp;#34;, &amp;#34;status&amp;#34;: 0 } ], &amp;#34;next&amp;#34;: &amp;#34;http://127.0.0.1:8000/api/v1/games/?cursor=cD0x&amp;#34;, &amp;#34;previous&amp;#34;: null } 或者
+{ &amp;#34;code&amp;#34;: 200, &amp;#34;message&amp;#34;: &amp;#34;success&amp;#34;, &amp;#34;data&amp;#34;: { &amp;#34;id&amp;#34;: 1, &amp;#34;name&amp;#34;: &amp;#34;老马&amp;#34;, &amp;#34;status&amp;#34;: 0 } } 自定义JSONResponse 创建一个custom_json_response.py文件
+from django.utils import six from rest_framework.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://godl9211.github.io/posts/18-%E8%BF%87%E6%BB%A4/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://godl9211.github.io/posts/18-%E8%BF%87%E6%BB%A4/</guid>
+      <description>过滤 一、利用get_queryset过滤 from .custom_model_view_set import CustomModelViewSet class GameView(CustomModelViewSet): queryset = Game.objects.all() serializer_class = GameSerializer def get_queryset(self): ordering = self.request.query_params.get(&amp;#39;ordering&amp;#39;) if not ordering: queryset = Game.objects.all() else: queryset = Game.objects.all().order_by(ordering) return queryset http://127.0.0.1:8000/api/v1/games/?ordering=-id 二、django-filter django-filter库包括一个DjangoFilterBackend类，它支持REST框架的高度可定制的字段过滤。
+安装 pip install django-filter 官网和github https://django-filter.readthedocs.io/en/master/guide/rest_framework.html https://github.com/carltongibson/django-filter 安装 INSTALLED_APPS = [ &amp;#34;&amp;#34;&amp;#34;&amp;#34;&amp;#34;&amp;#34; django_filters, ] 全局配置 &amp;#39;DEFAULT_FILTER_BACKENDS&amp;#39;: ( &amp;#39;django_filters.rest_framework.DjangoFilterBackend&amp;#39;, ... ), 视图 from .custom_model_view_set import CustomModelViewSet from rest_framework import filters from django_filters.rest_framework import DjangoFilterBackend class GameView(CustomModelViewSet): queryset = Game.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://godl9211.github.io/posts/19-%E6%90%9C%E7%B4%A2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://godl9211.github.io/posts/19-%E6%90%9C%E7%B4%A2/</guid>
+      <description>搜索 SearchFilter可以搜索我们设置的参数
+配置 from .custom_model_view_set import CustomModelViewSet from django_filters.rest_framework import DjangoFilterBackend from .custom_filter import GameFilter from rest_framework import filters class GameView(CustomModelViewSet): queryset = Game.objects.all() serializer_class = GameSerializer filter_backends = (DjangoFilterBackend, filters.SearchFilter) # 过滤 filter_fields = (&amp;#39;name&amp;#39;, &amp;#39;status&amp;#39;) filterset_class = GameFilter # 搜索 search_fields = (&amp;#34;name&amp;#34;, &amp;#34;status&amp;#34;) http://127.0.0.1:8000/api/v1/games/?search=天 </description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://godl9211.github.io/posts/20-%E6%8E%92%E5%BA%8F/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://godl9211.github.io/posts/20-%E6%8E%92%E5%BA%8F/</guid>
+      <description>排序 OrderingFilter类支持简单的查询参数控制结果排序
+配置 class GameView(CustomModelViewSet): queryset = Game.objects.all() serializer_class = GameSerializer filter_backends = (DjangoFilterBackend, filters.SearchFilter,filters.OrderingFilter) # 过滤 # filter_fields = (&amp;#39;name&amp;#39;, &amp;#39;status&amp;#39;) filterset_class = GameFilter # 搜索 search_fields = (&amp;#34;name&amp;#34;, &amp;#34;status&amp;#34;) #排序 #注意 filter_backends多了一个filters.OrderingFilter ordering_fields = [&amp;#39;status&amp;#39;, &amp;#34;id&amp;#34;, &amp;#34;name&amp;#34;] 降序 http://127.0.0.1:8000/api/v1/games/?ordering=-id # 根据id降序 升序 http://127.0.0.1:8000/api/v1/games/?ordering=status # 根据状态升序 </description>
+    </item>
+    
   </channel>
 </rss>

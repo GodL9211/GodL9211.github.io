@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <title> | My New Hugo Site</title>
+    <meta property="og:title" content=" - My New Hugo Site">
+    <meta property="og:type" content="article">
+        
+        
+    <meta name="Keywords" content="">
+    <meta name="description" content="">
+        
+    <meta name="author" content="">
+    <meta property="og:url" content="https://godl9211.github.io/posts/09-%E4%BD%BF%E7%94%A8jwt%E8%BF%9B%E8%A1%8C%E8%AE%A4%E8%AF%81/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+</head>
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://godl9211.github.io/">
+                        My New Hugo Site
+                    </a>
+                
+                
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://godl9211.github.io/">Home</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title"></h1>
+        </header>
+        
+
+
+        
+        
+        <div class="post-content">
+            <h3 id="django-restful提供的认证">Django RESTFUL提供的认证</h3>
+<ul>
+<li>BasicAuthentication：此身份验证方案使用<a href="https://tools.ietf.org/html/rfc2617">HTTP基本身份验证</a>，根据用户的用户名和密码进行签名。基本身份验证通常仅适用于测试。</li>
+<li>TokenAuthentication：    此身份验证方案使用基于令牌的简单HTTP身份验证方案。令牌认证适用于客户端 - 服务器设置，例如本机桌面和移动客户端。</li>
+<li>SessionAuthentication：　此身份验证方案使用Django的默认会话后端进行身份验证。会话身份验证适用于与您的网站在同一会话上下文中运行的AJAX客户端。</li>
+<li>RemoteUserAuthentication：此身份验证方案允许您将身份验证委派给Web服务器，该服务器设置<code>REMOTE_USER</code> 环境变量。</li>
+</ul>
+<h3 id="basicauthentication">BasicAuthentication</h3>
+<p>
+        <img class="mx-auto" alt="" src="https://tva1.sinaimg.cn/large/0082zybply1gbx7g8b508j31y20gkdjl.jpg" />   
+    </p>
+<p>Http Basic 是一种比较简单的身份认证方式。 在 Http header 中添加键值对 Authorization:  Basic xxx （xxx 是 username:passowrd base64 值）。而Base64 的解码是非常方便的，如果不使用 <a href="http://geek.csdn.net/news/detail/48765">Https</a> ，相当于是帐号密码直接暴露在请求中。</p>
+<pre tabindex="0"><code>GET /auth/basic/ HTTP/1.1
+Host: xxxxx
+Authorization: Basic em1rOjEyMzQ1Ng==
+</code></pre><h3 id="tokenauthentication">TokenAuthentication</h3>
+<ul>
+<li>配置</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># settings.py</span>
+</span></span><span style="display:flex;"><span>INSTALLED_APPS <span style="color:#f92672">=</span> (
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;rest_framework.authtoken&#39;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 全局配置</span>
+</span></span><span style="display:flex;"><span>REST_FRAMEWORK <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;DEFAULT_AUTHENTICATION_CLASSES&#39;</span>: (
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;rest_framework.authentication.BasicAuthentication&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;rest_framework.authentication.SessionAuthentication&#39;</span>,  
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;rest_framework.authentication.TokenAuthentication&#39;</span><span style="color:#960050;background-color:#1e0010">，</span>
+</span></span><span style="display:flex;"><span>    ),
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 局部配置</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework.authentication <span style="color:#f92672">import</span> SessionAuthentication
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework.authentication <span style="color:#f92672">import</span> BasicAuthentication
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework.authentication <span style="color:#f92672">import</span> TokenAuthentication
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">XXXX</span>(APIView):
+</span></span><span style="display:flex;"><span>			authentication_classes <span style="color:#f92672">=</span> [BasicAuthentication,TokenAuthentication,SessionAuthentication]
+</span></span></code></pre></div><ul>
+<li>路由</li>
+</ul>
+<pre tabindex="0"><code>from rest_framework.authtoken import views
+path(&#39;api-token-auth/&#39;, views.obtain_auth_token)
+</code></pre><ul>
+<li>传递方式</li>
+</ul>
+<pre tabindex="0"><code>封装到请求头中，已下面的格式
+Authorization: Token 401f7ac837da42b97f613d789819ff93537bee6a
+</code></pre><p>
+        <img class="mx-auto" alt="" src="https://tva1.sinaimg.cn/large/0082zybply1gbx7iztgvsj31hc0eojtf.jpg" />   
+    </p>
+<p>token值在分布式系统中会有问题产生，并且没有过期时间，一旦被窃取，任何人都可以使用</p>
+<h3 id="sessionauthentication">SessionAuthentication</h3>
+<p>
+        <img class="mx-auto" alt="" src="https://tva1.sinaimg.cn/large/0082zybply1gbx97sdo67j31bi0e4410.jpg" />   
+    </p>
+<h3 id="自定义验证">自定义验证</h3>
+<ul>
+<li>模型</li>
+</ul>
+<pre tabindex="0"><code>class User(models.Model):
+    username = models.CharField(max_length=32, unique=True)
+    password = models.CharField(max_length=64)
+
+
+class UserToken(models.Model):
+    user = models.OneToOneField(&#39;User&#39;, models.CASCADE)
+    token = models.CharField(max_length=64)
+</code></pre><ul>
+<li>视图</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework.views <span style="color:#f92672">import</span> APIView
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> .models <span style="color:#f92672">import</span> User, UserToken
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> hashlib
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> time
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.http <span style="color:#f92672">import</span> JsonResponse
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_md5</span>(user):
+</span></span><span style="display:flex;"><span>    ctime <span style="color:#f92672">=</span> str(time<span style="color:#f92672">.</span>time())
+</span></span><span style="display:flex;"><span>    m <span style="color:#f92672">=</span> hashlib<span style="color:#f92672">.</span>md5(bytes(user, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;utf-8&#39;</span>))
+</span></span><span style="display:flex;"><span>    m<span style="color:#f92672">.</span>update(bytes(ctime, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;utf-8&#39;</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> m<span style="color:#f92672">.</span>hexdigest()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AuthView</span>(APIView):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">post</span>(self, request):
+</span></span><span style="display:flex;"><span>        ret <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;code&#39;</span>: <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39;msg&#39;</span>: <span style="color:#66d9ef">None</span>, <span style="color:#e6db74">&#39;data&#39;</span>: {}}
+</span></span><span style="display:flex;"><span>        user <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>_request<span style="color:#f92672">.</span>POST<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;username&#39;</span>)
+</span></span><span style="display:flex;"><span>        pwd <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>_request<span style="color:#f92672">.</span>POST<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;password&#39;</span>)
+</span></span><span style="display:flex;"><span>        obj <span style="color:#f92672">=</span> User<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>filter(username<span style="color:#f92672">=</span>user, password<span style="color:#f92672">=</span>pwd)<span style="color:#f92672">.</span>first()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> obj:
+</span></span><span style="display:flex;"><span>            ret[<span style="color:#e6db74">&#39;code&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>            ret[<span style="color:#e6db74">&#39;msg&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;用户名或密码错误&#34;</span>
+</span></span><span style="display:flex;"><span>        token <span style="color:#f92672">=</span> get_md5(user)
+</span></span><span style="display:flex;"><span>        UserToken<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>update_or_create(user<span style="color:#f92672">=</span>obj, defaults<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#39;token&#39;</span>: token})
+</span></span><span style="display:flex;"><span>        ret[<span style="color:#e6db74">&#39;token&#39;</span>] <span style="color:#f92672">=</span> token
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> JsonResponse(ret)
+</span></span></code></pre></div><ul>
+<li>实现类</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework <span style="color:#f92672">import</span> exceptions
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework.authentication <span style="color:#f92672">import</span> BaseAuthentication
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Authtication</span>(BaseAuthentication):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">authenticate</span>(self, request):
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#39;&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      header key必须大写，前缀必须是&#34;HTTP&#34;,后面如果连接符是横线“-”，要改成下划线“_”。例如你的header的key为api_auth，那在Django中应该使用request.META.get(&#34;HTTP_API_AUTH&#34;)来获取请求头的数据。
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      &#39;&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>				token <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>META<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;HTTP_TOKEN&#39;</span>)  <span style="color:#75715e"># META 是请求头</span>
+</span></span><span style="display:flex;"><span>        obj <span style="color:#f92672">=</span> UserToken<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>filter(token<span style="color:#f92672">=</span>token)<span style="color:#f92672">.</span>first()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> obj:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">raise</span> exceptions<span style="color:#f92672">.</span>AuthenticationFailed(<span style="color:#e6db74">&#39;用户认证失败&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> (obj<span style="color:#f92672">.</span>user, obj)
+</span></span></code></pre></div><ul>
+<li>自定义权限</li>
+</ul>
+<pre tabindex="0"><code>
+from rest_framework.permissions import BasePermission
+
+
+class MyPermission(BasePermission):
+
+    def has_permission(self, request, view):
+        if not request.user:
+            return False
+
+        return True
+</code></pre><h3 id="jwt验证">JWT验证</h3>
+<p>使用django-rest-framework开发api并使用json web token进行身份验证,使用django-rest-framework-jwt这个库来帮助我们简单的使用jwt进行身份验证。</p>
+<h3 id="安装">安装</h3>
+<pre tabindex="0"><code>pip install djangorestframework-jwt
+</code></pre><h3 id="注册">注册</h3>
+<pre tabindex="0"><code>INSTALLED_APPS = [
+    &#39;&#39;&#39;&#39;&#39;&#39;
+    &#39;rest_framework&#39;,
+    &#39;rest_framework.authtoken&#39;,
+]
+</code></pre><h3 id="配置">配置</h3>
+<pre tabindex="0"><code>REST_FRAMEWORK = {
+&#39;DEFAULT_AUTHENTICATION_CLASSES&#39;: (
+        &#39;rest_framework_jwt.authentication.JSONWebTokenAuthentication&#39;,  # 配置验证方式为Token验证
+    ),
+}
+JWT_AUTH = {
+    &#39;JWT_EXPIRATION_DELTA&#39;: datetime.timedelta(days=7),  # Token 过期时间为一周
+    &#39;JWT_AUTH_HEADER_PREFIX&#39;: &#39;JWT&#39;,  # Token的头为：JWT adashkjdhaskjhd21312312
+    &#39;JWT_ALLOW_REFRESH&#39;: False,
+}
+</code></pre><h3 id="路由">路由</h3>
+<pre tabindex="0"><code>from rest_framework_jwt.views import obtain_jwt_token
+path(&#39;api-token-auth/&#39;, obtain_jwt_token),
+</code></pre><p>
+        <img class="mx-auto" alt="" src="https://tva1.sinaimg.cn/large/006tNbRwly1gavc172whoj31hq0ouae9.jpg" />   
+    </p>
+<p>默认的返回值仅有token，通过修改该视图的返回值可以完成我们的需求。在应用中新建一个utils.py 文件：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">jwt_response_payload_handler</span>(token, user<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, request<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;token&#39;</span>: token,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;id&#39;</span>: user<span style="color:#f92672">.</span>id,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;username&#39;</span>: user<span style="color:#f92672">.</span>username,
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><pre tabindex="0"><code>JWT_AUTH = {
+    &#39;JWT_EXPIRATION_DELTA&#39;: datetime.timedelta(days=7),  # Token 过期时间为一周
+    &#39;JWT_ALLOW_REFRESH&#39;: False,
+    &#39;JWT_AUTH_HEADER_PREFIX&#39;: &#39;JWT&#39;,  # Token的头为：JWT adashkjdhaskjhd21312312
+    &#39;JWT_RESPONSE_PAYLOAD_HANDLER&#39;: &#39;app06.utils.jwt_response_payload_handler&#39;,
+}
+</code></pre><p>
+        <img class="mx-auto" alt="" src="https://tva1.sinaimg.cn/large/006tNbRwly1gavc3tccz9j31hy0rmq7v.jpg" />   
+    </p>
+<p>我们可以将JWT保存在cookie中，也可以保存在浏览器的本地存储里，我们保存在浏览器本地存储中,下次使用的时候带上即可。</p>
+<h3 id="jwt的权限验证">jwt的权限验证</h3>
+<p>
+        <img class="mx-auto" alt="" src="https://tva1.sinaimg.cn/large/006tNbRwly1gavdf8n1nuj31i40u00xj.jpg" />   
+    </p>
+<pre tabindex="0"><code>from rest_framework_jwt.authentication import jwt_decode_handler
+class IsOwnerOrReadOnly(permissions.BasePermission):
+
+    def has_object_permission(self, request, view, obj):
+        token = request.META.get(&#39;HTTP_AUTHORIZATION&#39;)[5:]
+        token_user = jwt_decode_handler(token)
+        if token_user:
+            return obj.user.id == token_user.get(&#39;user_id&#39;)
+        return False
+</code></pre><h3 id="jwt优缺点">JWT优缺点</h3>
+<h4 id="优点">优点</h4>
+<ul>
+<li>无状态</li>
+<li>避免csrf</li>
+<li>适合移动端</li>
+</ul>
+<h4 id="缺点">缺点</h4>
+<ul>
+<li>注销登录后Token时效问题</li>
+</ul>
+
+        </div>
+
+        
+
+
+        
+
+
+        <div class="post-meta meta-tags">
+            
+            No tags
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    
+    
+
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2023 <a href="https://godl9211.github.io/">My New Hugo Site By </a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+<style type="text/css">
+div.highlight {
+    position: relative;
+    margin: 1em 0px;
+}
+
+.copy-code {
+    display: none;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(78, 78, 78, 0.8);
+    border-radius: var(--radius);
+    padding: 0 5px;
+    font: inherit;
+    user-select: none;
+    cursor: pointer;
+    border: 0;
+    --radius: 8px;
+}
+
+div.highlight:hover .copy-code,pre:hover .copy-code {
+    display: block;
+}
+
+</style>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='//www.google.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://godl9211.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">Latest articles</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/my-first-post/" title="My First Post" target="_blank">My First Post</a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/01-restful-api/" title="RESTful API" target="_blank">RESTful API</a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/00-%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/" title="前后端分离" target="_blank">前后端分离</a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/02-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/04-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AB%98%E7%BA%A7/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/05-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AA%8C%E8%AF%81/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/06-%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/07-%E7%B1%BB%E8%A7%86%E5%9B%BE/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/08-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%9D%83%E9%99%90/" title="" target="_blank"></a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>Categories</a></h3>
+<ul class="widget-list">
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>Tags</a></h3>
+<div class="tagcloud">
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">Meta</h3>
+        <ul class="widget-list">
+            <li><a href="https://godl9211.github.io/index.xml">RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

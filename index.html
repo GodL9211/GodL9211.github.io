@@ -87,8 +87,220 @@ from rest_framework.views import exception_handler def custom_exception_handler(
     
     
     
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://godl9211.github.io/posts/01-restful-api/" title="RESTful API" target="_blank">RESTful API</a>
+            </h1>
+        </header>
+        
+  <time datetime="2023-01-10T11:22:13Z" class="post-meta meta-date dt-published">
+    2023-01-10
+  </time>
 
 
+
+        <div class="post-content">
+            RESTful API设计规范 域名 应该尽量将API部署在专用域名之下
+https://api.example.com 如果确定API很简单，不会有进一步扩展，可以考虑放在主域名下。
+https://example.com/api/ 版本 应该将API的版本号放入URL
+http://www.example.com/app/1.0/apples http://www.example.com/app/1.1/apples http://www.example.com/app/2.0/apples 路径 对于一个简洁结构，你应该始终用名词。 此外，利用的HTTP方法可以分离网址中的资源名称的操作。
+GET /products ：将返回所有产品清单 POST /products ：将产品新建到集合 GET /products/4 ：将获取产品4 PATCH /products/4 将更新产品4（部分属性更新） PUT /products/4：将更新产品4 （全部属性更新） HTTP动词 请求方法 请求地址 后端操作 GET /students 获取所有学生 POST /students 增加学生 GET /students/1 获取编号为1的学生 PUT /students/1 更新编号为1的学生（全部属性） DELETE /students/1 删除编号为1的学生 PATCH /students/1 更新编号为1的学生（部分属性） 过滤信息 ?limit=10：指定返回记录的数量 ?offset=10：指定返回记录的开始位置。 ?page=2&amp;per_page=100：指定第几页，以及每页的记录数。 ?sortby=name&amp;order=asc：指定返回结果按照哪个属性排序，以及排序顺序。 ?animal_type_id=1：指定筛选条件 状态码 200 OK - [GET]：服务器成功返回用户请求的数据 201 CREATED - [POST/PUT/PATCH]：用户新建或修改数据成功。 202 Accepted - []：表示一个请求已经进入后台排队（异步任务） 204 NO CONTENT - [DELETE]：用户删除数据成功。 400 INVALID REQUEST - [POST/PUT/PATCH]：用户发出的请求有错误，服务器没有进行新建或修改数据的操作 401 Unauthorized - []：表示用户没有权限（令牌、用户名、密码错误）。 403 Forbidden - [] 表示用户得到授权（与401错误相对），但是访问是被禁止的。 404 NOT FOUND - []：用户发出的请求针对的是不存在的记录，服务器没有进行操作，该操作是幂等的。 406 Not Acceptable - [GET]：用户请求的格式不可得（比如用户请求JSON格式，但是只有XML格式）。 410 Gone -[GET]：用户请求的资源被永久删除，且不会再得到的。 422 Unprocesable entity - [POST/PUT/PATCH] 当创建一个对象时，发生一个验证错误。 500 INTERNAL SERVER ERROR - [*]：服务器发生错误，用户将无法判断发出的请求是否成功。 错误处理 { error:&#34;Invalid API key&#34; } 返回结果 GET /collection：返回资源对象的列表（数组） GET /collection/resource：返回单个资源对象 POST /collection：返回新生成的资源对象 PUT /collection/resource：返回完整的资源对象 PATCH /collection/resource：返回完整的资源对象 DELETE /collection/resource：返回一个空文档 ……
+        </div>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/01-restful-api/" target="_blank">Continue reading</a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://godl9211.github.io/posts/00-%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/" title="前后端分离" target="_blank">前后端分离</a>
+            </h1>
+        </header>
+        
+  <time datetime="2023-01-10T11:22:13Z" class="post-meta meta-date dt-published">
+    2023-01-10
+  </time>
+
+
+
+        <div class="post-content">
+            开发模式 在Web开发模式中，有两种开发模式
+前后端不分离 前后端分离 前后端分离优势 在前后端不分离模式中，前端页面看到的效果都是由后端控制，由后端渲染页面或重定向，也就是后端需要控制前端的展示，前端与后端的耦合度很高。
+这种应用模式比较适合纯网页应用，但是当后端对接App时，App可能并不需要后端返回一个HTML网页，而仅仅是数据本身，所以后端原本返回网页的接口不再适用于前端App应用，为了对接App后端还需再开发一套接口。
+在前后端分离的应用模式中，后端仅返回前端所需的数据，不再渲染HTML页面，不再控制前端的效果。至于前端用户看到什么效果，从后端请求的数据如何加载到前端中，都由前端自己决定，网页有网页的处理方式，App有App的处理方式，但无论哪种前端，所需的数据基本相同，后端仅需开发一套逻辑对外提供数据即可。
+在前后端分离的应用模式中 ，前端与后端的耦合度相对较低。
+在前后端分离的应用模式中，我们通常将后端开发的每个视图都称为一个接口，或者API，前端通过访问接口来对数据进行增删改查。
+为什么要有前后端分离 多端适应 前后端开发职责不清 模板到低是前端写还是后端写?如果前端写,前端就要懂后端模板语言 如果后端写,那么后端就要懂前段html,css,js甚至更多更多 开发效率问题,前后端相互等待 前端在写的时候,就希望后端全部写好自己再写 后端在写的时候,就希望前端全部写好自己再写 前端一直配合着后端,能力受限(搞来搞去写静态页面,天天给后台写模板) 后台开发语言和模板高度耦合,导致开发语言依赖(一旦用python开发,以后要换成java或者其他语言) 前后端分离缺点 前后端学习门槛增加(比如后台很多模板语法控制前端展示,但是分离以后,需要前端自己去实现,增加前端成本,对后台来说,后端要满足规范)
+数据依赖导致文档重要性增加
+文档是否详细 是否及时更新 修改要及时通知其他端 前端工作量加大
+SEO的难度增加(都是AJAX,像一些初级爬虫全部挡在外面,比如一些搜索引擎,这样你的排名就不靠前了)……
+        </div>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/00-%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/" target="_blank">Continue reading</a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://godl9211.github.io/posts/02-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" title="" target="_blank"></a>
+            </h1>
+        </header>
+        
+
+
+        <div class="post-content">
+            Django REST framework Django REST framework框架是一个用于构建Web API的强大而又灵活的工具. 通常简称为DRF框架 或 REST framework框架.
+特点 提供了定义序列化器serializer的方法,可以快速根据Django ORM或者其他库自动序列化/反序列化; 提供了丰富的类视图、Mixin扩展类、简化视图的编写; 丰富的定制层级: 函数视图、类视图、视图集合到自动生成API,满足各种需求; 多中身份认证和权限认证方式的支持; 内置了限流系统; 直观的API web界面; 可扩展性, 插件丰富 官方文档 https://www.django-rest-framework.org/ 源码地址 https://github.com/encode/django-rest-framework/tree/master 安装 pip install -i https://pypi.douban.com/simple djangorestframework==3.8.2 配置 INSTALLED_APPS = [ &#39;&#39;&#39;&#39;&#39;&#39; &#39;rest_framework&#39; ] 模型类 class Group(models.Model): name = models.CharField(verbose_name=&#39;名字&#39;, max_length=100) class Student(models.Model): name = models.CharField(verbose_name=&#39;名字&#39;, max_length=100) age = models.IntegerField(verbose_name=&#39;年龄&#39;) group = models.ForeignKey(to=Group, on_delete=models.CASCADE) 序列化 在应用下新建一个serializers.py文件，目的是序列化我们的模型类。
+from .models import Student,Group from rest_framework import serializers class StudentSerializer(serializers.……
+        </div>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/02-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" target="_blank">Continue reading</a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://godl9211.github.io/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/" title="" target="_blank"></a>
+            </h1>
+        </header>
+        
+
+
+        <div class="post-content">
+            模型类 创建模型类
+from django.db import models # Create your models here. class Article(models.Model): title = models.CharField(verbose_name=&#39;标题&#39;, max_length=100) vum = models.IntegerField(verbose_name=&#39;浏览量&#39;) content = models.TextField(verbose_name=&#39;内容&#39;) 序列化 创建序列化文件
+from rest_framework import serializers from .models import Article class ArticleSerializer(serializers.Serializer): id = serializers.IntegerField(read_only=True) vnum = serializers.IntegerField() content = serializers.CharField(max_length=1000) title = serializers.CharField(required=True, max_length=100) def create(self, validated_data): return Article.objects.create(**validated_data) def update(self, instance, validated_data): instance.title = validated_data.get(&#39;title&#39;, instance.title) instance.vnum = validated_data.get(&#39;vnum&#39;, instance.vnum) instance.content = validated_data.get(&#39;content&#39;, instance.content) instance.save() return instance 参数约束 read_only：True表示不允许用户自己上传，只能用于api的输出。 write_only: 与read_only对应 required: 顾名思义，就是这个字段是否必填。 allow_null/allow_blank：是否允许为NULL/空 。 error_messages：出错时，信息提示。 name = serializers.……
+        </div>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/" target="_blank">Continue reading</a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://godl9211.github.io/posts/04-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AB%98%E7%BA%A7/" title="" target="_blank"></a>
+            </h1>
+        </header>
+        
+
+
+        <div class="post-content">
+            模型类 from django.db import models # Create your models here. class Category(models.Model): name = models.CharField(verbose_name=&#39;名字&#39;, max_length=100) def __str__(self): return self.name class Article(models.Model): title = models.CharField(verbose_name=&#39;标题&#39;, max_length=100) vnum = models.IntegerField(verbose_name=&#39;浏览量&#39;) content = models.TextField(verbose_name=&#39;内容&#39;) category = models.ForeignKey(to=Category, on_delete=models.CASCADE, related_name=&#39;articles&#39;) # related_name 反向查找 def __str__(self): return self.title 路由 from django.contrib import admin from django.urls import path, include from . import views urlpatterns = [ path(&#39;articles/&#39;, views.article_list), # 获取或创建 path(&#39;articles/&lt;int:id&gt;/&#39;, views.article_detail), # 查找、更新、删除 ] 视图 from django.……
+        </div>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/04-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AB%98%E7%BA%A7/" target="_blank">Continue reading</a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://godl9211.github.io/posts/05-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AA%8C%E8%AF%81/" title="" target="_blank"></a>
+            </h1>
+        </header>
+        
+
+
+        <div class="post-content">
+            序列化验证 一般前后端分离的时候，我们都会校验前端的参数时候合法。如果我们ModelSerializer话，因为它本身已经帮我们写好create方法，所以我们基本不需要再写验证。但是一些特殊的我们就需要重写或者自己写验证方法。
+模型类 from django.db import models # Create your models here. class User(models.Model): genders = ( (1, &#39;男&#39;), (2, &#34;女&#34;) ) name = models.CharField(max_length=10, verbose_name=&#39;名字&#39;) phone = models.CharField(max_length=11, verbose_name=&#39;手机号&#39;) gender = models.IntegerField(choices=genders, verbose_name=&#39;性别&#39;) 视图 @csrf_exempt def user_list(request): if request.method == &#39;GET&#39;: users = User.objects.all() serializer = UserSerializer(users, many=True, context={&#39;request&#39;: request}) return JSONResponse(serializer.data) elif request.method == &#39;POST&#39;: data = JSONParser().parse(request) serializer = UserSerializer(data=data, context={&#39;request&#39;: request}) if serializer.is_valid(): serializer.save() return JSONResponse(serializer.data, status=201) return JSONResponse(serializer.……
+        </div>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/05-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AA%8C%E8%AF%81/" target="_blank">Continue reading</a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://godl9211.github.io/posts/06-%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94/" title="" target="_blank"></a>
+            </h1>
+        </header>
+        
+
+
+        <div class="post-content">
+            请求 REST里面有个HttpRequest特别相似的对象叫request，主要获取前端传递过来的数据，获取数据的方法就是request.data
+响应 REST里面有个HttpResponse特别相似的对象叫Response,主要用来给前端传递数据，传递数据的方法就是Response(data)
+状态码 REST里面的状态码比较人性化。每个状态都用意思去表示。比如
+HTTP_200_OK = 200 #OK HTTP_201_CREATED = 201 #创建成功 HTTP_403_FORBIDDEN = 403 # 权限拒绝 &#39;&#39;&#39; &#39;&#39;&#39; API视图 API视图主要为了咱们RESTFUL风格的API。主要用来包装request,response、现在api请求方法。
+基于函数视图的@api_view装饰器 基于类视图的APIView类 综合用法 from rest_framework.decorators import api_view from rest_framework.response import Response from rest_framework import status @api_view([&#39;GET&#39;, &#39;POST&#39;]) def user_list(request): if request.method == &#39;GET&#39;: users = User.objects.all() serializer = UserSerializer(users, many=True, context={&#39;request&#39;: request}) return Response(serializer.data) elif request.method == &#39;POST&#39;: serializer = UserSerializer(data=request.data, context={&#39;request&#39;: request}) if serializer.is_valid(): serializer.save() return Response(serializer.……
+        </div>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/06-%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94/" target="_blank">Continue reading</a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://godl9211.github.io/posts/07-%E7%B1%BB%E8%A7%86%E5%9B%BE/" title="" target="_blank"></a>
+            </h1>
+        </header>
+        
+
+
+        <div class="post-content">
+            类视图 使用类视图最大的好处就是可以创建复用的行为。我们在上一节，已经用了简单的类视图。
+mixins 我们常用的操作比如创建、更新、删除、查找。REST框架已经帮我们写好了，写的代码就在mixins这个类里面。
+所以只有我们自己的视图直接继承这个类，就完全可以拥有上面的所有功能。
+from rest_framework import mixins from rest_framework import generics class UserList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView): queryset = User.objects.all() serializer_class = UserSerializer def get(self, request, *args, **kwargs): return self.list(request, *args, **kwargs) def post(self, request, *args, **kwargs): return self.create(request, *args, **kwargs) class UserDetail(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView): queryset = User.objects.all() serializer_class = UserSerializer def get(self, request, *args, **kwargs): return self.retrieve(request, *args, **kwargs) def put(self, request, *args, **kwargs): return self.update(request, *args, **kwargs) def delete(self, request, *args, **kwargs): return self.……
+        </div>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/07-%E7%B1%BB%E8%A7%86%E5%9B%BE/" target="_blank">Continue reading</a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://godl9211.github.io/posts/08-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%9D%83%E9%99%90/" title="" target="_blank"></a>
+            </h1>
+        </header>
+        
+
+
+        <div class="post-content">
+            认证和权限 现在我们写的接口，会发现一个问题，就是任何人都可以创建数据，都可以修改数据。这样肯定是不行的，我们希望只有数据的创建者才能有权限修改数据。如果不是，只能有读取权限。
+模型类 我们设计一个模型类，让这个模型类与用户关联。
+from django.db import models # Create your models here. class Game(models.Model): name = models.CharField(verbose_name=&#39;游戏名字&#39;, max_length=10) desc = models.CharField(verbose_name=&#39;描述&#39;, max_length=20) user = models.ForeignKey(&#39;auth.User&#39;, on_delete=models.CASCADE) 序列化 from rest_framework import serializers from .models import Game class GameSerializer(serializers.ModelSerializer): class Meta: model = Game fields = &#39;__all__&#39; 视图 from .models import Game from rest_framework import generics from .serializers import GameSerializer from rest_framework import permissions from .permissions import IsOwnerOrReadOnly from rest_framework.authentication import BasicAuthentication class GameList(generics.……
+        </div>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/08-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%9D%83%E9%99%90/" target="_blank">Continue reading</a></p>
+    </article>
+    
+    
+    
+
+
+
+<ol class="page-navigator">
+    
+
+    
+    <li  class="current">
+        <a href="https://godl9211.github.io/">1</a>
+    </li>
+    
+    <li >
+        <a href="https://godl9211.github.io/page/2/">2</a>
+    </li>
+    
+    <li >
+        <a href="https://godl9211.github.io/page/3/">3</a>
+    </li>
+    
+
+    
+    <li class="next">
+        <a href="https://godl9211.github.io/page/2/">Next</a>
+    </li>
+    
+</ol>
 
 
 
@@ -140,6 +352,42 @@ from rest_framework.views import exception_handler def custom_exception_handler(
     
     <li>
         <a href="https://godl9211.github.io/posts/my-first-post/" title="My First Post" target="_blank">My First Post</a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/01-restful-api/" title="RESTful API" target="_blank">RESTful API</a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/00-%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/" title="前后端分离" target="_blank">前后端分离</a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/02-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/04-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AB%98%E7%BA%A7/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/05-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AA%8C%E8%AF%81/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/06-%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/07-%E7%B1%BB%E8%A7%86%E5%9B%BE/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/08-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%9D%83%E9%99%90/" title="" target="_blank"></a>
     </li>
     
 </ul>

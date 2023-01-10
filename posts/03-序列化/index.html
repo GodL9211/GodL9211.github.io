@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <title> | My New Hugo Site</title>
+    <meta property="og:title" content=" - My New Hugo Site">
+    <meta property="og:type" content="article">
+        
+        
+    <meta name="Keywords" content="">
+    <meta name="description" content="">
+        
+    <meta name="author" content="">
+    <meta property="og:url" content="https://godl9211.github.io/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+</head>
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://godl9211.github.io/">
+                        My New Hugo Site
+                    </a>
+                
+                
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://godl9211.github.io/">Home</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title"></h1>
+        </header>
+        
+
+
+        
+        
+        <div class="post-content">
+            <h3 id="模型类">模型类</h3>
+<p>创建模型类</p>
+<pre tabindex="0"><code>from django.db import models
+# Create your models here.
+class Article(models.Model):
+    title = models.CharField(verbose_name=&#39;标题&#39;, max_length=100)
+    vum = models.IntegerField(verbose_name=&#39;浏览量&#39;)
+    content = models.TextField(verbose_name=&#39;内容&#39;)
+</code></pre><h3 id="序列化">序列化</h3>
+<p>创建序列化文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework <span style="color:#f92672">import</span> serializers
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> .models <span style="color:#f92672">import</span> Article
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ArticleSerializer</span>(serializers<span style="color:#f92672">.</span>Serializer):
+</span></span><span style="display:flex;"><span>    id <span style="color:#f92672">=</span> serializers<span style="color:#f92672">.</span>IntegerField(read_only<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>    vnum <span style="color:#f92672">=</span> serializers<span style="color:#f92672">.</span>IntegerField()
+</span></span><span style="display:flex;"><span>    content <span style="color:#f92672">=</span> serializers<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">1000</span>)
+</span></span><span style="display:flex;"><span>    title <span style="color:#f92672">=</span> serializers<span style="color:#f92672">.</span>CharField(required<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create</span>(self, validated_data):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> Article<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>create(<span style="color:#f92672">**</span>validated_data)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">update</span>(self, instance, validated_data):
+</span></span><span style="display:flex;"><span>        instance<span style="color:#f92672">.</span>title <span style="color:#f92672">=</span> validated_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;title&#39;</span>, instance<span style="color:#f92672">.</span>title)
+</span></span><span style="display:flex;"><span>        instance<span style="color:#f92672">.</span>vnum <span style="color:#f92672">=</span> validated_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;vnum&#39;</span>, instance<span style="color:#f92672">.</span>vnum)
+</span></span><span style="display:flex;"><span>        instance<span style="color:#f92672">.</span>content <span style="color:#f92672">=</span> validated_data<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;content&#39;</span>, instance<span style="color:#f92672">.</span>content)
+</span></span><span style="display:flex;"><span>        instance<span style="color:#f92672">.</span>save()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> instance
+</span></span></code></pre></div><h3 id="参数约束">参数约束</h3>
+<pre tabindex="0"><code>read_only：True表示不允许用户自己上传，只能用于api的输出。
+</code></pre><pre tabindex="0"><code>write_only: 与read_only对应
+</code></pre><pre tabindex="0"><code>required: 顾名思义，就是这个字段是否必填。
+</code></pre><pre tabindex="0"><code>allow_null/allow_blank：是否允许为NULL/空 。
+</code></pre><pre tabindex="0"><code>error_messages：出错时，信息提示。
+name = serializers.CharField(required=True, min_length=6,
+                error_messages={
+                    &#39;min_length&#39;: &#39;名字不能小于6个字符&#39;,
+                    &#39;required&#39;: &#39;请填写名字&#39;})
+</code></pre><pre tabindex="0"><code>label: 字段显示设置，如 label=’验证码’
+</code></pre><pre tabindex="0"><code>help_text: 在指定字段增加一些提示文字，这两个字段作用于api页面比较有用
+</code></pre><pre tabindex="0"><code>style: 说明字段的类型，这样看可能比较抽象，看下面例子：
+# 在api页面，输入密码就会以*显示
+password = serializers.CharField(
+    style={&#39;input_type&#39;: &#39;password&#39;})
+# 会显示选项框
+color_channel = serializers.ChoiceField(
+    choices=[&#39;red&#39;, &#39;green&#39;, &#39;blue&#39;],
+    style={&#39;base_template&#39;: &#39;radio.html&#39;})
+</code></pre><pre tabindex="0"><code>validators:自定义验证逻辑
+</code></pre><h3 id="利用序列化生成json数据">利用序列化生成JSON数据</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework.renderers <span style="color:#f92672">import</span> JSONRenderer
+</span></span><span style="display:flex;"><span>art <span style="color:#f92672">=</span> Article<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>get(id<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>ser <span style="color:#f92672">=</span> ArticleSerializer(art)
+</span></span><span style="display:flex;"><span>json_data <span style="color:#f92672">=</span> JSONRenderer()<span style="color:#f92672">.</span>render(ser<span style="color:#f92672">.</span>data)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 多个对象序列化</span>
+</span></span><span style="display:flex;"><span>art <span style="color:#f92672">=</span> Article<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>all()
+</span></span><span style="display:flex;"><span>ser <span style="color:#f92672">=</span> ArticleSerializer(art,many<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)  <span style="color:#75715e">#  如果多个对象序列化 需要加many</span>
+</span></span><span style="display:flex;"><span>ser<span style="color:#f92672">.</span>data
+</span></span></code></pre></div><h3 id="利用反序列化生成模型对象">利用反序列化生成模型对象</h3>
+<pre tabindex="0"><code>python manage.py shell
+from app03.serializers import ArticleSerializer
+d = {&#34;title&#34;:&#34;这是一个测试标签&#34;,&#34;vnum&#34;:11,&#34;content&#34;:&#34;哈哈哈哈&#34;}
+ser = ArticleSerializers(data=d)
+ser.is_valid()# 验证数据是否正确
+ser.save()# 保存数据
+</code></pre><h3 id="modelserializer">ModelSerializer</h3>
+<p>ModelSerializers默认帮我们实现了创建和更新方法，简化了我们的操作，当然如果你想自己写，可以重写它。其余使用方法跟普通的序列化一样。</p>
+<pre tabindex="0"><code>class ArticleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Article
+        fields = (&#39;id&#39;, &#39;title&#39;, &#39;vnum&#39;, &#39;content&#39;)       三者取一
+       #exclude = () 表示不返回字段        三者取一
+       #fields = &#39;__all__&#39;: 表示所有字段       三者取一
+
+       #read_only_fields = () #设置只读字段 不接受用户修改
+</code></pre><h3 id="编写视图">编写视图</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.http <span style="color:#f92672">import</span> HttpResponse
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.views.decorators.csrf <span style="color:#f92672">import</span> csrf_exempt
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework.renderers <span style="color:#f92672">import</span> JSONRenderer
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework.parsers <span style="color:#f92672">import</span> JSONParser
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> .models <span style="color:#f92672">import</span> Article
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> .serializers <span style="color:#f92672">import</span> ArticleSerializer
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">JSONResponse</span>(HttpResponse):
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, data, <span style="color:#f92672">**</span>kwargs):
+</span></span><span style="display:flex;"><span>        content <span style="color:#f92672">=</span> JSONRenderer()<span style="color:#f92672">.</span>render(data)
+</span></span><span style="display:flex;"><span>        kwargs[<span style="color:#e6db74">&#39;content_type&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;application/json&#39;</span>
+</span></span><span style="display:flex;"><span>        super(JSONResponse, self)<span style="color:#f92672">.</span>__init__(content, <span style="color:#f92672">**</span>kwargs)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@csrf_exempt</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">article_list</span>(request):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;GET&#39;</span>:
+</span></span><span style="display:flex;"><span>        articles <span style="color:#f92672">=</span> Article<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>all()
+</span></span><span style="display:flex;"><span>        serializer <span style="color:#f92672">=</span> ArticleSerializer(articles, many<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> JSONResponse(serializer<span style="color:#f92672">.</span>data)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;POST&#39;</span>:
+</span></span><span style="display:flex;"><span>        data <span style="color:#f92672">=</span> JSONParser()<span style="color:#f92672">.</span>parse(request)
+</span></span><span style="display:flex;"><span>        serializer <span style="color:#f92672">=</span> ArticleSerializer(data<span style="color:#f92672">=</span>data)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> serializer<span style="color:#f92672">.</span>is_valid():
+</span></span><span style="display:flex;"><span>            serializer<span style="color:#f92672">.</span>save()
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> JSONResponse(serializer<span style="color:#f92672">.</span>data, status<span style="color:#f92672">=</span><span style="color:#ae81ff">201</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> JSONResponse(serializer<span style="color:#f92672">.</span>errors, status<span style="color:#f92672">=</span><span style="color:#ae81ff">400</span>)
+</span></span></code></pre></div><h3 id="编写路由">编写路由</h3>
+<pre tabindex="0"><code>from django.contrib import admin
+from django.urls import path, include
+from . import views
+
+urlpatterns = [
+    path(&#39;articles/&#39;, views.article_list),  # 获取或创建
+]
+</code></pre><h3 id="根级路由">根级路由</h3>
+<pre tabindex="0"><code>from django.contrib import admin
+from app import views
+
+urlpatterns = [
+    path(&#39;admin/&#39;, admin.site.urls),
+    path(&#39;app03/&#39;, include(&#39;app03.urls&#39;)),
+]
+</code></pre><h3 id="编写删除和更新">编写删除和更新</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@csrf_exempt</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">article_detail</span>(request, id):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        article <span style="color:#f92672">=</span> Article<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>get(id<span style="color:#f92672">=</span>id)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> Article<span style="color:#f92672">.</span>DoesNotExist:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> HttpResponse(status<span style="color:#f92672">=</span><span style="color:#ae81ff">404</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;GET&#39;</span>:
+</span></span><span style="display:flex;"><span>        serializer <span style="color:#f92672">=</span> ArticleSerializer(article)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> JSONResponse(serializer<span style="color:#f92672">.</span>data)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;PUT&#39;</span>:
+</span></span><span style="display:flex;"><span>        data <span style="color:#f92672">=</span> JSONParser()<span style="color:#f92672">.</span>parse(request)
+</span></span><span style="display:flex;"><span>        serializer <span style="color:#f92672">=</span> ArticleSerializer(article, data<span style="color:#f92672">=</span>data)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> serializer<span style="color:#f92672">.</span>is_valid():
+</span></span><span style="display:flex;"><span>            serializer<span style="color:#f92672">.</span>save()
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> JSONResponse(serializer<span style="color:#f92672">.</span>data)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> JSONResponse(serializer<span style="color:#f92672">.</span>errors, status<span style="color:#f92672">=</span><span style="color:#ae81ff">400</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;DELETE&#39;</span>:
+</span></span><span style="display:flex;"><span>        article<span style="color:#f92672">.</span>delete()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> HttpResponse(status<span style="color:#f92672">=</span><span style="color:#ae81ff">204</span>)
+</span></span></code></pre></div><h3 id="编写路由-1">编写路由</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.contrib <span style="color:#f92672">import</span> admin
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.urls <span style="color:#f92672">import</span> path, include
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> . <span style="color:#f92672">import</span> views
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>urlpatterns <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    path(<span style="color:#e6db74">&#39;articles/&#39;</span>, views<span style="color:#f92672">.</span>article_list),  <span style="color:#75715e"># 获取或创建</span>
+</span></span><span style="display:flex;"><span>    path(<span style="color:#e6db74">&#39;articles/&lt;int:id&gt;&#39;</span>, views<span style="color:#f92672">.</span>article_detail),  <span style="color:#75715e"># 查找、更新、删除</span>
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div>
+        </div>
+
+        
+
+
+        
+
+
+        <div class="post-meta meta-tags">
+            
+            No tags
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+    
+    
+
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2023 <a href="https://godl9211.github.io/">My New Hugo Site By </a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+<style type="text/css">
+div.highlight {
+    position: relative;
+    margin: 1em 0px;
+}
+
+.copy-code {
+    display: none;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(78, 78, 78, 0.8);
+    border-radius: var(--radius);
+    padding: 0 5px;
+    font: inherit;
+    user-select: none;
+    cursor: pointer;
+    border: 0;
+    --radius: 8px;
+}
+
+div.highlight:hover .copy-code,pre:hover .copy-code {
+    display: block;
+}
+
+</style>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='//www.google.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://godl9211.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">Latest articles</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/my-first-post/" title="My First Post" target="_blank">My First Post</a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/01-restful-api/" title="RESTful API" target="_blank">RESTful API</a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/00-%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/" title="前后端分离" target="_blank">前后端分离</a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/02-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/04-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AB%98%E7%BA%A7/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/05-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AA%8C%E8%AF%81/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/06-%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/07-%E7%B1%BB%E8%A7%86%E5%9B%BE/" title="" target="_blank"></a>
+    </li>
+    
+    <li>
+        <a href="https://godl9211.github.io/posts/08-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%9D%83%E9%99%90/" title="" target="_blank"></a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>Categories</a></h3>
+<ul class="widget-list">
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>Tags</a></h3>
+<div class="tagcloud">
+    
+</div>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">Meta</h3>
+        <ul class="widget-list">
+            <li><a href="https://godl9211.github.io/index.xml">RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
