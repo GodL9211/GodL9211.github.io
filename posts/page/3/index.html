@@ -1,27 +1,29 @@
 <!doctype html>
-<html lang="en-us">
+<html lang="zh-CN">
 <head>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
 
-    <title>Posts | My New Hugo Site</title>
-    <meta property="og:title" content="Posts - My New Hugo Site">
+    <title>Posts | 细水流深的博客</title>
+    <meta property="og:title" content="Posts - 细水流深的博客">
     <meta property="og:type" content="article">
         
         
-    <meta name="Keywords" content="">
+    <meta name="Keywords" content="golang,go语言,go语言笔记,细水流深,java,android,博客,项目管理,python,软件架构,公众号,小程序">
     <meta name="description" content="Posts">
         
-    <meta name="author" content="">
+    <meta name="author" content="细水流深">
     <meta property="og:url" content="https://godl9211.github.io/posts/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
-    <link rel="alternate" type="application/rss+xml" href="https://godl9211.github.io/posts/index.xml" title="My New Hugo Site" />
+    <link rel="alternate" type="application/rss+xml" href="https://godl9211.github.io/posts/index.xml" title="细水流深的博客" />
     <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
@@ -29,6 +31,10 @@
     
     
     
+    
+        <link rel="stylesheet" href='/css/douban.css'>
+    
+        <link rel="stylesheet" href='/css/other.css'>
     
 </head>
 
@@ -39,14 +45,20 @@
             <div class="site-name ">
                 
                     <a id="logo" href="https://godl9211.github.io/">
-                        My New Hugo Site
+                        细水流深的博客
                     </a>
                 
-                
+                <p class="description">专注于Android、Java、Go语言(golang)、移动互联网、项目管理、软件架构</p>
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
                     <a class="current" href="https://godl9211.github.io/">Home</a>
+                    
+                    <a  href="https://godl9211.github.io/tools/" title="工具">工具</a>
+                    
+                    <a  href="https://godl9211.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://godl9211.github.io/about/" title="关于">关于</a>
                     
                 </nav>
             </div>
@@ -66,37 +78,20 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://godl9211.github.io/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/" title="" target="_blank"></a>
+                <a href="https://godl9211.github.io/posts/00-%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/" title="前后端分离" target="_blank">前后端分离</a>
             </h1>
         </header>
         
+  <time datetime="2023-01-10T11:22:13Z" class="post-meta meta-date dt-published">
+    2023-01-10
+  </time>
 
-
-        <div class="post-content">
-            模型类 创建模型类
-from django.db import models # Create your models here. class Article(models.Model): title = models.CharField(verbose_name=&#39;标题&#39;, max_length=100) vum = models.IntegerField(verbose_name=&#39;浏览量&#39;) content = models.TextField(verbose_name=&#39;内容&#39;) 序列化 创建序列化文件
-from rest_framework import serializers from .models import Article class ArticleSerializer(serializers.Serializer): id = serializers.IntegerField(read_only=True) vnum = serializers.IntegerField() content = serializers.CharField(max_length=1000) title = serializers.CharField(required=True, max_length=100) def create(self, validated_data): return Article.objects.create(**validated_data) def update(self, instance, validated_data): instance.title = validated_data.get(&#39;title&#39;, instance.title) instance.vnum = validated_data.get(&#39;vnum&#39;, instance.vnum) instance.content = validated_data.get(&#39;content&#39;, instance.content) instance.save() return instance 参数约束 read_only：True表示不允许用户自己上传，只能用于api的输出。 write_only: 与read_only对应 required: 顾名思义，就是这个字段是否必填。 allow_null/allow_blank：是否允许为NULL/空 。 error_messages：出错时，信息提示。 name = serializers.……
-        </div>
-        <p class="readmore"><a href="https://godl9211.github.io/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/" target="_blank">Continue reading</a></p>
-    </article>
-    
-    
-    
-    <article class="post">
-        <header>
-            <h1 class="post-title">
-                <a href="https://godl9211.github.io/posts/02-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" title="" target="_blank"></a>
-            </h1>
-        </header>
-        
 
 
         <div class="post-content">
-            Django REST framework Django REST framework框架是一个用于构建Web API的强大而又灵活的工具. 通常简称为DRF框架 或 REST framework框架.
-特点 提供了定义序列化器serializer的方法,可以快速根据Django ORM或者其他库自动序列化/反序列化; 提供了丰富的类视图、Mixin扩展类、简化视图的编写; 丰富的定制层级: 函数视图、类视图、视图集合到自动生成API,满足各种需求; 多中身份认证和权限认证方式的支持; 内置了限流系统; 直观的API web界面; 可扩展性, 插件丰富 官方文档 https://www.django-rest-framework.org/ 源码地址 https://github.com/encode/django-rest-framework/tree/master 安装 pip install -i https://pypi.douban.com/simple djangorestframework==3.8.2 配置 INSTALLED_APPS = [ &#39;&#39;&#39;&#39;&#39;&#39; &#39;rest_framework&#39; ] 模型类 class Group(models.Model): name = models.CharField(verbose_name=&#39;名字&#39;, max_length=100) class Student(models.Model): name = models.CharField(verbose_name=&#39;名字&#39;, max_length=100) age = models.IntegerField(verbose_name=&#39;年龄&#39;) group = models.ForeignKey(to=Group, on_delete=models.CASCADE) 序列化 在应用下新建一个serializers.py文件，目的是序列化我们的模型类。
-from .models import Student,Group from rest_framework import serializers class StudentSerializer(serializers.……
+            开发模式 在Web开发模式中，有两种开发模式 前后端不分离 前后端分离 前后端分离优势 在前后端不分离模式中，前端页面看到的效果都是由后端控制，由后端……
         </div>
-        <p class="readmore"><a href="https://godl9211.github.io/posts/02-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" target="_blank">Continue reading</a></p>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/00-%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/" target="_blank">Continue reading</a></p>
     </article>
     
     
@@ -134,7 +129,7 @@ from .models import Student,Group from rest_framework import serializers class S
 
                     <footer id="footer">
     <div>
-        &copy; 2023 <a href="https://godl9211.github.io/">My New Hugo Site By </a>
+        &copy; 2023 <a href="https://godl9211.github.io/">细水流深的博客 By 细水流深</a>
         
     </div>
     <br />
@@ -157,14 +152,18 @@ from .models import Student,Group from rest_framework import serializers class S
 <script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
 
 
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
 
 
+
+
+    <script src='/js/douban.js'></script>
 
                 </div>
 
                 <div id="secondary">
     <section class="widget">
-        <form id="search" action='//www.google.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+        <form id="search" action='https://godl9211.github.io/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
       
       <input type="text" name="q" maxlength="20" placeholder="Search">
       <input type="hidden" name="sitesearch" value="https://godl9211.github.io/">
@@ -177,49 +176,80 @@ from .models import Student,Group from rest_framework import serializers class S
 <ul class="widget-list">
     
     <li>
-        <a href="https://godl9211.github.io/posts/my-first-post/" title="My First Post" target="_blank">My First Post</a>
+        <a href="https://godl9211.github.io/posts/20-%E6%8E%92%E5%BA%8F/" title="排序" target="_blank">排序</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/01-restful-api/" title="RESTful API" target="_blank">RESTful API</a>
+        <a href="https://godl9211.github.io/posts/19-%E6%90%9C%E7%B4%A2/" title="搜索" target="_blank">搜索</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/00-%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/" title="前后端分离" target="_blank">前后端分离</a>
+        <a href="https://godl9211.github.io/posts/18-%E8%BF%87%E6%BB%A4/" title="过滤" target="_blank">过滤</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/02-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/17-%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%94%E5%9B%9E%E5%93%8D%E5%BA%94/" title="自定义响应" target="_blank">自定义响应</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/16-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%82%E5%B8%B8/" title="自定义异常" target="_blank">自定义异常</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/04-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AB%98%E7%BA%A7/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/15-API%E6%96%87%E6%A1%A3/" title="API文档" target="_blank">API文档</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/05-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AA%8C%E8%AF%81/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/14-%E8%A7%86%E5%9B%BE%E9%9B%86%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/" title="视图集" target="_blank">视图集</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/06-%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/13-%E8%A7%A3%E6%9E%90%E5%99%A8/" title="解析器" target="_blank">解析器</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/07-%E7%B1%BB%E8%A7%86%E5%9B%BE/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/12-%E5%88%86%E9%A1%B5/" title="分页" target="_blank">分页</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/08-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%9D%83%E9%99%90/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/11-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" title="版本控制" target="_blank">版本控制</a>
     </li>
     
 </ul>
     </section>
 
     
+<section class="widget">
+    <h3 class="widget-title" style="color:red">Ads</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a href="https://www.aliyun.com/minisite/goods?userCode=jdg9oj97&amp;share_source=copy_link" title="【2019双12】ALL IN CLoud 低至1折" target="_blank" style="color:red">
+                
+                    <img src="https://img.alicdn.com/tfs/TB1_rYHo7P2gK0jSZPxXXacQpXa-690-388.jpg">
+                
+            </a>
+        </li>
+        
+        <li>
+            <a href="https://cloud.tencent.com/act/cps/redirect?redirect=1048&amp;cps_key=14ff722692ac784fa8c3301c8c28d924&amp;from=console" title="助力产业智慧升级，云服务器首年88元起，更有千元代金券礼包免费领！" target="_blank" style="color:red">
+                
+                    <img src="https://upload-dianshi-1255598498.file.myqcloud.com/345-7c71532bd4935fbdd9a67c1a71e577b1767b805c.200%E7%89%88%E6%9C%ACB.jpg">
+                
+            </a>
+        </li>
+        
+        <li>
+            <a href="https://www.aliyun.com/acts/limit-buy?userCode=jdg9oj97" title="【渠道专享低折扣】11月特惠 限时2折" target="_blank" style="color:red">
+                
+                    <img src="https://img.alicdn.com/tfs/TB1hblJl7Y2gK0jSZFgXXc5OFXa-750-400.jpg">
+                
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
 
     <section class="widget">
         <h3 class="widget-title"><a href='/categories/'>Categories</a></h3>
@@ -236,6 +266,21 @@ from .models import Student,Group from rest_framework import serializers class S
     </section>
 
     
+<section class="widget">
+    <h3 class="widget-title">Links</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.flysnow.org/" title="细水流深的博客">细水流深的博客</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="http://yuedu.baidu.com/ebook/14a722970740be1e640e9a3e" title="Android Gradle权威指南">Android Gradle权威指南</a>
+        </li>
+        
+    </ul>
+</section>
+
 
     <section class="widget">
         <h3 class="widget-title">Meta</h3>

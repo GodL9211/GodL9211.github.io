@@ -1,27 +1,29 @@
 <!doctype html>
-<html lang="en-us">
+<html lang="zh-CN">
 <head>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
 
-    <title>Posts | My New Hugo Site</title>
-    <meta property="og:title" content="Posts - My New Hugo Site">
+    <title>Posts | 细水流深的博客</title>
+    <meta property="og:title" content="Posts - 细水流深的博客">
     <meta property="og:type" content="article">
         
         
-    <meta name="Keywords" content="">
+    <meta name="Keywords" content="golang,go语言,go语言笔记,细水流深,java,android,博客,项目管理,python,软件架构,公众号,小程序">
     <meta name="description" content="Posts">
         
-    <meta name="author" content="">
+    <meta name="author" content="细水流深">
     <meta property="og:url" content="https://godl9211.github.io/posts/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
-    <link rel="alternate" type="application/rss+xml" href="https://godl9211.github.io/posts/index.xml" title="My New Hugo Site" />
+    <link rel="alternate" type="application/rss+xml" href="https://godl9211.github.io/posts/index.xml" title="细水流深的博客" />
     <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
@@ -29,6 +31,10 @@
     
     
     
+    
+        <link rel="stylesheet" href='/css/douban.css'>
+    
+        <link rel="stylesheet" href='/css/other.css'>
     
 </head>
 
@@ -39,14 +45,20 @@
             <div class="site-name ">
                 
                     <a id="logo" href="https://godl9211.github.io/">
-                        My New Hugo Site
+                        细水流深的博客
                     </a>
                 
-                
+                <p class="description">专注于Android、Java、Go语言(golang)、移动互联网、项目管理、软件架构</p>
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
                     <a class="current" href="https://godl9211.github.io/">Home</a>
+                    
+                    <a  href="https://godl9211.github.io/tools/" title="工具">工具</a>
+                    
+                    <a  href="https://godl9211.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://godl9211.github.io/about/" title="关于">关于</a>
                     
                 </nav>
             </div>
@@ -66,84 +78,18 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://godl9211.github.io/posts/13-%E8%A7%A3%E6%9E%90%E5%99%A8/" title="" target="_blank"></a>
+                <a href="https://godl9211.github.io/posts/10-%E9%99%90%E5%88%B6%E9%A2%91%E7%8E%87/" title="限制频率" target="_blank">限制频率</a>
             </h1>
         </header>
         
+  <time datetime="2023-01-11T03:25:13Z" class="post-meta meta-date dt-published">
+    2023-01-11
+  </time>
 
-
-        <div class="post-content">
-            解析器 对请求的数据进行解析：是针对请求体进行解析的。表示服务器可以解析的数据格式的种类
-#如果是这样的格式发送的数据，在POST里面有值 Content-Type: application/url-encoding..... request.body request.POST #如果是发送的json的格式，在POST里面是没有值的，在body里面有值，可通过decode,然后loads取值 Content-Type: application/json..... request.body request.POST form-data 就是http请求中的multipart/form-data,它会将表单的数据处理为一条消息，以标签为单元，用分隔符分开。既可以上传键值对，也可以上传文件。当上传的字段是文件时，会有Content-Type来说明文件类型；content-disposition，用来说明字段的一些信息；
-由于有boundary隔离，所以multipart/form-data既可以上传文件，也可以上传键值对，它采用了键值对的方式，所以可以上传多个文件，在springmvc中可以使用MultipartHttpServletRequest接收通过api根据&quot;name&quot;获取不同的键值，也可以通过MulTipartFile数组接收多个文件。
-x-www-form-urlencoded
-就是application/x-www-from-urlencoded,会将表单内的数据转换为键值对，&amp;分隔。 当form的action为get时，浏览器用x-www-form-urlencoded的编码方式，将表单数据编码为 (name1=value1&amp;name2=value2…)，然后把这个字符串append到url后面，用?分隔，跳转 到这个新的url。 当form的action为post时，浏览器将form数据封装到http body中，然后发送到server。 这个格式不能提交文件。
-raw
-可以上传任意格式的文本，可以上传text、json、xml、html等
-binary
-相当于Content-Type:application/octet-stream,从字面意思得知，只可以上传二进制数据，通常用来上传文件，由于没有键值，所以，一次只能上传一个文件。
-multipart/form-data与x-www-form-urlencoded区别
-​ multipart/form-data：既可以上传文件等二进制数据，也可以上传表单键值对，只是最后会转化为一条信息；
-​ x-www-form-urlencoded：只能上传键值对，并且键值对都是间隔分开的。
-视图 from rest_framework.parsers import FormParser, JSONParser, FileUploadParser, MultiPartParser class ParserView(APIView): def post(self, request, *args, **kwargs): # print(&#34;body:&#34;, request.body.decode()) print(&#34;content_type:&#34;, request.content_type) # 获取请求的值，并使用对应的JSONParser进行处理 print(&#34;data:&#34;, request.data) # application/x-www-form-urlencoded 或 multipart/form-data时，request.POST中才有值 print(&#34;POST:&#34;, request.POST) print(&#34;FILES:&#34;, request.FILES) return HttpResponse(&#39;响应&#39;) 路由 path(&#39;parse/&#39;, views.ParserView.as_view(), name=&#39;parse-view&#39;), ……
-        </div>
-        <p class="readmore"><a href="https://godl9211.github.io/posts/13-%E8%A7%A3%E6%9E%90%E5%99%A8/" target="_blank">Continue reading</a></p>
-    </article>
-    
-    
-    
-    <article class="post">
-        <header>
-            <h1 class="post-title">
-                <a href="https://godl9211.github.io/posts/12-%E5%88%86%E9%A1%B5/" title="" target="_blank"></a>
-            </h1>
-        </header>
-        
 
 
         <div class="post-content">
-            分页 当对于数据量大的时候，我们就需要采用分页操作。
-方式 普通分页，看第n页，每页显示m条数据； 切割分页，在n个位置，向后查看m条数据； 加密分页，这与普通分页方式相似，不过对url中的请求页码进行加密。 普通分页 新建一个自定义分页类mypagenumberpagination
-from rest_framework.pagination import PageNumberPagination class MyPageNumberPagination(PageNumberPagination): page_size = 2 max_page_size = 5 page_size_query_param = &#39;size&#39; page_query_param = &#39;page&#39; &#39;&#39;&#39; age_query_param：表示url中的页码参数 page_size_query_param：表示url中每页数量参数 page_size：表示每页的默认显示数量 max_page_size：表示每页最大显示数量，做限制使用，避免突然大量的查询数据，数据库崩溃 &#39;&#39;&#39; 切割分页 class MyPageNumberPagination(LimitOffsetPagination): default_limit = 2 limit_query_param = &#39;limit&#39; offset_query_param = &#39;offset&#39; max_limit = 5 &#39;&#39;&#39; default_limit：表示默认每页显示几条数据 limit_query_param：表示url中本页需要显示数量参数 offset_query_param：表示从数据库中的第几条数据开始显示参数 max_limit：表示每页最大显示数量，做限制使用，避免突然大量的查询数据，数据库崩溃 &#39;&#39;&#39; 加密分页 class MyPageNumberPagination(CursorPagination): cursor_query_param = &#39;cursor&#39; page_size = 1 ordering = &#39;id&#39; page_size_query_param = &#39;size&#39; max_page_size = 1 &#39;&#39;&#39; cursor_query_param：表示url中页码的参数 page_size_query_param：表示每页显示数据量的参数 max_page_size：表示每页最大显示数量，做限制使用，避免突然大量的查询数据，数据库崩溃 ordering：表示返回数据的排序方式 &#39;&#39;&#39; 配置文件 &#39;DEFAULT_PAGINATION_CLASS&#39;: &#39;app06.……
-        </div>
-        <p class="readmore"><a href="https://godl9211.github.io/posts/12-%E5%88%86%E9%A1%B5/" target="_blank">Continue reading</a></p>
-    </article>
-    
-    
-    
-    <article class="post">
-        <header>
-            <h1 class="post-title">
-                <a href="https://godl9211.github.io/posts/11-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" title="" target="_blank"></a>
-            </h1>
-        </header>
-        
-
-
-        <div class="post-content">
-            版本控制 API 版本控制允许我们在不同的客户端之间更改行为（同一个接口的不同版本会返回不同的数据）。 DRF提供了许多不同的版本控制方案。
-可能会有一些客户端因为某些原因不再维护了，但是我们后端的接口还要不断的更新迭代，这个时候通过版本控制返回不同的内容就是一种不错的解决方案。
-五种控制方案 编写视图 class VersionView(APIView): def get(self, request, *args, **kwargs): # 获取版本 print(request.version) # 获取版本管理的类 print(request.versioning_scheme) # 反向生成URL reverse_url = request.versioning_scheme.reverse(&#39;app06:version-view&#39;, request=request) print(reverse_url) return Response(&#39;测试版本&#39;) 编写路由 path(&#39;&lt;str:version&gt;/version/&#39;, views.VersionView.as_view(), name=&#39;version-view&#39;), 配置文件 # 版本 &#39;DEFAULT_VERSIONING_CLASS&#39;: &#39;rest_framework.versioning.URLPathVersioning&#39;, &#39;DEFAULT_VERSION&#39;: &#39;v1&#39;, # 默认的版本 &#39;ALLOWED_VERSIONS&#39;: [&#39;v1&#39;, &#39;v2&#39;], # 有效的版本 &#39;VERSION_PARAM&#39;: &#39;version&#39;, # 版本的参数名与URL conf中一致 #局部配置 versioning_class = &#34;注意不是列表&#34; ……
-        </div>
-        <p class="readmore"><a href="https://godl9211.github.io/posts/11-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" target="_blank">Continue reading</a></p>
-    </article>
-    
-    
-    
-    <article class="post">
-        <header>
-            <h1 class="post-title">
-                <a href="https://godl9211.github.io/posts/10-%E9%99%90%E5%88%B6%E9%A2%91%E7%8E%87/" title="" target="_blank"></a>
-            </h1>
-        </header>
-        
-
-
-        <div class="post-content">
-            限制频率 开放平台的API接口调用需要限制其频率，以节约服务器资源和避免恶意的频繁调用。
-内置频率类 在应用下新建一个mythrottle类。如下代码：
-from rest_framework.throttling import SimpleRateThrottle class VisitThrottle(SimpleRateThrottle): scope = &#34;未认证用户&#34; def get_cache_key(self, request, view): return self.get_ident(request) class UserThrottle(SimpleRateThrottle): scope = &#34;已认证用户&#34; def get_cache_key(self, request, view): return request.user 配置 对于未登录的用户根据IP来限制，对于已经登录的用户可以根据用户的唯一标识。
-&#39;DEFAULT_THROTTLE_CLASSES&#39;: [&#39;app06.mythrottle.UserThrottle&#39;, ], &#39;DEFAULT_THROTTLE_RATES&#39;: { &#39;未认证用户&#39;: &#39;3/m&#39;, &#39;已认证用户&#39;: &#39;10/m&#39;, }, ……
+            限制频率 开放平台的API接口调用需要限制其频率，以节约服务器资源和避免恶意的频繁调用。 内置频率类 在应用下新建一个mythrottle类。如下……
         </div>
         <p class="readmore"><a href="https://godl9211.github.io/posts/10-%E9%99%90%E5%88%B6%E9%A2%91%E7%8E%87/" target="_blank">Continue reading</a></p>
     </article>
@@ -153,15 +99,18 @@ from rest_framework.throttling import SimpleRateThrottle class VisitThrottle(Sim
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://godl9211.github.io/posts/09-%E4%BD%BF%E7%94%A8jwt%E8%BF%9B%E8%A1%8C%E8%AE%A4%E8%AF%81/" title="" target="_blank"></a>
+                <a href="https://godl9211.github.io/posts/09-%E4%BD%BF%E7%94%A8jwt%E8%BF%9B%E8%A1%8C%E8%AE%A4%E8%AF%81/" title="Django RESTFUL提供的认证" target="_blank">Django RESTFUL提供的认证</a>
             </h1>
         </header>
         
+  <time datetime="2023-01-11T03:24:43Z" class="post-meta meta-date dt-published">
+    2023-01-11
+  </time>
+
 
 
         <div class="post-content">
-            Django RESTFUL提供的认证 BasicAuthentication：此身份验证方案使用HTTP基本身份验证，根据用户的用户名和密码进行签名。基本身份验证通常仅适用于测试。 TokenAuthentication： 此身份验证方案使用基于令牌的简单HTTP身份验证方案。令牌认证适用于客户端 - 服务器设置，例如本机桌面和移动客户端。 SessionAuthentication：　此身份验证方案使用Django的默认会话后端进行身份验证。会话身份验证适用于与您的网站在同一会话上下文中运行的AJAX客户端。 RemoteUserAuthentication：此身份验证方案允许您将身份验证委派给Web服务器，该服务器设置REMOTE_USER 环境变量。 BasicAuthentication Http Basic 是一种比较简单的身份认证方式。 在 Http header 中添加键值对 Authorization: Basic xxx （xxx 是 username:passowrd base64 值）。而Base64 的解码是非常方便的，如果不使用 Https ，相当于是帐号密码直接暴露在请求中。
-GET /auth/basic/ HTTP/1.1 Host: xxxxx Authorization: Basic em1rOjEyMzQ1Ng== TokenAuthentication 配置 # settings.py INSTALLED_APPS = ( ... &#39;rest_framework.authtoken&#39; ) # 全局配置 REST_FRAMEWORK = { &#39;DEFAULT_AUTHENTICATION_CLASSES&#39;: ( &#39;rest_framework.authentication.BasicAuthentication&#39;, &#39;rest_framework.authentication.SessionAuthentication&#39;, &#39;rest_framework.authentication.TokenAuthentication&#39;， ), } # 局部配置 from rest_framework.authentication import SessionAuthentication from rest_framework.authentication import BasicAuthentication from rest_framework.……
+            Django RESTFUL提供的认证 BasicAuthentication：此身份验证方案使用HTTP基本身份验证，根据用户的用户名和密码进行签名。基……
         </div>
         <p class="readmore"><a href="https://godl9211.github.io/posts/09-%E4%BD%BF%E7%94%A8jwt%E8%BF%9B%E8%A1%8C%E8%AE%A4%E8%AF%81/" target="_blank">Continue reading</a></p>
     </article>
@@ -171,16 +120,18 @@ GET /auth/basic/ HTTP/1.1 Host: xxxxx Authorization: Basic em1rOjEyMzQ1Ng== Toke
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://godl9211.github.io/posts/08-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%9D%83%E9%99%90/" title="" target="_blank"></a>
+                <a href="https://godl9211.github.io/posts/08-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%9D%83%E9%99%90/" title="认证和权限" target="_blank">认证和权限</a>
             </h1>
         </header>
         
+  <time datetime="2023-01-11T03:24:33Z" class="post-meta meta-date dt-published">
+    2023-01-11
+  </time>
+
 
 
         <div class="post-content">
-            认证和权限 现在我们写的接口，会发现一个问题，就是任何人都可以创建数据，都可以修改数据。这样肯定是不行的，我们希望只有数据的创建者才能有权限修改数据。如果不是，只能有读取权限。
-模型类 我们设计一个模型类，让这个模型类与用户关联。
-from django.db import models # Create your models here. class Game(models.Model): name = models.CharField(verbose_name=&#39;游戏名字&#39;, max_length=10) desc = models.CharField(verbose_name=&#39;描述&#39;, max_length=20) user = models.ForeignKey(&#39;auth.User&#39;, on_delete=models.CASCADE) 序列化 from rest_framework import serializers from .models import Game class GameSerializer(serializers.ModelSerializer): class Meta: model = Game fields = &#39;__all__&#39; 视图 from .models import Game from rest_framework import generics from .serializers import GameSerializer from rest_framework import permissions from .permissions import IsOwnerOrReadOnly from rest_framework.authentication import BasicAuthentication class GameList(generics.……
+            认证和权限 现在我们写的接口，会发现一个问题，就是任何人都可以创建数据，都可以修改数据。这样肯定是不行的，我们希望只有数据的创建者才能有权限修……
         </div>
         <p class="readmore"><a href="https://godl9211.github.io/posts/08-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%9D%83%E9%99%90/" target="_blank">Continue reading</a></p>
     </article>
@@ -190,17 +141,18 @@ from django.db import models # Create your models here. class Game(models.Model)
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://godl9211.github.io/posts/07-%E7%B1%BB%E8%A7%86%E5%9B%BE/" title="" target="_blank"></a>
+                <a href="https://godl9211.github.io/posts/07-%E7%B1%BB%E8%A7%86%E5%9B%BE/" title="类视图" target="_blank">类视图</a>
             </h1>
         </header>
         
+  <time datetime="2023-01-11T03:24:13Z" class="post-meta meta-date dt-published">
+    2023-01-11
+  </time>
+
 
 
         <div class="post-content">
-            类视图 使用类视图最大的好处就是可以创建复用的行为。我们在上一节，已经用了简单的类视图。
-mixins 我们常用的操作比如创建、更新、删除、查找。REST框架已经帮我们写好了，写的代码就在mixins这个类里面。
-所以只有我们自己的视图直接继承这个类，就完全可以拥有上面的所有功能。
-from rest_framework import mixins from rest_framework import generics class UserList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView): queryset = User.objects.all() serializer_class = UserSerializer def get(self, request, *args, **kwargs): return self.list(request, *args, **kwargs) def post(self, request, *args, **kwargs): return self.create(request, *args, **kwargs) class UserDetail(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView): queryset = User.objects.all() serializer_class = UserSerializer def get(self, request, *args, **kwargs): return self.retrieve(request, *args, **kwargs) def put(self, request, *args, **kwargs): return self.update(request, *args, **kwargs) def delete(self, request, *args, **kwargs): return self.……
+            类视图 使用类视图最大的好处就是可以创建复用的行为。我们在上一节，已经用了简单的类视图。 mixins 我们常用的操作比如创建、更新、删除、查找。REST框……
         </div>
         <p class="readmore"><a href="https://godl9211.github.io/posts/07-%E7%B1%BB%E8%A7%86%E5%9B%BE/" target="_blank">Continue reading</a></p>
     </article>
@@ -210,18 +162,18 @@ from rest_framework import mixins from rest_framework import generics class User
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://godl9211.github.io/posts/06-%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94/" title="" target="_blank"></a>
+                <a href="https://godl9211.github.io/posts/06-%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94/" title="请求与响应" target="_blank">请求与响应</a>
             </h1>
         </header>
         
+  <time datetime="2023-01-11T03:23:33Z" class="post-meta meta-date dt-published">
+    2023-01-11
+  </time>
+
 
 
         <div class="post-content">
-            请求 REST里面有个HttpRequest特别相似的对象叫request，主要获取前端传递过来的数据，获取数据的方法就是request.data
-响应 REST里面有个HttpResponse特别相似的对象叫Response,主要用来给前端传递数据，传递数据的方法就是Response(data)
-状态码 REST里面的状态码比较人性化。每个状态都用意思去表示。比如
-HTTP_200_OK = 200 #OK HTTP_201_CREATED = 201 #创建成功 HTTP_403_FORBIDDEN = 403 # 权限拒绝 &#39;&#39;&#39; &#39;&#39;&#39; API视图 API视图主要为了咱们RESTFUL风格的API。主要用来包装request,response、现在api请求方法。
-基于函数视图的@api_view装饰器 基于类视图的APIView类 综合用法 from rest_framework.decorators import api_view from rest_framework.response import Response from rest_framework import status @api_view([&#39;GET&#39;, &#39;POST&#39;]) def user_list(request): if request.method == &#39;GET&#39;: users = User.objects.all() serializer = UserSerializer(users, many=True, context={&#39;request&#39;: request}) return Response(serializer.data) elif request.method == &#39;POST&#39;: serializer = UserSerializer(data=request.data, context={&#39;request&#39;: request}) if serializer.is_valid(): serializer.save() return Response(serializer.……
+            请求 REST里面有个HttpRequest特别相似的对象叫request，主要获取前端传递过来的数据，获取数据的方法就是request.da……
         </div>
         <p class="readmore"><a href="https://godl9211.github.io/posts/06-%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94/" target="_blank">Continue reading</a></p>
     </article>
@@ -231,15 +183,18 @@ HTTP_200_OK = 200 #OK HTTP_201_CREATED = 201 #创建成功 HTTP_403_FORBIDDEN = 
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://godl9211.github.io/posts/05-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AA%8C%E8%AF%81/" title="" target="_blank"></a>
+                <a href="https://godl9211.github.io/posts/05-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AA%8C%E8%AF%81/" title="序列化验证" target="_blank">序列化验证</a>
             </h1>
         </header>
         
+  <time datetime="2023-01-11T03:23:15Z" class="post-meta meta-date dt-published">
+    2023-01-11
+  </time>
+
 
 
         <div class="post-content">
-            序列化验证 一般前后端分离的时候，我们都会校验前端的参数时候合法。如果我们ModelSerializer话，因为它本身已经帮我们写好create方法，所以我们基本不需要再写验证。但是一些特殊的我们就需要重写或者自己写验证方法。
-模型类 from django.db import models # Create your models here. class User(models.Model): genders = ( (1, &#39;男&#39;), (2, &#34;女&#34;) ) name = models.CharField(max_length=10, verbose_name=&#39;名字&#39;) phone = models.CharField(max_length=11, verbose_name=&#39;手机号&#39;) gender = models.IntegerField(choices=genders, verbose_name=&#39;性别&#39;) 视图 @csrf_exempt def user_list(request): if request.method == &#39;GET&#39;: users = User.objects.all() serializer = UserSerializer(users, many=True, context={&#39;request&#39;: request}) return JSONResponse(serializer.data) elif request.method == &#39;POST&#39;: data = JSONParser().parse(request) serializer = UserSerializer(data=data, context={&#39;request&#39;: request}) if serializer.is_valid(): serializer.save() return JSONResponse(serializer.data, status=201) return JSONResponse(serializer.……
+            序列化验证 一般前后端分离的时候，我们都会校验前端的参数时候合法。如果我们ModelSerializer话，因为它本身已经帮我们写好creat……
         </div>
         <p class="readmore"><a href="https://godl9211.github.io/posts/05-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AA%8C%E8%AF%81/" target="_blank">Continue reading</a></p>
     </article>
@@ -249,16 +204,83 @@ HTTP_200_OK = 200 #OK HTTP_201_CREATED = 201 #创建成功 HTTP_403_FORBIDDEN = 
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://godl9211.github.io/posts/04-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AB%98%E7%BA%A7/" title="" target="_blank"></a>
+                <a href="https://godl9211.github.io/posts/04-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AB%98%E7%BA%A7/" title="序列化高级" target="_blank">序列化高级</a>
             </h1>
         </header>
         
+  <time datetime="2023-01-11T03:23:13Z" class="post-meta meta-date dt-published">
+    2023-01-11
+  </time>
+
 
 
         <div class="post-content">
-            模型类 from django.db import models # Create your models here. class Category(models.Model): name = models.CharField(verbose_name=&#39;名字&#39;, max_length=100) def __str__(self): return self.name class Article(models.Model): title = models.CharField(verbose_name=&#39;标题&#39;, max_length=100) vnum = models.IntegerField(verbose_name=&#39;浏览量&#39;) content = models.TextField(verbose_name=&#39;内容&#39;) category = models.ForeignKey(to=Category, on_delete=models.CASCADE, related_name=&#39;articles&#39;) # related_name 反向查找 def __str__(self): return self.title 路由 from django.contrib import admin from django.urls import path, include from . import views urlpatterns = [ path(&#39;articles/&#39;, views.article_list), # 获取或创建 path(&#39;articles/&lt;int:id&gt;/&#39;, views.article_detail), # 查找、更新、删除 ] 视图 from django.……
+            模型类 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 from django.db import models # Create your models here. class Category(models.Model): name = models.CharField(verbose_name=&#39……
         </div>
         <p class="readmore"><a href="https://godl9211.github.io/posts/04-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AB%98%E7%BA%A7/" target="_blank">Continue reading</a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://godl9211.github.io/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/" title="序列化" target="_blank">序列化</a>
+            </h1>
+        </header>
+        
+  <time datetime="2023-01-11T03:22:22Z" class="post-meta meta-date dt-published">
+    2023-01-11
+  </time>
+
+
+
+        <div class="post-content">
+            模型类 创建模型类 from django.db import models # Create your models here. class Article(models.Model): title = models.CharField(verbose_name=&#39;标题&#39;, max_length=100) vum = mod……
+        </div>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/" target="_blank">Continue reading</a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://godl9211.github.io/posts/02-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" title="Django REST framework" target="_blank">Django REST framework</a>
+            </h1>
+        </header>
+        
+  <time datetime="2023-01-11T03:22:19Z" class="post-meta meta-date dt-published">
+    2023-01-11
+  </time>
+
+
+
+        <div class="post-content">
+            Django REST framework Django REST framework框架是一个用于构建Web API的强大而又灵活的工具. 通常简称为DRF框架 或 REST framework框架. 特点 提供了定……
+        </div>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/02-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" target="_blank">Continue reading</a></p>
+    </article>
+    
+    
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://godl9211.github.io/posts/01-RESTful-API/" title="RESTful API" target="_blank">RESTful API</a>
+            </h1>
+        </header>
+        
+  <time datetime="2023-01-10T11:22:16Z" class="post-meta meta-date dt-published">
+    2023-01-10
+  </time>
+
+
+
+        <div class="post-content">
+            RESTful API设计规范 域名 应该尽量将API部署在专用域名之下 https://api.example.com 如果确定API很简单，不会有进一步扩展，可以考虑放在主域名下。 https://example.com/api/ 版本 应该将API的版……
+        </div>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/01-RESTful-API/" target="_blank">Continue reading</a></p>
     </article>
     
     
@@ -300,7 +322,7 @@ HTTP_200_OK = 200 #OK HTTP_201_CREATED = 201 #创建成功 HTTP_403_FORBIDDEN = 
 
                     <footer id="footer">
     <div>
-        &copy; 2023 <a href="https://godl9211.github.io/">My New Hugo Site By </a>
+        &copy; 2023 <a href="https://godl9211.github.io/">细水流深的博客 By 细水流深</a>
         
     </div>
     <br />
@@ -323,14 +345,18 @@ HTTP_200_OK = 200 #OK HTTP_201_CREATED = 201 #创建成功 HTTP_403_FORBIDDEN = 
 <script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
 
 
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
 
 
+
+
+    <script src='/js/douban.js'></script>
 
                 </div>
 
                 <div id="secondary">
     <section class="widget">
-        <form id="search" action='//www.google.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+        <form id="search" action='https://godl9211.github.io/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
       
       <input type="text" name="q" maxlength="20" placeholder="Search">
       <input type="hidden" name="sitesearch" value="https://godl9211.github.io/">
@@ -343,49 +369,80 @@ HTTP_200_OK = 200 #OK HTTP_201_CREATED = 201 #创建成功 HTTP_403_FORBIDDEN = 
 <ul class="widget-list">
     
     <li>
-        <a href="https://godl9211.github.io/posts/my-first-post/" title="My First Post" target="_blank">My First Post</a>
+        <a href="https://godl9211.github.io/posts/20-%E6%8E%92%E5%BA%8F/" title="排序" target="_blank">排序</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/01-restful-api/" title="RESTful API" target="_blank">RESTful API</a>
+        <a href="https://godl9211.github.io/posts/19-%E6%90%9C%E7%B4%A2/" title="搜索" target="_blank">搜索</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/00-%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/" title="前后端分离" target="_blank">前后端分离</a>
+        <a href="https://godl9211.github.io/posts/18-%E8%BF%87%E6%BB%A4/" title="过滤" target="_blank">过滤</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/02-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/17-%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%94%E5%9B%9E%E5%93%8D%E5%BA%94/" title="自定义响应" target="_blank">自定义响应</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/16-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%82%E5%B8%B8/" title="自定义异常" target="_blank">自定义异常</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/04-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AB%98%E7%BA%A7/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/15-API%E6%96%87%E6%A1%A3/" title="API文档" target="_blank">API文档</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/05-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AA%8C%E8%AF%81/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/14-%E8%A7%86%E5%9B%BE%E9%9B%86%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/" title="视图集" target="_blank">视图集</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/06-%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/13-%E8%A7%A3%E6%9E%90%E5%99%A8/" title="解析器" target="_blank">解析器</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/07-%E7%B1%BB%E8%A7%86%E5%9B%BE/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/12-%E5%88%86%E9%A1%B5/" title="分页" target="_blank">分页</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/08-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%9D%83%E9%99%90/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/11-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" title="版本控制" target="_blank">版本控制</a>
     </li>
     
 </ul>
     </section>
 
     
+<section class="widget">
+    <h3 class="widget-title" style="color:red">Ads</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a href="https://www.aliyun.com/minisite/goods?userCode=jdg9oj97&amp;share_source=copy_link" title="【2019双12】ALL IN CLoud 低至1折" target="_blank" style="color:red">
+                
+                    <img src="https://img.alicdn.com/tfs/TB1_rYHo7P2gK0jSZPxXXacQpXa-690-388.jpg">
+                
+            </a>
+        </li>
+        
+        <li>
+            <a href="https://cloud.tencent.com/act/cps/redirect?redirect=1048&amp;cps_key=14ff722692ac784fa8c3301c8c28d924&amp;from=console" title="助力产业智慧升级，云服务器首年88元起，更有千元代金券礼包免费领！" target="_blank" style="color:red">
+                
+                    <img src="https://upload-dianshi-1255598498.file.myqcloud.com/345-7c71532bd4935fbdd9a67c1a71e577b1767b805c.200%E7%89%88%E6%9C%ACB.jpg">
+                
+            </a>
+        </li>
+        
+        <li>
+            <a href="https://www.aliyun.com/acts/limit-buy?userCode=jdg9oj97" title="【渠道专享低折扣】11月特惠 限时2折" target="_blank" style="color:red">
+                
+                    <img src="https://img.alicdn.com/tfs/TB1hblJl7Y2gK0jSZFgXXc5OFXa-750-400.jpg">
+                
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
 
     <section class="widget">
         <h3 class="widget-title"><a href='/categories/'>Categories</a></h3>
@@ -402,6 +459,21 @@ HTTP_200_OK = 200 #OK HTTP_201_CREATED = 201 #创建成功 HTTP_403_FORBIDDEN = 
     </section>
 
     
+<section class="widget">
+    <h3 class="widget-title">Links</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.flysnow.org/" title="细水流深的博客">细水流深的博客</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="http://yuedu.baidu.com/ebook/14a722970740be1e640e9a3e" title="Android Gradle权威指南">Android Gradle权威指南</a>
+        </li>
+        
+    </ul>
+</section>
+
 
     <section class="widget">
         <h3 class="widget-title">Meta</h3>

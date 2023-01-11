@@ -1,21 +1,27 @@
 <!doctype html>
-<html lang="en-us">
+<html lang="zh-CN">
 <head>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
 
-    <title> | My New Hugo Site</title>
-    <meta property="og:title" content=" - My New Hugo Site">
+    <title>认证和权限 | 细水流深的博客</title>
+    <meta property="og:title" content="认证和权限 - 细水流深的博客">
     <meta property="og:type" content="article">
         
+    <meta property="article:published_time" content='2023-01-11T11:24:33&#43;08:00'>
         
-    <meta name="Keywords" content="">
-    <meta name="description" content="">
         
-    <meta name="author" content="">
+    <meta property="article:modified_time" content='2023-01-11T11:24:33&#43;08:00'>
+        
+    <meta name="Keywords" content="golang,go语言,go语言笔记,细水流深,java,android,博客,项目管理,python,软件架构,公众号,小程序">
+    <meta name="description" content="认证和权限">
+        
+    <meta name="author" content="细水流深">
     <meta property="og:url" content="https://godl9211.github.io/posts/08-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%9D%83%E9%99%90/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
@@ -29,6 +35,10 @@
     
     
     
+        <link rel="stylesheet" href='/css/douban.css'>
+    
+        <link rel="stylesheet" href='/css/other.css'>
+    
 </head>
 
 <body>
@@ -38,14 +48,20 @@
             <div class="site-name ">
                 
                     <a id="logo" href="https://godl9211.github.io/">
-                        My New Hugo Site
+                        细水流深的博客
                     </a>
                 
-                
+                <p class="description">专注于Android、Java、Go语言(golang)、移动互联网、项目管理、软件架构</p>
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
                     <a class="current" href="https://godl9211.github.io/">Home</a>
+                    
+                    <a  href="https://godl9211.github.io/tools/" title="工具">工具</a>
+                    
+                    <a  href="https://godl9211.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://godl9211.github.io/about/" title="关于">关于</a>
                     
                 </nav>
             </div>
@@ -60,14 +76,134 @@
                 <div class="col-8" id="main">
                     
 <div class="res-cons">
-    
+    <style type="text/css">
+    .post-toc {
+        position: fixed;
+        width: 200px;
+        margin-left: -210px;
+        padding: 5px 10px;
+        font-family: Athelas, STHeiti, Microsoft Yahei, serif;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.98);
+        background-clip: padding-box;
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        word-wrap: break-word;
+        white-space: nowrap;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: 999;
+        cursor: pointer;
+        max-height: 70%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .post-toc .post-toc-title {
+        width: 100%;
+        margin: 0 auto;
+        font-size: 20px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .post-toc .post-toc-content {
+        font-size: 15px;
+    }
+
+    .post-toc .post-toc-content>nav>ul {
+        margin: 10px 0;
+    }
+
+    .post-toc .post-toc-content ul {
+        padding-left: 20px;
+        list-style: square;
+        margin: 0.5em;
+        line-height: 1.8em;
+    }
+
+    .post-toc .post-toc-content ul ul {
+        padding-left: 15px;
+        display: none;
+    }
+
+    @media print,
+    screen and (max-width:1057px) {
+        .post-toc {
+            display: none;
+        }
+    }
+</style>
+<div class="post-toc" style="position: absolute; top: 188px;">
+    <h2 class="post-toc-title">Table of Contents</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#认证和权限">认证和权限</a></li>
+        <li><a href="#模型类">模型类</a></li>
+        <li><a href="#序列化">序列化</a></li>
+        <li><a href="#视图">视图</a></li>
+        <li><a href="#路由">路由</a></li>
+        <li><a href="#权限">权限</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postToc = $(".post-toc");
+        if (postToc.length) {
+            var leftPos = $("#main").offset().left;
+            if (leftPos < 220) {
+                postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+            }
+
+            var t = postToc.offset().top - 20,
+                a = {
+                    start: {
+                        position: "absolute",
+                        top: t
+                    },
+                    process: {
+                        position: "fixed",
+                        top: 20
+                    },
+                };
+            $(window).scroll(function () {
+                var e = $(window).scrollTop();
+                e < t ? postToc.css(a.start) : postToc.css(a.process)
+            })
+        }
+
+        if ($("#TableOfContents").children().length < 1) {
+            $(".post-toc").remove();
+        }
+    })
+</script>
     <article class="post">
         <header>
-            <h1 class="post-title"></h1>
+            <h1 class="post-title">认证和权限</h1>
         </header>
         
+  <time datetime="2023-01-11T03:24:33Z" class="post-meta meta-date dt-published">
+    2023-01-11
+  </time>
 
 
+
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">&nbsp;|
+                <span id="busuanzi_value_page_pv"></span> <span>reads</span>
+            </span>
+        </div>
         
         
         <div class="post-content">
@@ -75,55 +211,124 @@
 <p>现在我们写的接口，会发现一个问题，就是任何人都可以创建数据，都可以修改数据。这样肯定是不行的，我们希望只有数据的创建者才能有权限修改数据。如果不是，只能有读取权限。</p>
 <h3 id="模型类">模型类</h3>
 <p>我们设计一个模型类，让这个模型类与用户关联。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.db <span style="color:#f92672">import</span> models
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">django.db</span> <span style="color:#000;font-weight:bold">import</span> models
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Create your models here.</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Game</span>(models<span style="color:#f92672">.</span>Model):
-</span></span><span style="display:flex;"><span>    name <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>CharField(verbose_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;游戏名字&#39;</span>, max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
-</span></span><span style="display:flex;"><span>    desc <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>CharField(verbose_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;描述&#39;</span>, max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">20</span>)
-</span></span><span style="display:flex;"><span>    user <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>ForeignKey(<span style="color:#e6db74">&#39;auth.User&#39;</span>, on_delete<span style="color:#f92672">=</span>models<span style="color:#f92672">.</span>CASCADE)
-</span></span></code></pre></div><h3 id="序列化">序列化</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework <span style="color:#f92672">import</span> serializers
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> .models <span style="color:#f92672">import</span> Game
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Create your models here.</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Game</span>(models<span style="color:#000;font-weight:bold">.</span>Model):
+</span></span><span style="display:flex;"><span>    name <span style="color:#000;font-weight:bold">=</span> models<span style="color:#000;font-weight:bold">.</span>CharField(verbose_name<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;游戏名字&#39;</span>, max_length<span style="color:#000;font-weight:bold">=</span><span style="color:#099">10</span>)
+</span></span><span style="display:flex;"><span>    desc <span style="color:#000;font-weight:bold">=</span> models<span style="color:#000;font-weight:bold">.</span>CharField(verbose_name<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;描述&#39;</span>, max_length<span style="color:#000;font-weight:bold">=</span><span style="color:#099">20</span>)
+</span></span><span style="display:flex;"><span>    user <span style="color:#000;font-weight:bold">=</span> models<span style="color:#000;font-weight:bold">.</span>ForeignKey(<span style="color:#d14">&#39;auth.User&#39;</span>, on_delete<span style="color:#000;font-weight:bold">=</span>models<span style="color:#000;font-weight:bold">.</span>CASCADE)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="序列化">序列化</h3>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">rest_framework</span> <span style="color:#000;font-weight:bold">import</span> serializers
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">.models</span> <span style="color:#000;font-weight:bold">import</span> Game
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GameSerializer</span>(serializers<span style="color:#f92672">.</span>ModelSerializer):
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Meta</span>:
-</span></span><span style="display:flex;"><span>        model <span style="color:#f92672">=</span> Game
-</span></span><span style="display:flex;"><span>        fields <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;__all__&#39;</span>
-</span></span></code></pre></div><h3 id="视图">视图</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> .models <span style="color:#f92672">import</span> Game
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework <span style="color:#f92672">import</span> generics
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> .serializers <span style="color:#f92672">import</span> GameSerializer
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework <span style="color:#f92672">import</span> permissions
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> .permissions <span style="color:#f92672">import</span> IsOwnerOrReadOnly
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework.authentication <span style="color:#f92672">import</span> BasicAuthentication
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">GameSerializer</span>(serializers<span style="color:#000;font-weight:bold">.</span>ModelSerializer):
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">Meta</span>:
+</span></span><span style="display:flex;"><span>        model <span style="color:#000;font-weight:bold">=</span> Game
+</span></span><span style="display:flex;"><span>        fields <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;__all__&#39;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="视图">视图</h3>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">.models</span> <span style="color:#000;font-weight:bold">import</span> Game
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">rest_framework</span> <span style="color:#000;font-weight:bold">import</span> generics
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">.serializers</span> <span style="color:#000;font-weight:bold">import</span> GameSerializer
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">rest_framework</span> <span style="color:#000;font-weight:bold">import</span> permissions
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">.permissions</span> <span style="color:#000;font-weight:bold">import</span> IsOwnerOrReadOnly
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">rest_framework.authentication</span> <span style="color:#000;font-weight:bold">import</span> BasicAuthentication
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GameList</span>(generics<span style="color:#f92672">.</span>ListCreateAPIView):
-</span></span><span style="display:flex;"><span>    queryset <span style="color:#f92672">=</span> Game<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>all()
-</span></span><span style="display:flex;"><span>    serializer_class <span style="color:#f92672">=</span> GameSerializer
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">GameList</span>(generics<span style="color:#000;font-weight:bold">.</span>ListCreateAPIView):
+</span></span><span style="display:flex;"><span>    queryset <span style="color:#000;font-weight:bold">=</span> Game<span style="color:#000;font-weight:bold">.</span>objects<span style="color:#000;font-weight:bold">.</span>all()
+</span></span><span style="display:flex;"><span>    serializer_class <span style="color:#000;font-weight:bold">=</span> GameSerializer
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 重写 创建的时候提供当前登录的用户</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">perform_create</span>(self, serializer):
-</span></span><span style="display:flex;"><span>        serializer<span style="color:#f92672">.</span>save(user<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>user)
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic"># 重写 创建的时候提供当前登录的用户</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">perform_create</span>(<span style="color:#999">self</span>, serializer):
+</span></span><span style="display:flex;"><span>        serializer<span style="color:#000;font-weight:bold">.</span>save(user<span style="color:#000;font-weight:bold">=</span><span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>request<span style="color:#000;font-weight:bold">.</span>user)
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GameDetail</span>(generics<span style="color:#f92672">.</span>RetrieveUpdateDestroyAPIView):
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">GameDetail</span>(generics<span style="color:#000;font-weight:bold">.</span>RetrieveUpdateDestroyAPIView):
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    queryset <span style="color:#f92672">=</span> Game<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>all()
-</span></span><span style="display:flex;"><span>    serializer_class <span style="color:#f92672">=</span> GameSerializer
-</span></span></code></pre></div><h3 id="路由">路由</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.contrib <span style="color:#f92672">import</span> admin
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.urls <span style="color:#f92672">import</span> path, include
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> . <span style="color:#f92672">import</span> views
+</span></span><span style="display:flex;"><span>    queryset <span style="color:#000;font-weight:bold">=</span> Game<span style="color:#000;font-weight:bold">.</span>objects<span style="color:#000;font-weight:bold">.</span>all()
+</span></span><span style="display:flex;"><span>    serializer_class <span style="color:#000;font-weight:bold">=</span> GameSerializer
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="路由">路由</h3>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">django.contrib</span> <span style="color:#000;font-weight:bold">import</span> admin
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">django.urls</span> <span style="color:#000;font-weight:bold">import</span> path, include
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">.</span> <span style="color:#000;font-weight:bold">import</span> views
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>urlpatterns <span style="color:#f92672">=</span> [
-</span></span><span style="display:flex;"><span>    path(<span style="color:#e6db74">&#39;games/&#39;</span>, views<span style="color:#f92672">.</span>GameList<span style="color:#f92672">.</span>as_view(), name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;game-list&#39;</span>),  <span style="color:#75715e"># 获取或创建</span>
-</span></span><span style="display:flex;"><span>    path(<span style="color:#e6db74">&#39;games/&lt;int:pk&gt;/&#39;</span>, views<span style="color:#f92672">.</span>GameDetail<span style="color:#f92672">.</span>as_view(), name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;game-detail&#39;</span>),  <span style="color:#75715e"># 查找、更新、删除</span>
+</span></span><span style="display:flex;"><span>urlpatterns <span style="color:#000;font-weight:bold">=</span> [
+</span></span><span style="display:flex;"><span>    path(<span style="color:#d14">&#39;games/&#39;</span>, views<span style="color:#000;font-weight:bold">.</span>GameList<span style="color:#000;font-weight:bold">.</span>as_view(), name<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;game-list&#39;</span>),  <span style="color:#998;font-style:italic"># 获取或创建</span>
+</span></span><span style="display:flex;"><span>    path(<span style="color:#d14">&#39;games/&lt;int:pk&gt;/&#39;</span>, views<span style="color:#000;font-weight:bold">.</span>GameDetail<span style="color:#000;font-weight:bold">.</span>as_view(), name<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;game-detail&#39;</span>),  <span style="color:#998;font-style:italic"># 查找、更新、删除</span>
 </span></span><span style="display:flex;"><span>]
-</span></span></code></pre></div><p>我们创建两个管理员,分别是xiaoyuan和xiaoyuan1。我们可以用PostMan进行测试。</p>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>我们创建两个管理员,分别是xiaoyuan和xiaoyuan1。我们可以用PostMan进行测试。</p>
 <p>
         <img class="mx-auto" alt="" src="https://tva1.sinaimg.cn/large/006tNbRwly1gava61bp2fj31hw0qu439.jpg" />   
     </p>
@@ -134,20 +339,44 @@
 <h3 id="权限">权限</h3>
 <p>刚才我们创建两个用户，现在我通过xiaoyuan1去更新我们xiaoyuan创建的数据，发现是可以更新的，但是这个并不是我们想要的。</p>
 <p>创建一个permissions.py，写如下代码：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> rest_framework <span style="color:#f92672">import</span> permissions
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">rest_framework</span> <span style="color:#000;font-weight:bold">import</span> permissions
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">IsOwnerOrReadOnly</span>(permissions<span style="color:#f92672">.</span>BasePermission):
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">IsOwnerOrReadOnly</span>(permissions<span style="color:#000;font-weight:bold">.</span>BasePermission):
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">has_object_permission</span>(self, request, view, obj):
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">in</span> permissions<span style="color:#f92672">.</span>SAFE_METHODS:
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">True</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">has_object_permission</span>(<span style="color:#999">self</span>, request, view, obj):
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">if</span> request<span style="color:#000;font-weight:bold">.</span>method <span style="color:#000;font-weight:bold">in</span> permissions<span style="color:#000;font-weight:bold">.</span>SAFE_METHODS:
+</span></span><span style="display:flex;"><span>            <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">True</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> obj<span style="color:#f92672">.</span>user <span style="color:#f92672">==</span> request<span style="color:#f92672">.</span>user
-</span></span></code></pre></div><p>上面代码的意思代表判断当前的数据创建用户是否跟当前登录用户是否一个人。并在更新视图上加上该权限</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span> permission_classes <span style="color:#f92672">=</span> (permissions<span style="color:#f92672">.</span>IsAuthenticatedOrReadOnly,
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">return</span> obj<span style="color:#000;font-weight:bold">.</span>user <span style="color:#000;font-weight:bold">==</span> request<span style="color:#000;font-weight:bold">.</span>user
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>上面代码的意思代表判断当前的数据创建用户是否跟当前登录用户是否一个人。并在更新视图上加上该权限</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span> permission_classes <span style="color:#000;font-weight:bold">=</span> (permissions<span style="color:#000;font-weight:bold">.</span>IsAuthenticatedOrReadOnly,
 </span></span><span style="display:flex;"><span>                          IsOwnerOrReadOnly,)
-</span></span></code></pre></div><p>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>
         <img class="mx-auto" alt="" src="https://tva1.sinaimg.cn/large/006tNbRwly1gavagswrdij31hc0ny78b.jpg" />   
     </p>
 <p>
@@ -158,9 +387,35 @@
         </div>
 
         
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>Author: </strong><a rel="author" href="https://godl9211.github.io/">细水流深</a></li>
+        <li style="word-break:break-all"><strong>Link: </strong><a href="https://godl9211.github.io/posts/08-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%9D%83%E9%99%90/">https://godl9211.github.io/posts/08-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%9D%83%E9%99%90/</a></li>
+        <li><strong>License: </strong>This work is under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>. Kindly fulfill the requirements of the aforementioned License when adapting or creating a derivative of this work.</li>
+    </ul>
+</div>
+<br/>
+
 
 
         
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/posts/07-%E7%B1%BB%E8%A7%86%E5%9B%BE/">类视图</a></li>
+        
+        <li><a href="/posts/06-%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94/">请求与响应</a></li>
+        
+        <li><a href="/posts/05-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AA%8C%E8%AF%81/">序列化验证</a></li>
+        
+        <li><a href="/posts/04-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AB%98%E7%BA%A7/">序列化高级</a></li>
+        
+        <li><a href="/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/">序列化</a></li>
+        
+    </ul>
+</div>
 
 
         <div class="post-meta meta-tags">
@@ -170,9 +425,38 @@
         </div>
     </article>
     
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
     
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "yourdiscussshortname" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
     
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "your github repo"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
     
     
     
@@ -181,7 +465,7 @@
 
                     <footer id="footer">
     <div>
-        &copy; 2023 <a href="https://godl9211.github.io/">My New Hugo Site By </a>
+        &copy; 2023 <a href="https://godl9211.github.io/">细水流深的博客 By 细水流深</a>
         
     </div>
     <br />
@@ -289,14 +573,18 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
 </script>
 
 
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
 
 
+
+
+    <script src='/js/douban.js'></script>
 
                 </div>
 
                 <div id="secondary">
     <section class="widget">
-        <form id="search" action='//www.google.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+        <form id="search" action='https://godl9211.github.io/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
       
       <input type="text" name="q" maxlength="20" placeholder="Search">
       <input type="hidden" name="sitesearch" value="https://godl9211.github.io/">
@@ -309,49 +597,80 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
 <ul class="widget-list">
     
     <li>
-        <a href="https://godl9211.github.io/posts/my-first-post/" title="My First Post" target="_blank">My First Post</a>
+        <a href="https://godl9211.github.io/posts/20-%E6%8E%92%E5%BA%8F/" title="排序" target="_blank">排序</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/01-restful-api/" title="RESTful API" target="_blank">RESTful API</a>
+        <a href="https://godl9211.github.io/posts/19-%E6%90%9C%E7%B4%A2/" title="搜索" target="_blank">搜索</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/00-%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/" title="前后端分离" target="_blank">前后端分离</a>
+        <a href="https://godl9211.github.io/posts/18-%E8%BF%87%E6%BB%A4/" title="过滤" target="_blank">过滤</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/02-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/17-%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%94%E5%9B%9E%E5%93%8D%E5%BA%94/" title="自定义响应" target="_blank">自定义响应</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/16-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%82%E5%B8%B8/" title="自定义异常" target="_blank">自定义异常</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/04-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AB%98%E7%BA%A7/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/15-API%E6%96%87%E6%A1%A3/" title="API文档" target="_blank">API文档</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/05-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AA%8C%E8%AF%81/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/14-%E8%A7%86%E5%9B%BE%E9%9B%86%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/" title="视图集" target="_blank">视图集</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/06-%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/13-%E8%A7%A3%E6%9E%90%E5%99%A8/" title="解析器" target="_blank">解析器</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/07-%E7%B1%BB%E8%A7%86%E5%9B%BE/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/12-%E5%88%86%E9%A1%B5/" title="分页" target="_blank">分页</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/08-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%9D%83%E9%99%90/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/11-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" title="版本控制" target="_blank">版本控制</a>
     </li>
     
 </ul>
     </section>
 
     
+<section class="widget">
+    <h3 class="widget-title" style="color:red">Ads</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a href="https://www.aliyun.com/minisite/goods?userCode=jdg9oj97&amp;share_source=copy_link" title="【2019双12】ALL IN CLoud 低至1折" target="_blank" style="color:red">
+                
+                    <img src="https://img.alicdn.com/tfs/TB1_rYHo7P2gK0jSZPxXXacQpXa-690-388.jpg">
+                
+            </a>
+        </li>
+        
+        <li>
+            <a href="https://cloud.tencent.com/act/cps/redirect?redirect=1048&amp;cps_key=14ff722692ac784fa8c3301c8c28d924&amp;from=console" title="助力产业智慧升级，云服务器首年88元起，更有千元代金券礼包免费领！" target="_blank" style="color:red">
+                
+                    <img src="https://upload-dianshi-1255598498.file.myqcloud.com/345-7c71532bd4935fbdd9a67c1a71e577b1767b805c.200%E7%89%88%E6%9C%ACB.jpg">
+                
+            </a>
+        </li>
+        
+        <li>
+            <a href="https://www.aliyun.com/acts/limit-buy?userCode=jdg9oj97" title="【渠道专享低折扣】11月特惠 限时2折" target="_blank" style="color:red">
+                
+                    <img src="https://img.alicdn.com/tfs/TB1hblJl7Y2gK0jSZFgXXc5OFXa-750-400.jpg">
+                
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
 
     <section class="widget">
         <h3 class="widget-title"><a href='/categories/'>Categories</a></h3>
@@ -368,6 +687,21 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
     </section>
 
     
+<section class="widget">
+    <h3 class="widget-title">Links</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.flysnow.org/" title="细水流深的博客">细水流深的博客</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="http://yuedu.baidu.com/ebook/14a722970740be1e640e9a3e" title="Android Gradle权威指南">Android Gradle权威指南</a>
+        </li>
+        
+    </ul>
+</section>
+
 
     <section class="widget">
         <h3 class="widget-title">Meta</h3>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en-us">
+<html lang="zh-CN">
 <head>
 	<meta name="generator" content="Hugo 0.109.0">
 
@@ -7,18 +7,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
 
-    <title>My New Hugo Site</title>
-    <meta property="og:title" content="My New Hugo Site">
+    <title>细水流深的博客 | 专注于Android、Java、Go语言(golang)、移动互联网、项目管理、软件架构</title>
+    <meta property="og:title" content="细水流深的博客 | 专注于Android、Java、Go语言(golang)、移动互联网、项目管理、软件架构">
     <meta property="og:type" content="website">
-    <meta name="Keywords" content="">
-    <meta name="description" content="">
+    <meta name="Keywords" content="golang,go语言,go语言笔记,细水流深,java,android,博客,项目管理,python,软件架构,公众号,小程序">
+    <meta name="description" content="专注于IT互联网，包括但不限于Go语言(golang)、Java、Android、Python、项目管理、抖音分析、软件架构等">
     <meta property="og:url" content="https://godl9211.github.io/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
-    <link rel="alternate" type="application/rss+xml" href="https://godl9211.github.io/index.xml" title="My New Hugo Site" />
+    <link rel="alternate" type="application/rss+xml" href="https://godl9211.github.io/index.xml" title="细水流深的博客" />
     <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
@@ -26,6 +28,10 @@
     
     
     
+    
+        <link rel="stylesheet" href='/css/douban.css'>
+    
+        <link rel="stylesheet" href='/css/other.css'>
     
 </head>
 
@@ -37,15 +43,21 @@
                 
                     <h1>
                         <a id="logo" href="https://godl9211.github.io/">
-                            My New Hugo Site
+                            细水流深的博客
                         </a>
                     </h1>
                 
-                
+                <p class="description">专注于Android、Java、Go语言(golang)、移动互联网、项目管理、软件架构</p>
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
                     <a class="current" href="https://godl9211.github.io/">Home</a>
+                    
+                    <a  href="https://godl9211.github.io/tools/" title="工具">工具</a>
+                    
+                    <a  href="https://godl9211.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://godl9211.github.io/about/" title="关于">关于</a>
                     
                 </nav>
             </div>
@@ -65,24 +77,20 @@
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://godl9211.github.io/posts/my-first-post/" title="My First Post" target="_blank">My First Post</a>
+                <a href="https://godl9211.github.io/posts/20-%E6%8E%92%E5%BA%8F/" title="排序" target="_blank">排序</a>
             </h1>
         </header>
         
-  <time datetime="2023-01-10T11:22:13Z" class="post-meta meta-date dt-published">
-    2023-01-10
+  <time datetime="2023-01-11T03:29:33Z" class="post-meta meta-date dt-published">
+    2023-01-11
   </time>
 
 
 
         <div class="post-content">
-            自定义异常 目前我们返回的一些异常信息，长这个样子
-{ &#34;detail&#34;: &#34;Authentication credentials were not provided.&#34; } 这样结构，对于移动端程序员是极其不友好的，所以我们一般给对方返回这样的数据结构
-{ &#34;code&#34;: 401, &#34;message&#34;: &#34;Authentication credentials were not provided.&#34;, &#34;data&#34;: [] } 那我们就需要自己异常来捕获DRF里面的异常信息
-创建custom_exception.py文件
-from rest_framework.views import exception_handler def custom_exception_handler(exc, context): response = exception_handler(exc, context) if response is not None: response.data.clear() response.data[&#39;code&#39;] = response.status_code response.data[&#39;data&#39;] = [] if response.status_code == 404: try: response.data[&#39;message&#39;] = response.data.pop(&#39;detail&#39;) response.data[&#39;message&#39;] = &#34;未找到&#34; except KeyError: response.data[&#39;message&#39;] = &#34;未找到&#34; if response.status_code == 400: response.data[&#39;message&#39;] = &#39;输入错误&#39; elif response.……
+            排序 OrderingFilter类支持简单的查询参数控制结果排序 配置 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 class GameView(CustomModelViewSet): queryset = Game.objects.all() serializer_class = GameSerializer filter_backends = (DjangoFilterBackend, filters.SearchFilter,filters.OrderingFilter) # 过滤 # filter_fields = (&#39;name&#39;,……
         </div>
-        <p class="readmore"><a href="https://godl9211.github.io/posts/my-first-post/" target="_blank">Continue reading</a></p>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/20-%E6%8E%92%E5%BA%8F/" target="_blank">Continue reading</a></p>
     </article>
     
     
@@ -90,24 +98,20 @@ from rest_framework.views import exception_handler def custom_exception_handler(
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://godl9211.github.io/posts/01-restful-api/" title="RESTful API" target="_blank">RESTful API</a>
+                <a href="https://godl9211.github.io/posts/19-%E6%90%9C%E7%B4%A2/" title="搜索" target="_blank">搜索</a>
             </h1>
         </header>
         
-  <time datetime="2023-01-10T11:22:13Z" class="post-meta meta-date dt-published">
-    2023-01-10
+  <time datetime="2023-01-11T03:29:23Z" class="post-meta meta-date dt-published">
+    2023-01-11
   </time>
 
 
 
         <div class="post-content">
-            RESTful API设计规范 域名 应该尽量将API部署在专用域名之下
-https://api.example.com 如果确定API很简单，不会有进一步扩展，可以考虑放在主域名下。
-https://example.com/api/ 版本 应该将API的版本号放入URL
-http://www.example.com/app/1.0/apples http://www.example.com/app/1.1/apples http://www.example.com/app/2.0/apples 路径 对于一个简洁结构，你应该始终用名词。 此外，利用的HTTP方法可以分离网址中的资源名称的操作。
-GET /products ：将返回所有产品清单 POST /products ：将产品新建到集合 GET /products/4 ：将获取产品4 PATCH /products/4 将更新产品4（部分属性更新） PUT /products/4：将更新产品4 （全部属性更新） HTTP动词 请求方法 请求地址 后端操作 GET /students 获取所有学生 POST /students 增加学生 GET /students/1 获取编号为1的学生 PUT /students/1 更新编号为1的学生（全部属性） DELETE /students/1 删除编号为1的学生 PATCH /students/1 更新编号为1的学生（部分属性） 过滤信息 ?limit=10：指定返回记录的数量 ?offset=10：指定返回记录的开始位置。 ?page=2&amp;per_page=100：指定第几页，以及每页的记录数。 ?sortby=name&amp;order=asc：指定返回结果按照哪个属性排序，以及排序顺序。 ?animal_type_id=1：指定筛选条件 状态码 200 OK - [GET]：服务器成功返回用户请求的数据 201 CREATED - [POST/PUT/PATCH]：用户新建或修改数据成功。 202 Accepted - []：表示一个请求已经进入后台排队（异步任务） 204 NO CONTENT - [DELETE]：用户删除数据成功。 400 INVALID REQUEST - [POST/PUT/PATCH]：用户发出的请求有错误，服务器没有进行新建或修改数据的操作 401 Unauthorized - []：表示用户没有权限（令牌、用户名、密码错误）。 403 Forbidden - [] 表示用户得到授权（与401错误相对），但是访问是被禁止的。 404 NOT FOUND - []：用户发出的请求针对的是不存在的记录，服务器没有进行操作，该操作是幂等的。 406 Not Acceptable - [GET]：用户请求的格式不可得（比如用户请求JSON格式，但是只有XML格式）。 410 Gone -[GET]：用户请求的资源被永久删除，且不会再得到的。 422 Unprocesable entity - [POST/PUT/PATCH] 当创建一个对象时，发生一个验证错误。 500 INTERNAL SERVER ERROR - [*]：服务器发生错误，用户将无法判断发出的请求是否成功。 错误处理 { error:&#34;Invalid API key&#34; } 返回结果 GET /collection：返回资源对象的列表（数组） GET /collection/resource：返回单个资源对象 POST /collection：返回新生成的资源对象 PUT /collection/resource：返回完整的资源对象 PATCH /collection/resource：返回完整的资源对象 DELETE /collection/resource：返回一个空文档 ……
+            搜索 SearchFilter可以搜索我们设置的参数 配置 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 from .custom_model_view_set import CustomModelViewSet from django_filters.rest_framework import DjangoFilterBackend from .custom_filter import GameFilter from rest_framework import filters class GameView(CustomModelViewSet): queryset = Game.objects.all() serializer_class = GameSerializer filter_backends……
         </div>
-        <p class="readmore"><a href="https://godl9211.github.io/posts/01-restful-api/" target="_blank">Continue reading</a></p>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/19-%E6%90%9C%E7%B4%A2/" target="_blank">Continue reading</a></p>
     </article>
     
     
@@ -115,29 +119,20 @@ GET /products ：将返回所有产品清单 POST /products ：将产品新建�
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://godl9211.github.io/posts/00-%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/" title="前后端分离" target="_blank">前后端分离</a>
+                <a href="https://godl9211.github.io/posts/18-%E8%BF%87%E6%BB%A4/" title="过滤" target="_blank">过滤</a>
             </h1>
         </header>
         
-  <time datetime="2023-01-10T11:22:13Z" class="post-meta meta-date dt-published">
-    2023-01-10
+  <time datetime="2023-01-11T03:29:13Z" class="post-meta meta-date dt-published">
+    2023-01-11
   </time>
 
 
 
         <div class="post-content">
-            开发模式 在Web开发模式中，有两种开发模式
-前后端不分离 前后端分离 前后端分离优势 在前后端不分离模式中，前端页面看到的效果都是由后端控制，由后端渲染页面或重定向，也就是后端需要控制前端的展示，前端与后端的耦合度很高。
-这种应用模式比较适合纯网页应用，但是当后端对接App时，App可能并不需要后端返回一个HTML网页，而仅仅是数据本身，所以后端原本返回网页的接口不再适用于前端App应用，为了对接App后端还需再开发一套接口。
-在前后端分离的应用模式中，后端仅返回前端所需的数据，不再渲染HTML页面，不再控制前端的效果。至于前端用户看到什么效果，从后端请求的数据如何加载到前端中，都由前端自己决定，网页有网页的处理方式，App有App的处理方式，但无论哪种前端，所需的数据基本相同，后端仅需开发一套逻辑对外提供数据即可。
-在前后端分离的应用模式中 ，前端与后端的耦合度相对较低。
-在前后端分离的应用模式中，我们通常将后端开发的每个视图都称为一个接口，或者API，前端通过访问接口来对数据进行增删改查。
-为什么要有前后端分离 多端适应 前后端开发职责不清 模板到低是前端写还是后端写?如果前端写,前端就要懂后端模板语言 如果后端写,那么后端就要懂前段html,css,js甚至更多更多 开发效率问题,前后端相互等待 前端在写的时候,就希望后端全部写好自己再写 后端在写的时候,就希望前端全部写好自己再写 前端一直配合着后端,能力受限(搞来搞去写静态页面,天天给后台写模板) 后台开发语言和模板高度耦合,导致开发语言依赖(一旦用python开发,以后要换成java或者其他语言) 前后端分离缺点 前后端学习门槛增加(比如后台很多模板语法控制前端展示,但是分离以后,需要前端自己去实现,增加前端成本,对后台来说,后端要满足规范)
-数据依赖导致文档重要性增加
-文档是否详细 是否及时更新 修改要及时通知其他端 前端工作量加大
-SEO的难度增加(都是AJAX,像一些初级爬虫全部挡在外面,比如一些搜索引擎,这样你的排名就不靠前了)……
+            过滤 一、利用get_queryset过滤 1 2 3 4 5 6 7 8 9 10 11 12 from .custom_model_view_set import CustomModelViewSet class GameView(CustomModelViewSet): queryset = Game.objects.all() serializer_class = GameSerializer def get_queryset(self): ordering = self.request.query_params.get(&#39;ordering&#39;) if not ordering: queryset = Game.objects.all() else: queryset = Game.objects.all().order_by(ordering) return queryset http://127.0.0.1:8000/api/v1/games/?ordering=-id 二、django……
         </div>
-        <p class="readmore"><a href="https://godl9211.github.io/posts/00-%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/" target="_blank">Continue reading</a></p>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/18-%E8%BF%87%E6%BB%A4/" target="_blank">Continue reading</a></p>
     </article>
     
     
@@ -145,18 +140,20 @@ SEO的难度增加(都是AJAX,像一些初级爬虫全部挡在外面,比如一�
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://godl9211.github.io/posts/02-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" title="" target="_blank"></a>
+                <a href="https://godl9211.github.io/posts/17-%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%94%E5%9B%9E%E5%93%8D%E5%BA%94/" title="自定义响应" target="_blank">自定义响应</a>
             </h1>
         </header>
         
+  <time datetime="2023-01-11T03:28:54Z" class="post-meta meta-date dt-published">
+    2023-01-11
+  </time>
+
 
 
         <div class="post-content">
-            Django REST framework Django REST framework框架是一个用于构建Web API的强大而又灵活的工具. 通常简称为DRF框架 或 REST framework框架.
-特点 提供了定义序列化器serializer的方法,可以快速根据Django ORM或者其他库自动序列化/反序列化; 提供了丰富的类视图、Mixin扩展类、简化视图的编写; 丰富的定制层级: 函数视图、类视图、视图集合到自动生成API,满足各种需求; 多中身份认证和权限认证方式的支持; 内置了限流系统; 直观的API web界面; 可扩展性, 插件丰富 官方文档 https://www.django-rest-framework.org/ 源码地址 https://github.com/encode/django-rest-framework/tree/master 安装 pip install -i https://pypi.douban.com/simple djangorestframework==3.8.2 配置 INSTALLED_APPS = [ &#39;&#39;&#39;&#39;&#39;&#39; &#39;rest_framework&#39; ] 模型类 class Group(models.Model): name = models.CharField(verbose_name=&#39;名字&#39;, max_length=100) class Student(models.Model): name = models.CharField(verbose_name=&#39;名字&#39;, max_length=100) age = models.IntegerField(verbose_name=&#39;年龄&#39;) group = models.ForeignKey(to=Group, on_delete=models.CASCADE) 序列化 在应用下新建一个serializers.py文件，目的是序列化我们的模型类。
-from .models import Student,Group from rest_framework import serializers class StudentSerializer(serializers.……
+            自定义返回响应 目前我们返回的数据样式是这样 1 2 3 4 5 6 7 8 9 10 11 { &#34;next&#34;: &#34;http://127.0.0.1:8000/api/v1/games/?cursor=cD0x&#34;, &#34;previous&#34;: null, &#34;results&#34;: [ { &#34;id&#34;: 1, &#34;name&#34;: &#34;老马&#34;, &#34;status&#34;: 0 } ] } 或 1 2 3 4 5 { &#34;id&#34;: 1,……
         </div>
-        <p class="readmore"><a href="https://godl9211.github.io/posts/02-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" target="_blank">Continue reading</a></p>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/17-%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%94%E5%9B%9E%E5%93%8D%E5%BA%94/" target="_blank">Continue reading</a></p>
     </article>
     
     
@@ -164,18 +161,20 @@ from .models import Student,Group from rest_framework import serializers class S
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://godl9211.github.io/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/" title="" target="_blank"></a>
+                <a href="https://godl9211.github.io/posts/16-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%82%E5%B8%B8/" title="自定义异常" target="_blank">自定义异常</a>
             </h1>
         </header>
         
+  <time datetime="2023-01-11T03:28:53Z" class="post-meta meta-date dt-published">
+    2023-01-11
+  </time>
+
 
 
         <div class="post-content">
-            模型类 创建模型类
-from django.db import models # Create your models here. class Article(models.Model): title = models.CharField(verbose_name=&#39;标题&#39;, max_length=100) vum = models.IntegerField(verbose_name=&#39;浏览量&#39;) content = models.TextField(verbose_name=&#39;内容&#39;) 序列化 创建序列化文件
-from rest_framework import serializers from .models import Article class ArticleSerializer(serializers.Serializer): id = serializers.IntegerField(read_only=True) vnum = serializers.IntegerField() content = serializers.CharField(max_length=1000) title = serializers.CharField(required=True, max_length=100) def create(self, validated_data): return Article.objects.create(**validated_data) def update(self, instance, validated_data): instance.title = validated_data.get(&#39;title&#39;, instance.title) instance.vnum = validated_data.get(&#39;vnum&#39;, instance.vnum) instance.content = validated_data.get(&#39;content&#39;, instance.content) instance.save() return instance 参数约束 read_only：True表示不允许用户自己上传，只能用于api的输出。 write_only: 与read_only对应 required: 顾名思义，就是这个字段是否必填。 allow_null/allow_blank：是否允许为NULL/空 。 error_messages：出错时，信息提示。 name = serializers.……
+            自定义异常 目前我们返回的一些异常信息，长这个样子 1 2 3 { &#34;detail&#34;: &#34;Authentication credentials were not provided.&#34; } 这样结构，对于移动端程序员是极其不友好的，所以我们一般给对方返回这样的……
         </div>
-        <p class="readmore"><a href="https://godl9211.github.io/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/" target="_blank">Continue reading</a></p>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/16-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%82%E5%B8%B8/" target="_blank">Continue reading</a></p>
     </article>
     
     
@@ -183,16 +182,20 @@ from rest_framework import serializers from .models import Article class Article
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://godl9211.github.io/posts/04-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AB%98%E7%BA%A7/" title="" target="_blank"></a>
+                <a href="https://godl9211.github.io/posts/15-API%E6%96%87%E6%A1%A3/" title="API文档" target="_blank">API文档</a>
             </h1>
         </header>
         
+  <time datetime="2023-01-11T03:28:33Z" class="post-meta meta-date dt-published">
+    2023-01-11
+  </time>
+
 
 
         <div class="post-content">
-            模型类 from django.db import models # Create your models here. class Category(models.Model): name = models.CharField(verbose_name=&#39;名字&#39;, max_length=100) def __str__(self): return self.name class Article(models.Model): title = models.CharField(verbose_name=&#39;标题&#39;, max_length=100) vnum = models.IntegerField(verbose_name=&#39;浏览量&#39;) content = models.TextField(verbose_name=&#39;内容&#39;) category = models.ForeignKey(to=Category, on_delete=models.CASCADE, related_name=&#39;articles&#39;) # related_name 反向查找 def __str__(self): return self.title 路由 from django.contrib import admin from django.urls import path, include from . import views urlpatterns = [ path(&#39;articles/&#39;, views.article_list), # 获取或创建 path(&#39;articles/&lt;int:id&gt;/&#39;, views.article_detail), # 查找、更新、删除 ] 视图 from django.……
+            API文档 DRF给我提供了自动生成API文档的功能，大大省去了写开发文档的时间。 pip install coreapi 路由 from rest_framework.documentation import include_docs_urls path(&#39;docs/&#39;, include_docs_urls(ti……
         </div>
-        <p class="readmore"><a href="https://godl9211.github.io/posts/04-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AB%98%E7%BA%A7/" target="_blank">Continue reading</a></p>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/15-API%E6%96%87%E6%A1%A3/" target="_blank">Continue reading</a></p>
     </article>
     
     
@@ -200,17 +203,20 @@ from rest_framework import serializers from .models import Article class Article
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://godl9211.github.io/posts/05-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AA%8C%E8%AF%81/" title="" target="_blank"></a>
+                <a href="https://godl9211.github.io/posts/14-%E8%A7%86%E5%9B%BE%E9%9B%86%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/" title="视图集" target="_blank">视图集</a>
             </h1>
         </header>
         
+  <time datetime="2023-01-11T03:28:23Z" class="post-meta meta-date dt-published">
+    2023-01-11
+  </time>
+
 
 
         <div class="post-content">
-            序列化验证 一般前后端分离的时候，我们都会校验前端的参数时候合法。如果我们ModelSerializer话，因为它本身已经帮我们写好create方法，所以我们基本不需要再写验证。但是一些特殊的我们就需要重写或者自己写验证方法。
-模型类 from django.db import models # Create your models here. class User(models.Model): genders = ( (1, &#39;男&#39;), (2, &#34;女&#34;) ) name = models.CharField(max_length=10, verbose_name=&#39;名字&#39;) phone = models.CharField(max_length=11, verbose_name=&#39;手机号&#39;) gender = models.IntegerField(choices=genders, verbose_name=&#39;性别&#39;) 视图 @csrf_exempt def user_list(request): if request.method == &#39;GET&#39;: users = User.objects.all() serializer = UserSerializer(users, many=True, context={&#39;request&#39;: request}) return JSONResponse(serializer.data) elif request.method == &#39;POST&#39;: data = JSONParser().parse(request) serializer = UserSerializer(data=data, context={&#39;request&#39;: request}) if serializer.is_valid(): serializer.save() return JSONResponse(serializer.data, status=201) return JSONResponse(serializer.……
+            视图集 我们在前面已经用了类视图，DRF给我了提供了更加抽象的封装，叫做ModelViewSet。 视图 class GameView(ModelViewSet): queryset = Game.objects.all() serializer_class = GameSerializer 路由 game_list = views.GameView.as_view({ &#39;get&#39;: &#39;list&#39;, &#39;post&#39;: &#39;create&#39; }) game_detail =……
         </div>
-        <p class="readmore"><a href="https://godl9211.github.io/posts/05-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AA%8C%E8%AF%81/" target="_blank">Continue reading</a></p>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/14-%E8%A7%86%E5%9B%BE%E9%9B%86%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/" target="_blank">Continue reading</a></p>
     </article>
     
     
@@ -218,20 +224,20 @@ from rest_framework import serializers from .models import Article class Article
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://godl9211.github.io/posts/06-%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94/" title="" target="_blank"></a>
+                <a href="https://godl9211.github.io/posts/13-%E8%A7%A3%E6%9E%90%E5%99%A8/" title="解析器" target="_blank">解析器</a>
             </h1>
         </header>
         
+  <time datetime="2023-01-11T03:28:13Z" class="post-meta meta-date dt-published">
+    2023-01-11
+  </time>
+
 
 
         <div class="post-content">
-            请求 REST里面有个HttpRequest特别相似的对象叫request，主要获取前端传递过来的数据，获取数据的方法就是request.data
-响应 REST里面有个HttpResponse特别相似的对象叫Response,主要用来给前端传递数据，传递数据的方法就是Response(data)
-状态码 REST里面的状态码比较人性化。每个状态都用意思去表示。比如
-HTTP_200_OK = 200 #OK HTTP_201_CREATED = 201 #创建成功 HTTP_403_FORBIDDEN = 403 # 权限拒绝 &#39;&#39;&#39; &#39;&#39;&#39; API视图 API视图主要为了咱们RESTFUL风格的API。主要用来包装request,response、现在api请求方法。
-基于函数视图的@api_view装饰器 基于类视图的APIView类 综合用法 from rest_framework.decorators import api_view from rest_framework.response import Response from rest_framework import status @api_view([&#39;GET&#39;, &#39;POST&#39;]) def user_list(request): if request.method == &#39;GET&#39;: users = User.objects.all() serializer = UserSerializer(users, many=True, context={&#39;request&#39;: request}) return Response(serializer.data) elif request.method == &#39;POST&#39;: serializer = UserSerializer(data=request.data, context={&#39;request&#39;: request}) if serializer.is_valid(): serializer.save() return Response(serializer.……
+            解析器 对请求的数据进行解析：是针对请求体进行解析的。表示服务器可以解析的数据格式的种类 #如果是这样的格式发送的数据，在POST里面有值 Content-Type: application/url-encoding..... request.body……
         </div>
-        <p class="readmore"><a href="https://godl9211.github.io/posts/06-%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94/" target="_blank">Continue reading</a></p>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/13-%E8%A7%A3%E6%9E%90%E5%99%A8/" target="_blank">Continue reading</a></p>
     </article>
     
     
@@ -239,19 +245,20 @@ HTTP_200_OK = 200 #OK HTTP_201_CREATED = 201 #创建成功 HTTP_403_FORBIDDEN = 
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://godl9211.github.io/posts/07-%E7%B1%BB%E8%A7%86%E5%9B%BE/" title="" target="_blank"></a>
+                <a href="https://godl9211.github.io/posts/12-%E5%88%86%E9%A1%B5/" title="分页" target="_blank">分页</a>
             </h1>
         </header>
         
+  <time datetime="2023-01-11T03:26:33Z" class="post-meta meta-date dt-published">
+    2023-01-11
+  </time>
+
 
 
         <div class="post-content">
-            类视图 使用类视图最大的好处就是可以创建复用的行为。我们在上一节，已经用了简单的类视图。
-mixins 我们常用的操作比如创建、更新、删除、查找。REST框架已经帮我们写好了，写的代码就在mixins这个类里面。
-所以只有我们自己的视图直接继承这个类，就完全可以拥有上面的所有功能。
-from rest_framework import mixins from rest_framework import generics class UserList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView): queryset = User.objects.all() serializer_class = UserSerializer def get(self, request, *args, **kwargs): return self.list(request, *args, **kwargs) def post(self, request, *args, **kwargs): return self.create(request, *args, **kwargs) class UserDetail(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView): queryset = User.objects.all() serializer_class = UserSerializer def get(self, request, *args, **kwargs): return self.retrieve(request, *args, **kwargs) def put(self, request, *args, **kwargs): return self.update(request, *args, **kwargs) def delete(self, request, *args, **kwargs): return self.……
+            分页 当对于数据量大的时候，我们就需要采用分页操作。 方式 普通分页，看第n页，每页显示m条数据； 切割分页，在n个位置，向后查看m条数据； 加密分页……
         </div>
-        <p class="readmore"><a href="https://godl9211.github.io/posts/07-%E7%B1%BB%E8%A7%86%E5%9B%BE/" target="_blank">Continue reading</a></p>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/12-%E5%88%86%E9%A1%B5/" target="_blank">Continue reading</a></p>
     </article>
     
     
@@ -259,18 +266,20 @@ from rest_framework import mixins from rest_framework import generics class User
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="https://godl9211.github.io/posts/08-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%9D%83%E9%99%90/" title="" target="_blank"></a>
+                <a href="https://godl9211.github.io/posts/11-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" title="版本控制" target="_blank">版本控制</a>
             </h1>
         </header>
         
+  <time datetime="2023-01-11T03:26:13Z" class="post-meta meta-date dt-published">
+    2023-01-11
+  </time>
+
 
 
         <div class="post-content">
-            认证和权限 现在我们写的接口，会发现一个问题，就是任何人都可以创建数据，都可以修改数据。这样肯定是不行的，我们希望只有数据的创建者才能有权限修改数据。如果不是，只能有读取权限。
-模型类 我们设计一个模型类，让这个模型类与用户关联。
-from django.db import models # Create your models here. class Game(models.Model): name = models.CharField(verbose_name=&#39;游戏名字&#39;, max_length=10) desc = models.CharField(verbose_name=&#39;描述&#39;, max_length=20) user = models.ForeignKey(&#39;auth.User&#39;, on_delete=models.CASCADE) 序列化 from rest_framework import serializers from .models import Game class GameSerializer(serializers.ModelSerializer): class Meta: model = Game fields = &#39;__all__&#39; 视图 from .models import Game from rest_framework import generics from .serializers import GameSerializer from rest_framework import permissions from .permissions import IsOwnerOrReadOnly from rest_framework.authentication import BasicAuthentication class GameList(generics.……
+            版本控制 API 版本控制允许我们在不同的客户端之间更改行为（同一个接口的不同版本会返回不同的数据）。 DRF提供了许多不同的版本控制方案。 可能会有一……
         </div>
-        <p class="readmore"><a href="https://godl9211.github.io/posts/08-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%9D%83%E9%99%90/" target="_blank">Continue reading</a></p>
+        <p class="readmore"><a href="https://godl9211.github.io/posts/11-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" target="_blank">Continue reading</a></p>
     </article>
     
     
@@ -308,7 +317,7 @@ from django.db import models # Create your models here. class Game(models.Model)
 
                     <footer id="footer">
     <div>
-        &copy; 2023 <a href="https://godl9211.github.io/">My New Hugo Site By </a>
+        &copy; 2023 <a href="https://godl9211.github.io/">细水流深的博客 By 细水流深</a>
         
     </div>
     <br />
@@ -331,14 +340,18 @@ from django.db import models # Create your models here. class Game(models.Model)
 <script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
 
 
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
 
 
+
+
+    <script src='/js/douban.js'></script>
 
                 </div>
 
                 <div id="secondary">
     <section class="widget">
-        <form id="search" action='//www.google.com/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+        <form id="search" action='https://godl9211.github.io/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
       
       <input type="text" name="q" maxlength="20" placeholder="Search">
       <input type="hidden" name="sitesearch" value="https://godl9211.github.io/">
@@ -351,49 +364,80 @@ from django.db import models # Create your models here. class Game(models.Model)
 <ul class="widget-list">
     
     <li>
-        <a href="https://godl9211.github.io/posts/my-first-post/" title="My First Post" target="_blank">My First Post</a>
+        <a href="https://godl9211.github.io/posts/20-%E6%8E%92%E5%BA%8F/" title="排序" target="_blank">排序</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/01-restful-api/" title="RESTful API" target="_blank">RESTful API</a>
+        <a href="https://godl9211.github.io/posts/19-%E6%90%9C%E7%B4%A2/" title="搜索" target="_blank">搜索</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/00-%E5%89%8D%E5%90%8E%E7%AB%AF%E5%88%86%E7%A6%BB/" title="前后端分离" target="_blank">前后端分离</a>
+        <a href="https://godl9211.github.io/posts/18-%E8%BF%87%E6%BB%A4/" title="过滤" target="_blank">过滤</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/02-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/17-%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BF%94%E5%9B%9E%E5%93%8D%E5%BA%94/" title="自定义响应" target="_blank">自定义响应</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/03-%E5%BA%8F%E5%88%97%E5%8C%96/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/16-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%82%E5%B8%B8/" title="自定义异常" target="_blank">自定义异常</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/04-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AB%98%E7%BA%A7/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/15-API%E6%96%87%E6%A1%A3/" title="API文档" target="_blank">API文档</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/05-%E5%BA%8F%E5%88%97%E5%8C%96%E9%AA%8C%E8%AF%81/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/14-%E8%A7%86%E5%9B%BE%E9%9B%86%E5%92%8C%E8%B7%AF%E7%94%B1%E5%99%A8/" title="视图集" target="_blank">视图集</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/06-%E8%AF%B7%E6%B1%82%E5%92%8C%E5%93%8D%E5%BA%94/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/13-%E8%A7%A3%E6%9E%90%E5%99%A8/" title="解析器" target="_blank">解析器</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/07-%E7%B1%BB%E8%A7%86%E5%9B%BE/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/12-%E5%88%86%E9%A1%B5/" title="分页" target="_blank">分页</a>
     </li>
     
     <li>
-        <a href="https://godl9211.github.io/posts/08-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%9D%83%E9%99%90/" title="" target="_blank"></a>
+        <a href="https://godl9211.github.io/posts/11-%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" title="版本控制" target="_blank">版本控制</a>
     </li>
     
 </ul>
     </section>
 
     
+<section class="widget">
+    <h3 class="widget-title" style="color:red">Ads</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a href="https://www.aliyun.com/minisite/goods?userCode=jdg9oj97&amp;share_source=copy_link" title="【2019双12】ALL IN CLoud 低至1折" target="_blank" style="color:red">
+                
+                    <img src="https://img.alicdn.com/tfs/TB1_rYHo7P2gK0jSZPxXXacQpXa-690-388.jpg">
+                
+            </a>
+        </li>
+        
+        <li>
+            <a href="https://cloud.tencent.com/act/cps/redirect?redirect=1048&amp;cps_key=14ff722692ac784fa8c3301c8c28d924&amp;from=console" title="助力产业智慧升级，云服务器首年88元起，更有千元代金券礼包免费领！" target="_blank" style="color:red">
+                
+                    <img src="https://upload-dianshi-1255598498.file.myqcloud.com/345-7c71532bd4935fbdd9a67c1a71e577b1767b805c.200%E7%89%88%E6%9C%ACB.jpg">
+                
+            </a>
+        </li>
+        
+        <li>
+            <a href="https://www.aliyun.com/acts/limit-buy?userCode=jdg9oj97" title="【渠道专享低折扣】11月特惠 限时2折" target="_blank" style="color:red">
+                
+                    <img src="https://img.alicdn.com/tfs/TB1hblJl7Y2gK0jSZFgXXc5OFXa-750-400.jpg">
+                
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
 
     <section class="widget">
         <h3 class="widget-title"><a href='/categories/'>Categories</a></h3>
@@ -410,6 +454,21 @@ from django.db import models # Create your models here. class Game(models.Model)
     </section>
 
     
+<section class="widget">
+    <h3 class="widget-title">Links</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.flysnow.org/" title="细水流深的博客">细水流深的博客</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="http://yuedu.baidu.com/ebook/14a722970740be1e640e9a3e" title="Android Gradle权威指南">Android Gradle权威指南</a>
+        </li>
+        
+    </ul>
+</section>
+
 
     <section class="widget">
         <h3 class="widget-title">Meta</h3>
