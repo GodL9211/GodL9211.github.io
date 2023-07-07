@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="https://vuepress-theme-hope-docs-demo.netlify.app/rss.xsl"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <atom:link href="https://vuepress-theme-hope-docs-demo.netlify.app/rss.xml" rel="self" type="application/rss+xml"/>
+    <title>海鸽の学习笔记</title>
+    <link>https://vuepress-theme-hope-docs-demo.netlify.app/</link>
+    <description>海鸽の学习笔记</description>
+    <language>zh-CN</language>
+    <pubDate>Fri, 07 Jul 2023 11:13:20 GMT</pubDate>
+    <lastBuildDate>Fri, 07 Jul 2023 11:13:20 GMT</lastBuildDate>
+    <generator>vuepress-plugin-feed2</generator>
+    <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+    <item>
+      <title>第一篇博客</title>
+      <link>https://vuepress-theme-hope-docs-demo.netlify.app/blog/%E5%AE%89%E8%A3%85gin.html</link>
+      <guid>https://vuepress-theme-hope-docs-demo.netlify.app/blog/%E5%AE%89%E8%A3%85gin.html</guid>
+      <source url="https://vuepress-theme-hope-docs-demo.netlify.app/rss.xml">第一篇博客</source>
+      <description>功能详情...</description>
+      <pubDate>Thu, 06 Jul 2023 11:05:53 GMT</pubDate>
+      <content:encoded><![CDATA[<p>功能详情...</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

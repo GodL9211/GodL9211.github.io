@@ -1,0 +1,1 @@
+import{_ as e}from"./plugin-vue_export-helper-c27b6911.js";import{o as _,c as t,d as o}from"./app-ab704fbe.js";const c={},s=o("p",null,"功能详情...",-1),n=[s];function r(a,l){return _(),t("div",null,n)}const i=e(c,[["render",r],["__file","单例模式.html.vue"]]);export{i as default};
