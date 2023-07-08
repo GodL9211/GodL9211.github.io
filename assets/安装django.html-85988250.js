@@ -1,1 +1,0 @@
-import{_ as e}from"./plugin-vue_export-helper-c27b6911.js";import{o,c as t,d as _}from"./app-ab704fbe.js";const c={},n=_("p",null,"功能详情...",-1),s=[n];function r(a,l){return o(),t("div",null,s)}const i=e(c,[["render",r],["__file","安装django.html.vue"]]);export{i as default};

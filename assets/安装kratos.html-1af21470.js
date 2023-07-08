@@ -1,0 +1,1 @@
+import{_ as e}from"./plugin-vue_export-helper-c27b6911.js";import{o as t,c as o,a as _}from"./app-54869d2b.js";const s={},c=_("p",null,"功能详情...",-1),r=[c];function a(n,l){return t(),o("div",null,r)}const m=e(s,[["render",a],["__file","安装kratos.html.vue"]]);export{m as default};
