@@ -1,1 +1,0 @@
-const e=JSON.parse('{"key":"v-73759ae3","path":"/docs/algorithms/python/","title":"Python","lang":"zh-CN","frontmatter":{"title":"Python","article":false,"feed":false,"sitemap":false,"seo":false,"head":[]},"headers":[],"git":{},"readingTime":{"minutes":0,"words":1},"filePathRelative":null}');export{e as data};

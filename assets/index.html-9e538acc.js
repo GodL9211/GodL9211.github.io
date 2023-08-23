@@ -1,0 +1,1 @@
+const e=JSON.parse('{"key":"v-2eda11bc","path":"/docs/algorithms/python/%E7%AE%97%E6%B3%95/","title":"算法","lang":"zh-CN","frontmatter":{"title":"算法","article":false,"feed":false,"sitemap":false,"seo":false,"head":[]},"headers":[],"git":{},"readingTime":{"minutes":0.01,"words":2},"filePathRelative":null}');export{e as data};
