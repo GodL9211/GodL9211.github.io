@@ -1,0 +1,1 @@
+import{_ as e}from"./plugin-vue_export-helper-c27b6911.js";import{o as t,c as o,a as _}from"./app-0272947c.js";const c={},n=_("p",null,"功能详情...",-1),s=[n];function r(a,l){return t(),o("div",null,s)}const m=e(c,[["render",r],["__file","安装gin.html.vue"]]);export{m as default};
