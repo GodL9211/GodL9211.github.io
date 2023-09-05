@@ -1,0 +1,1 @@
+import{_ as e}from"./plugin-vue_export-helper-c27b6911.js";import{o,c as t}from"./app-bc047c8d.js";const _={};function c(r,l){return o(),t("div")}const s=e(_,[["render",c],["__file","9.label和goto.html.vue"]]);export{s as default};

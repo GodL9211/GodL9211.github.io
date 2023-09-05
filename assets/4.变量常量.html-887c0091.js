@@ -1,0 +1,30 @@
+import{_ as n}from"./plugin-vue_export-helper-c27b6911.js";import{o as s,c as a,f as e}from"./app-bc047c8d.js";const t="/assets/变量声明-03dd6bb4.png",o="/assets/默认零值-8e5279cf.png",p={},i=e('<h2 id="变量" tabindex="-1"><a class="header-anchor" href="#变量" aria-hidden="true">#</a> 变量</h2><figure><img src="'+t+`" alt="" tabindex="0" loading="lazy"><figcaption></figcaption></figure><p>如果你没有显式为变量赋予初值，Go 编译器会为变量赋予这个类型的零值：</p><div class="language-go line-numbers-mode" data-ext="go"><pre class="language-go"><code><span class="token keyword">var</span> a <span class="token builtin">int</span> <span class="token comment">// a的初值为int类型的零值：0</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>默认零值示例如下：<br><img src="`+o+`" alt="" loading="lazy"></p><blockquote><p>在go中，声明变量就必须使用</p></blockquote><h3 id="批量声明变量" tabindex="-1"><a class="header-anchor" href="#批量声明变量" aria-hidden="true">#</a> 批量声明变量</h3><p>声明方式一：</p><div class="language-go line-numbers-mode" data-ext="go"><pre class="language-go"><code><span class="token keyword">var</span> <span class="token punctuation">(</span>
+    a <span class="token builtin">int</span> <span class="token operator">=</span> <span class="token number">128</span>
+    b <span class="token builtin">int8</span> <span class="token operator">=</span> <span class="token number">6</span>
+    s <span class="token builtin">string</span> <span class="token operator">=</span> <span class="token string">&quot;hello&quot;</span>
+    c <span class="token builtin">rune</span> <span class="token operator">=</span> <span class="token char">&#39;A&#39;</span>
+    t <span class="token builtin">bool</span> <span class="token operator">=</span> <span class="token boolean">true</span>
+<span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>声明方式二：</p><div class="language-go line-numbers-mode" data-ext="go"><pre class="language-go"><code>
+<span class="token keyword">var</span> a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c <span class="token builtin">int</span> <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="常量" tabindex="-1"><a class="header-anchor" href="#常量" aria-hidden="true">#</a> 常量</h2><p>声明之后不能修改</p><div class="language-go line-numbers-mode" data-ext="go"><pre class="language-go"><code><span class="token keyword">const</span> a <span class="token builtin">int</span> <span class="token operator">=</span> <span class="token number">1</span>
+fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div></div></div><h3 id="iota" tabindex="-1"><a class="header-anchor" href="#iota" aria-hidden="true">#</a> iota</h3><p>批量声明常量就可以使用iota</p><p>它可以实现常量的计数功能</p><p>iota就是当前变量的层数</p><div class="language-go line-numbers-mode" data-ext="go"><pre class="language-go"><code>
+<span class="token keyword">const</span> <span class="token punctuation">(</span>
+  a <span class="token builtin">int</span> <span class="token operator">=</span> <span class="token boolean">iota</span>
+  b     <span class="token operator">=</span> <span class="token number">2</span>
+  c     <span class="token operator">=</span> <span class="token boolean">iota</span>
+  d     <span class="token operator">=</span> <span class="token boolean">iota</span>
+  e     <span class="token operator">=</span> <span class="token number">1</span>
+  f     <span class="token operator">=</span> <span class="token boolean">iota</span>
+<span class="token punctuation">)</span>
+fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c<span class="token punctuation">,</span> d<span class="token punctuation">,</span> e<span class="token punctuation">,</span> f<span class="token punctuation">)</span>
+<span class="token comment">// 0 2 2 3 1 5</span>
+<span class="token keyword">const</span> <span class="token punctuation">(</span>
+  g <span class="token operator">=</span> <span class="token boolean">iota</span>
+  h <span class="token operator">=</span> <span class="token boolean">iota</span>
+<span class="token punctuation">)</span>
+fmt<span class="token punctuation">.</span><span class="token function">Println</span><span class="token punctuation">(</span>g<span class="token punctuation">,</span> h<span class="token punctuation">)</span>
+<span class="token comment">// 0 1</span>
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div>`,19),l=[i];function c(r,d){return s(),a("div",null,l)}const v=n(p,[["render",c],["__file","4.变量常量.html.vue"]]);export{v as default};
