@@ -1,0 +1,1 @@
+import{_}from"./plugin-vue_export-helper-c27b6911.js";import{o as t,c as a,a as e}from"./app-44adde98.js";const o={},r=e("h2",{id:"",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#","aria-hidden":"true"},"#")],-1),c=[r];function s(n,d){return t(),a("div",null,c)}const l=_(o,[["render",s],["__file","week01-微服务（一）微服务概览.html.vue"]]);export{l as default};
