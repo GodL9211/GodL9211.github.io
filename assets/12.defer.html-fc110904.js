@@ -1,0 +1,1 @@
+import{_ as e}from"./plugin-vue_export-helper-c27b6911.js";import{o as r,c as t}from"./app-15e182e3.js";const _={};function c(o,f){return r(),t("div")}const a=e(_,[["render",c],["__file","12.defer.html.vue"]]);export{a as default};
