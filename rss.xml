@@ -6,8 +6,8 @@
     <link>https://vuepress-theme-hope-docs-demo.netlify.app/</link>
     <description>暴走の海鸽</description>
     <language>zh-CN</language>
-    <pubDate>Wed, 13 Sep 2023 10:49:22 GMT</pubDate>
-    <lastBuildDate>Wed, 13 Sep 2023 10:49:22 GMT</lastBuildDate>
+    <pubDate>Thu, 14 Sep 2023 10:09:01 GMT</pubDate>
+    <lastBuildDate>Thu, 14 Sep 2023 10:09:01 GMT</lastBuildDate>
     <generator>vuepress-plugin-feed2</generator>
     <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
     <item>
@@ -487,13 +487,6 @@
 </blockquote>
 <h2> Redis刷题</h2>
 ]]></content:encoded>
-    </item>
-    <item>
-      <title>python学习路线</title>
-      <link>https://vuepress-theme-hope-docs-demo.netlify.app/blog/10%E5%A4%A7%E7%BB%8F%E5%85%B8%E6%8E%92%E5%BA%8F.html</link>
-      <guid>https://vuepress-theme-hope-docs-demo.netlify.app/blog/10%E5%A4%A7%E7%BB%8F%E5%85%B8%E6%8E%92%E5%BA%8F.html</guid>
-      <source url="https://vuepress-theme-hope-docs-demo.netlify.app/rss.xml">python学习路线</source>
-      <pubDate>Mon, 21 Aug 2023 00:00:00 GMT</pubDate>
     </item>
   </channel>
 </rss>
