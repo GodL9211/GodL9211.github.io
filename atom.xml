@@ -4,7 +4,7 @@
   <title>暴走の海鸽</title>
   <subtitle>暴走の海鸽</subtitle>
   <icon>https://vuepress-theme-hope-docs-demo.netlify.app/logo.svg</icon>
-  <updated>2023-09-14T11:06:00.583Z</updated>
+  <updated>2023-09-19T10:46:05.197Z</updated>
   <generator>vuepress-plugin-feed2</generator>
   <link rel="self" href="https://vuepress-theme-hope-docs-demo.netlify.app/atom.xml"/>
   <link rel="alternate" href="https://vuepress-theme-hope-docs-demo.netlify.app/"/>
@@ -539,21 +539,44 @@ instance2 <span class="token operator">=</span> SingletonClass<span class="token
     <title type="text">程序员面试刷题路线</title>
     <id>https://vuepress-theme-hope-docs-demo.netlify.app/blog/20230821_%E7%A8%8B%E5%BA%8F%E5%91%98%E9%9D%A2%E8%AF%95%E5%88%B7%E9%A2%98%E8%B7%AF%E7%BA%BF.html</id>
     <link href="https://vuepress-theme-hope-docs-demo.netlify.app/blog/20230821_%E7%A8%8B%E5%BA%8F%E5%91%98%E9%9D%A2%E8%AF%95%E5%88%B7%E9%A2%98%E8%B7%AF%E7%BA%BF.html"/>
-    <updated>2023-08-29T06:06:28.000Z</updated>
+    <updated>2023-09-19T10:43:53.000Z</updated>
     <summary type="html"><![CDATA[<p>大家好，我是<code>海鸽</code></p>
 <p>金九银十马上到了，海鸽在此整理下面试刷题准备路线供你参考，希望对你有所帮助~</p>
 <p>程序员面试的刷题路线可以根据你的目标岗位和面试准备时间的长短来进行调整。</p>
 <h2> MySQL刷题</h2>
-<ul>
-<li>这里推荐田螺哥开源的一个刷题仓库，这里不仅可以刷MySQL常见面试题，还囊括了JAVA开发的各种技能的面试准备，仓库的地址是：</li>
-</ul>
-<blockquote>
-<p><a href="https://github.com/whx123/JavaHome/tree/master" target="_blank" rel="noopener noreferrer">https://github.com/whx123/JavaHome/tree/master</a></p>
-</blockquote>]]></summary>
+<h3> 连环炮</h3>
+<ol>
+<li>为什么索引能提高查询速度?</li>
+<li>聚集索引和非聚集索引的区别？非聚集索引一定回表查询吗?</li>
+<li>索引这么多优点，为什么不对表中的每一个列创建一个索引呢？(使用索引一定能提高查询性能吗?)</li>
+<li>索引底层的数据结构了解么？Hash 索引和 B+树索引优劣分析</li>
+<li>B+树做索引比红黑树好在哪里？</li>
+<li>最左前缀匹配原则了解么？</li>
+<li>什么是覆盖索引</li>
+<li>如何查看某条SQL语句是否用到了索引？</li>
+<li>索引为什么用B+树而不用B树？</li>
+<li>说一说项目中MySQL分库分表怎么做的？</li>
+<li>说一说垂直分表和水平分表？</li>
+</ol>]]></summary>
     <content type="html"><![CDATA[<p>大家好，我是<code>海鸽</code></p>
 <p>金九银十马上到了，海鸽在此整理下面试刷题准备路线供你参考，希望对你有所帮助~</p>
 <p>程序员面试的刷题路线可以根据你的目标岗位和面试准备时间的长短来进行调整。</p>
 <h2> MySQL刷题</h2>
+<h3> 连环炮</h3>
+<ol>
+<li>为什么索引能提高查询速度?</li>
+<li>聚集索引和非聚集索引的区别？非聚集索引一定回表查询吗?</li>
+<li>索引这么多优点，为什么不对表中的每一个列创建一个索引呢？(使用索引一定能提高查询性能吗?)</li>
+<li>索引底层的数据结构了解么？Hash 索引和 B+树索引优劣分析</li>
+<li>B+树做索引比红黑树好在哪里？</li>
+<li>最左前缀匹配原则了解么？</li>
+<li>什么是覆盖索引</li>
+<li>如何查看某条SQL语句是否用到了索引？</li>
+<li>索引为什么用B+树而不用B树？</li>
+<li>说一说项目中MySQL分库分表怎么做的？</li>
+<li>说一说垂直分表和水平分表？</li>
+</ol>
+<h3> 参考</h3>
 <ul>
 <li>这里推荐田螺哥开源的一个刷题仓库，这里不仅可以刷MySQL常见面试题，还囊括了JAVA开发的各种技能的面试准备，仓库的地址是：</li>
 </ul>
@@ -561,6 +584,15 @@ instance2 <span class="token operator">=</span> SingletonClass<span class="token
 <p><a href="https://github.com/whx123/JavaHome/tree/master" target="_blank" rel="noopener noreferrer">https://github.com/whx123/JavaHome/tree/master</a></p>
 </blockquote>
 <ul>
+<li>
+<p><a href="https://javaguide.cn/database/mysql/mysql-high-performance-optimization-specification-recommendations.html" target="_blank" rel="noopener noreferrer">MySQL高性能优化规范建议总结</a></p>
+</li>
+<li>
+<p><a href="https://mp.weixin.qq.com/s/K3fJU73--kMsOP1UpxKFsQ" target="_blank" rel="noopener noreferrer">面对这些MySQL线上事故，你会怎么做性能优化？</a></p>
+</li>
+<li>
+<p><a href="https://www.yuque.com/snailclimb/mf2z3k/abc2sv" target="_blank" rel="noopener noreferrer">高性能：有哪些常见的 SQL 优化手段？</a></p>
+</li>
 <li>
 <p><a href="https://mp.weixin.qq.com/s?__biz=Mzg3NzU5NTIwNg==&amp;mid=2247499624&amp;idx=1&amp;sn=561b9cb7fe831ca7cb2d9fd65691e85e&amp;chksm=cf222041f855a957ac50c0a53baaec6d26be32427259b2974450620f33a8c834419fe535e83d&amp;token=767319274&amp;lang=zh_CN&amp;scene=21#wechat_redirect:~:text=%E7%9B%98%E7%82%B9MySQL%E6%85%A2%E6%9F%A5%E8%AF%A2%E7%9A%8412%E4%B8%AA%E5%8E%9F%E5%9B%A0,-%E5%8E%9F%E5%88%9B" target="_blank" rel="noopener noreferrer">盘点MySQL慢查询的12个原因</a></p>
 </li>
@@ -573,12 +605,26 @@ instance2 <span class="token operator">=</span> SingletonClass<span class="token
 <li>
 <p><a href="https://mp.weixin.qq.com/s?__biz=Mzg3NzU5NTIwNg==&amp;mid=2247487972&amp;idx=1&amp;sn=cd035a7fcd7496658846ab9f914be2db&amp;chksm=cf21cecdf85647dbc53e212bf1a2b95d0eb2bffe08dc0141e01f8a9b2088abffc385a2ef584e&amp;token=1569911403&amp;lang=zh_CN&amp;scene=21#wechat_redirect" target="_blank" rel="noopener noreferrer">后端程序员必备：书写高质量SQL的30条建议</a></p>
 </li>
+<li>
+<p><a href="https://www.bilibili.com/video/BV1Kr4y1i7ru/?p=69&amp;share_source=copy_web&amp;vd_source=8945d0055d36f5037ca23022a4925f2a&amp;t=4" target="_blank" rel="noopener noreferrer">黑马mysql</a></p>
+</li>
 </ul>
+<h2> Redis刷题</h2>
+<h3> 连环炮</h3>
+<ol>
+<li>说一说Redis的缓存雪崩、缓存穿透、缓存击穿，以及对应的解决方案？</li>
+<li>说一说你们项目中Redis的缓存不一致，怎么解决的？</li>
+<li>Redis中如何实现分布式锁的？</li>
+<li>我看你写到的Redis多级缓存架构，你们是怎么做的？</li>
+</ol>
+<h3> 参考</h3>
+<p><a href="https://www.sharkchili.com/pages/5d69b6/" target="_blank" rel="noopener noreferrer">Redis持久化AOF详解</a></p>
 <h2> 算法刷题</h2>
 <blockquote>
-<p><code>LeetCode</code>：<a href="https://leetcode.cn/" target="_blank" rel="noopener noreferrer">https://leetcode.cn/</a></p>
+<p><code>LeetCode</code>：<a href="https://leetcode.cn/" target="_blank" rel="noopener noreferrer">https://leetcode.cn/</a><br>
+<code>恋上数据结构与算法</code><br>
+<code>代码随想录</code></p>
 </blockquote>
-<h2> Redis刷题</h2>
 ]]></content>
     <published>2023-08-23T00:00:00.000Z</published>
   </entry>
