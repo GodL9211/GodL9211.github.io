@@ -1,0 +1,1 @@
+import{_ as a}from"./plugin-vue_export-helper-c27b6911.js";import{o as t,c as s,a as e,b as c}from"./app-d1a619f2.js";const _={},o=e("h2",{id:"前言",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#前言","aria-hidden":"true"},"#"),c(" 前言")],-1),r=[o];function n(d,i){return t(),s("div",null,r)}const f=a(_,[["render",n],["__file","数据类dataclass详解.html.vue"]]);export{f as default};
