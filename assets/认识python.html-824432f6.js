@@ -1,0 +1,1 @@
+import{_ as e}from"./plugin-vue_export-helper-c27b6911.js";import{o as t,c as o}from"./app-7702e136.js";const _={};function c(r,n){return t(),o("div")}const f=e(_,[["render",c],["__file","认识python.html.vue"]]);export{f as default};

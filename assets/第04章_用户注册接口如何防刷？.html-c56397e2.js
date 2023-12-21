@@ -1,0 +1,1 @@
+import{_}from"./plugin-vue_export-helper-c27b6911.js";import{o as e,c as t}from"./app-7702e136.js";const c={};function o(r,n){return e(),t("div")}const f=_(c,[["render",o],["__file","第04章_用户注册接口如何防刷？.html.vue"]]);export{f as default};

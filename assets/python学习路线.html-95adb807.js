@@ -1,1 +1,0 @@
-import{_ as t}from"./plugin-vue_export-helper-c27b6911.js";import{o,c as a,a as e,b as r}from"./app-86c4e386.js";const _={},c=e("h2",{id:"前言",tabindex:"-1"},[e("a",{class:"header-anchor",href:"#前言","aria-hidden":"true"},"#"),r(" 前言")],-1),n=[c];function s(d,h){return o(),a("div",null,n)}const f=t(_,[["render",s],["__file","python学习路线.html.vue"]]);export{f as default};
